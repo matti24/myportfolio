@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 
 
-const profileImage = "/1-4-removebg-preview.png";
+const profileImage = "1-4-removebg-preview.png";
 
 const skills = [
   { name: "Soziale Stärke", value: 90 },
