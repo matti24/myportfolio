@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 
 
-const profileImage = "1-4-removebg-preview.png";
+const profileImage = "/1-4-removebg-preview.png";
 
 const skills = [
   { name: "Soziale Stärke", value: 90 },
@@ -118,7 +118,7 @@ export default function MattiKoenisOnepage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white [scroll-behavior:smooth]">
+    <div className="min-h-screen overflow-x-hidden bg-slate-950 text-white [scroll-behavior:smooth]">
       <div className="fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(135deg,#0f172a_0%,#1e1b4b_50%,#0f172a_100%)]" />
         <div className="absolute left-1/2 top-0 h-[40rem] w-[40rem] -translate-x-1/2 rounded-full bg-blue-600/20 blur-3xl" />
@@ -129,38 +129,47 @@ export default function MattiKoenisOnepage() {
 
       <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/60 backdrop-blur-xl relative">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-500/50 to-transparent" />
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
-          <a href="#top" className="text-sm font-semibold uppercase tracking-[0.24em] bg-gradient-to-r from-white to-amber-200 bg-clip-text text-transparent hover:from-amber-200 hover:to-white transition">
-            Matti Koenis
-          </a>
+        <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between">
+            <a href="#top" className="text-sm font-semibold uppercase tracking-[0.24em] bg-gradient-to-r from-white to-amber-200 bg-clip-text text-transparent hover:from-amber-200 hover:to-white transition">
+              Matti Koenis
+            </a>
 
-          <nav className="hidden items-center gap-8 text-sm md:flex">
-            <a href="#about" className="relative text-white/80 transition group">
-              Über mich
-              <span className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-amber-400/50 via-amber-400/0 to-transparent" />
-              <span className="absolute bottom-0 left-0 w-0 h-px bg-gradient-to-r from-cyan-400 to-blue-400 group-hover:w-full transition-all duration-300" />
-            </a>
-            <a href="#skills" className="relative text-white/80 transition group">
-              Skills
-              <span className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-amber-400/50 via-amber-400/0 to-transparent" />
-              <span className="absolute bottom-0 left-0 w-0 h-px bg-gradient-to-r from-cyan-400 to-blue-400 group-hover:w-full transition-all duration-300" />
-            </a>
-            <a href="#portfolio" className="relative text-white/80 transition group">
-              Portfolio
-              <span className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-amber-400/50 via-amber-400/0 to-transparent" />
-              <span className="absolute bottom-0 left-0 w-0 h-px bg-gradient-to-r from-cyan-400 to-blue-400 group-hover:w-full transition-all duration-300" />
-            </a>
-            <a href="#contact" className="relative text-white/80 transition group">
-              Kontakt
-              <span className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-amber-400/50 via-amber-400/0 to-transparent" />
-              <span className="absolute bottom-0 left-0 w-0 h-px bg-gradient-to-r from-cyan-400 to-blue-400 group-hover:w-full transition-all duration-300" />
-            </a>
+            <nav className="hidden items-center gap-8 text-sm md:flex">
+              <a href="#about" className="relative text-white/80 transition group">
+                Über mich
+                <span className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-amber-400/50 via-amber-400/0 to-transparent" />
+                <span className="absolute bottom-0 left-0 w-0 h-px bg-gradient-to-r from-cyan-400 to-blue-400 group-hover:w-full transition-all duration-300" />
+              </a>
+              <a href="#skills" className="relative text-white/80 transition group">
+                Skills
+                <span className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-amber-400/50 via-amber-400/0 to-transparent" />
+                <span className="absolute bottom-0 left-0 w-0 h-px bg-gradient-to-r from-cyan-400 to-blue-400 group-hover:w-full transition-all duration-300" />
+              </a>
+              <a href="#portfolio" className="relative text-white/80 transition group">
+                Portfolio
+                <span className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-amber-400/50 via-amber-400/0 to-transparent" />
+                <span className="absolute bottom-0 left-0 w-0 h-px bg-gradient-to-r from-cyan-400 to-blue-400 group-hover:w-full transition-all duration-300" />
+              </a>
+              <a href="#contact" className="relative text-white/80 transition group">
+                Kontakt
+                <span className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-amber-400/50 via-amber-400/0 to-transparent" />
+                <span className="absolute bottom-0 left-0 w-0 h-px bg-gradient-to-r from-cyan-400 to-blue-400 group-hover:w-full transition-all duration-300" />
+              </a>
+            </nav>
+          </div>
+
+          <nav className="mt-3 grid grid-cols-4 gap-2 text-center text-xs md:hidden">
+            <a href="#about" className="rounded-lg border border-white/15 bg-white/5 px-2 py-2 text-white/85 transition hover:bg-white/10">Über mich</a>
+            <a href="#skills" className="rounded-lg border border-white/15 bg-white/5 px-2 py-2 text-white/85 transition hover:bg-white/10">Skills</a>
+            <a href="#portfolio" className="rounded-lg border border-white/15 bg-white/5 px-2 py-2 text-white/85 transition hover:bg-white/10">Portfolio</a>
+            <a href="#contact" className="rounded-lg border border-white/15 bg-white/5 px-2 py-2 text-white/85 transition hover:bg-white/10">Kontakt</a>
           </nav>
         </div>
       </header>
 
       <main id="top">
-        <section className="mx-auto flex min-h-[calc(100vh-73px)] max-w-7xl items-center px-6 py-16 lg:px-8">
+        <section className="mx-auto flex min-h-[calc(100vh-73px)] max-w-7xl items-center px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
           <div className="grid w-full items-center gap-12 lg:grid-cols-1">
             <motion.div
               variants={section}
@@ -168,12 +177,12 @@ export default function MattiKoenisOnepage() {
               animate="show"
               className="max-w-3xl"
             >
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-400/10 px-4 py-2 text-sm text-blue-100">
+              <div className="mb-6 inline-flex max-w-full flex-wrap items-center gap-2 rounded-full border border-blue-400/20 bg-blue-400/10 px-3 py-2 text-xs text-blue-100 sm:px-4 sm:text-sm">
                 <span className="h-2 w-2 rounded-full bg-blue-400" />
                 Applikationsentwickler in Ausbildung bei Swisscom
               </div>
 
-              <h1 className="text-5xl font-semibold leading-[1.02] tracking-tight text-white md:text-7xl">
+              <h1 className="text-4xl font-semibold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-7xl">
                 <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-white bg-clip-text text-transparent">
                   Clean Code.
                 </span>
@@ -187,7 +196,7 @@ export default function MattiKoenisOnepage() {
                 </span>
               </h1>
 
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-white/70 md:text-xl">
+              <p className="mt-6 max-w-2xl text-base leading-7 text-white/70 sm:text-lg md:text-xl md:leading-8">
                 Ich bin Matti Koenis und entwickle mich in der Informatik mit Fokus auf moderne
                 Applikationen, selbständiges Arbeiten und starke Zusammenarbeit im Team.
               </p>
@@ -217,7 +226,7 @@ export default function MattiKoenisOnepage() {
                   className="group rounded-lg border border-blue-400/30 bg-gradient-to-br from-blue-400/10 to-blue-400/5 p-5 backdrop-blur-sm transition hover:border-blue-300/60 hover:bg-blue-400/15 hover:shadow-lg hover:shadow-blue-500/20"
                 >
                   <p className="text-sm text-blue-200/70">Fokus</p>
-                  <p className="mt-2 text-xl font-semibold text-white">Applikationen</p>
+                  <p className="mt-2 text-lg font-semibold text-white sm:text-xl">Applikationen</p>
                 </motion.div>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -226,7 +235,7 @@ export default function MattiKoenisOnepage() {
                   className="group rounded-lg border border-cyan-400/30 bg-gradient-to-br from-cyan-400/10 to-cyan-400/5 p-5 backdrop-blur-sm transition hover:border-cyan-300/60 hover:bg-cyan-400/15 hover:shadow-lg hover:shadow-cyan-500/20"
                 >
                   <p className="text-sm text-cyan-200/70">Arbeitsstil</p>
-                  <p className="mt-2 text-xl font-semibold text-white">Selbständig & teamstark</p>
+                  <p className="mt-2 text-lg font-semibold text-white sm:text-xl">Selbständig & teamstark</p>
                 </motion.div>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -235,7 +244,7 @@ export default function MattiKoenisOnepage() {
                   className="group rounded-lg border border-white/30 bg-gradient-to-br from-white/10 to-white/5 p-5 backdrop-blur-sm transition hover:border-white/60 hover:bg-white/15 hover:shadow-lg hover:shadow-white/20"
                 >
                   <p className="text-sm text-white/70">Interessen</p>
-                  <p className="mt-2 text-xl font-semibold text-white">Finance & Strategy</p>
+                  <p className="mt-2 text-lg font-semibold text-white sm:text-xl">Finance & Strategy</p>
                 </motion.div>
               </div>
 
@@ -258,7 +267,7 @@ export default function MattiKoenisOnepage() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.25 }}
-          className="mx-auto max-w-7xl px-6 py-24 lg:px-8"
+          className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8"
         >
           <div className="mb-16 text-center">
             <p className="text-sm font-medium uppercase tracking-[0.28em] text-blue-200/70">Über mich</p>
@@ -267,7 +276,7 @@ export default function MattiKoenisOnepage() {
             </h2>
           </div>
 
-          <div className="grid gap-12 items-start lg:grid-cols-[1fr_1.2fr_1fr]">
+          <div className="grid gap-10 items-start lg:grid-cols-[1fr_1.2fr_1fr]">
             {/* Linke Spalte: Hobbies & Sprachen */}
             <div className="space-y-6">
               <div>
@@ -352,10 +361,10 @@ export default function MattiKoenisOnepage() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7 }}
-              className="relative group flex justify-center"
+              className="relative order-first group flex justify-center lg:order-none"
             >
               <div className="absolute -inset-8 rounded-3xl bg-gradient-to-br from-blue-500/20 via-cyan-400/10 to-transparent blur-3xl" />
-              <div className="relative w-full max-w-sm">
+              <div className="relative w-full max-w-[17rem] sm:max-w-xs lg:max-w-sm">
                 <img
                   src={profileImage}
                   alt="Porträt von Matti Koenis"
@@ -395,7 +404,7 @@ export default function MattiKoenisOnepage() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
-          className="mx-auto max-w-7xl px-6 py-24 lg:px-8"
+          className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8"
         >
           <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div className="max-w-2xl">
@@ -439,7 +448,7 @@ export default function MattiKoenisOnepage() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
-          className="mx-auto max-w-5xl px-6 py-24 lg:px-8"
+          className="mx-auto max-w-5xl px-4 py-16 sm:px-6 md:py-24 lg:px-8"
         >
           <div className="mb-16 text-center">
             <p className="text-sm font-medium uppercase tracking-[0.28em] text-blue-200/70">Erfahrung</p>
@@ -450,7 +459,7 @@ export default function MattiKoenisOnepage() {
 
           <div className="relative space-y-0">
             {/* Vertikale Linie */}
-            <div className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-gradient-to-b from-blue-500/20 via-blue-500/50 to-cyan-400/20" />
+            <div className="absolute left-3 top-0 h-full w-0.5 bg-gradient-to-b from-blue-500/20 via-blue-500/50 to-cyan-400/20 md:left-1/2 md:-translate-x-1/2" />
 
             <div className="space-y-12">
               {experiences.map((exp, index) => (
@@ -460,10 +469,10 @@ export default function MattiKoenisOnepage() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className={`relative flex gap-6 md:gap-8 ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} flex-row`}
+                  className={`relative flex flex-row gap-6 pl-10 md:gap-8 md:pl-0 ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}
                 >
                   {/* Timeline Punkt */}
-                  <div className="absolute left-1/2 top-8 -translate-x-1/2 md:top-6">
+                  <div className="absolute left-3 top-8 -translate-x-1/2 md:left-1/2 md:top-6">
                     <div className="h-5 w-5 rounded-full border-4 border-slate-950 bg-blue-400 shadow-lg shadow-blue-500/50" />
                   </div>
 
@@ -475,7 +484,7 @@ export default function MattiKoenisOnepage() {
                       </div>
                       <h3 className="text-xl font-semibold leading-tight">{exp.title}</h3>
                       <p className="mt-4 leading-6 text-white/70">{exp.description}</p>
-                      <div className="mt-5 flex flex-wrap gap-2">
+                      <div className={`mt-5 flex flex-wrap gap-2 ${index % 2 === 0 ? 'md:justify-end' : 'md:justify-start'}`}>
                         {exp.skills.map((skill) => (
                           <span
                             key={skill}
@@ -499,7 +508,7 @@ export default function MattiKoenisOnepage() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.25 }}
-          className="mx-auto max-w-7xl px-6 py-24 lg:px-8"
+          className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8"
         >
           <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
             <div className="rounded-[2rem] border border-white/30 bg-white/8 p-8 backdrop-blur-sm transition hover:border-white/50 hover:bg-white/12">
@@ -540,7 +549,7 @@ export default function MattiKoenisOnepage() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.25 }}
-          className="mx-auto max-w-7xl px-6 pb-24 pt-10 lg:px-8"
+          className="mx-auto max-w-7xl px-4 pb-16 pt-8 sm:px-6 md:pb-24 md:pt-10 lg:px-8"
         >
           <div className="overflow-hidden rounded-[2rem] border border-white/30 bg-white/8 backdrop-blur-sm">
             <div className="grid gap-8 p-8 md:p-10 lg:grid-cols-[1.1fr_0.9fr] lg:p-12">
@@ -617,7 +626,7 @@ export default function MattiKoenisOnepage() {
         </motion.section>
       </main>
 
-      <footer id="contact" className="border-t border-white/10 bg-slate-950 py-32 px-6 lg:px-8">
+      <footer id="contact" className="border-t border-white/10 bg-slate-950 px-4 py-20 sm:px-6 md:py-32 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
