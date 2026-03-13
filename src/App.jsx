@@ -266,7 +266,7 @@ export default function MattiKoenisOnepage() {
           variants={section}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.25 }}
+          viewport={{ once: false, amount: 0.25 }}
           className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8"
         >
           <div className="mb-16 text-center">
@@ -295,7 +295,7 @@ export default function MattiKoenisOnepage() {
                         <motion.div
                           initial={{ width: 0 }}
                           whileInView={{ width: `${lang.level}%` }}
-                          viewport={{ once: true }}
+                          viewport={{ once: false }}
                           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
                           className="h-full rounded-full bg-gradient-to-r from-blue-400 via-cyan-300 to-emerald-400"
                         />
@@ -326,7 +326,7 @@ export default function MattiKoenisOnepage() {
                         key={hobby.name}
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: false }}
                         transition={{ delay: idx * 0.1 }}
                         className={`group rounded-lg border backdrop-blur-sm p-3 text-center transition hover:border-opacity-60 hover:shadow-lg ${borderClasses[idx]}`}
                       >
@@ -341,7 +341,7 @@ export default function MattiKoenisOnepage() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: false }}
                 className="rounded-2xl border border-white/15 bg-white/7 p-5 backdrop-blur-sm transition hover:border-white/30 hover:bg-white/12"
               >
                 <div className="mb-3 inline-flex rounded-xl border border-white/20 bg-white/10 p-2.5 text-white/85">
@@ -359,7 +359,7 @@ export default function MattiKoenisOnepage() {
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               transition={{ duration: 0.7 }}
               className="relative order-first group flex justify-center lg:order-none"
             >
@@ -382,7 +382,7 @@ export default function MattiKoenisOnepage() {
                     key={item.title}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: false }}
                     className="rounded-2xl border border-white/15 bg-white/7 p-5 backdrop-blur-sm transition hover:border-white/30 hover:bg-white/12"
                   >
                     <div className="mb-3 inline-flex rounded-xl border border-white/20 bg-white/10 p-2.5 text-white/85">
@@ -403,7 +403,7 @@ export default function MattiKoenisOnepage() {
           variants={section}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: false, amount: 0.2 }}
           className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8"
         >
           <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -431,7 +431,7 @@ export default function MattiKoenisOnepage() {
                     <motion.div
                       initial={{ width: 0 }}
                       whileInView={{ width: `${skill.value}%` }}
-                      viewport={{ once: true }}
+                      viewport={{ once: false }}
                       transition={{ duration: 1, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
                       className="h-full rounded-full bg-gradient-to-r from-blue-400 via-cyan-300 to-white"
                     />
@@ -447,7 +447,7 @@ export default function MattiKoenisOnepage() {
           variants={section}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: false, amount: 0.2 }}
           className="mx-auto max-w-5xl px-4 py-16 sm:px-6 md:py-24 lg:px-8"
         >
           <div className="mb-16 text-center">
@@ -467,7 +467,7 @@ export default function MattiKoenisOnepage() {
                   key={exp.title}
                   initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: false }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   className={`relative flex flex-row gap-6 pl-10 md:gap-8 md:pl-0 ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}
                 >
@@ -507,7 +507,7 @@ export default function MattiKoenisOnepage() {
           variants={section}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.25 }}
+          viewport={{ once: false, amount: 0.25 }}
           className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8"
         >
           <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
@@ -548,7 +548,7 @@ export default function MattiKoenisOnepage() {
           variants={section}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.25 }}
+          viewport={{ once: false, amount: 0.25 }}
           className="mx-auto max-w-7xl px-4 pb-16 pt-8 sm:px-6 md:pb-24 md:pt-10 lg:px-8"
         >
           <div className="overflow-hidden rounded-[2rem] border border-white/30 bg-white/8 backdrop-blur-sm">
@@ -631,7 +631,7 @@ export default function MattiKoenisOnepage() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 0.8 }}
           >
             <p className="text-sm font-medium uppercase tracking-[0.28em] text-blue-200/70 mb-6">Kontakt</p>
