@@ -97,6 +97,28 @@ const section = {
 
 export default function MattiKoenisOnepage() {
   useEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
+    const scrollToTop = () => {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    };
+
+    // Sofort ausführen und nach dem ersten Paint erneut, um Browser-Scroll-Restore zu übersteuern.
+    scrollToTop();
+    const rafId = window.requestAnimationFrame(scrollToTop);
+
+    const handlePageShow = () => scrollToTop();
+    window.addEventListener("pageshow", handlePageShow);
+
+    return () => {
+      window.cancelAnimationFrame(rafId);
+      window.removeEventListener("pageshow", handlePageShow);
+    };
+  }, []);
+
+  useEffect(() => {
     const handleSmoothScroll = (e) => {
       const href = e.currentTarget.getAttribute('href');
       if (href && href.startsWith('#')) {
@@ -277,7 +299,7 @@ export default function MattiKoenisOnepage() {
           </div>
 
           <div className="grid gap-10 items-start lg:grid-cols-[1fr_1.2fr_1fr]">
-            {/* Linke Spalte: Hobbies & Sprachen */}
+            {/* Linke Spalte: Hobbys und Sprachen */}
             <div className="space-y-6">
               <div>
                 <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.12em] text-blue-200/70">Sprachen</h3>
@@ -476,7 +498,7 @@ export default function MattiKoenisOnepage() {
                     <div className="h-5 w-5 rounded-full border-4 border-slate-950 bg-blue-400 shadow-lg shadow-blue-500/50" />
                   </div>
 
-                  {/* Content Card */}
+                  {/* Inhaltskarte */}
                   <div className={`w-full md:w-[calc(50%-1.5rem)] ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
                     <div className="rounded-xl border border-white/10 bg-gradient-to-br from-white/8 to-white/4 p-6 backdrop-blur-sm transition hover:border-blue-400/40 hover:bg-white/8">
                       <div className="mb-3 inline-flex rounded-full border border-blue-400/30 bg-blue-400/10 px-3 py-1 text-xs font-semibold text-blue-200">
