@@ -16,6 +16,9 @@ import {
   Handshake,
   Lightbulb,
   Target,
+  User,
+  BookOpen,
+  Send,
 } from "lucide-react";
 
 
@@ -33,6 +36,7 @@ const informatikSkills = [
   { category: "database", name: "MongoDB", value: 50, logo: "https://cdn.simpleicons.org/mongodb/FFFFFF" },
   { category: "database", name: "MariaDB", value: 50, logo: "https://cdn.simpleicons.org/mariadb/FFFFFF" },
   { category: "cloud", name: "Docker", value: 50, logo: "https://cdn.simpleicons.org/docker/FFFFFF" },
+  { category: "cloud", name: "Microsoft Power Platform", value: 75, logo: "https://commons.wikimedia.org/wiki/Special:FilePath/Microsoft_Power_Platform_logo.svg" },
   { category: "tools", name: "Git", value: 60, logo: "https://cdn.simpleicons.org/git/FFFFFF" },
 ];
 
@@ -85,9 +89,9 @@ const translations = {
     nav: { about: "Über mich", skills: "Kompetenzen", portfolio: "Portfolio", contact: "Kontakt" },
     hero: {
       badge: "Applikationsentwickler in Ausbildung bei Swisscom",
-      lines: ["Clean Code.", "Starke Teamarbeit.", "Klare Lösungen."],
+      lines: ["Sauberer Code.", "Starke Ergebnisse.", "Echte Lösungen."],
       description:
-        "Ich entwickle moderne Applikationen mit Fokus auf Verantwortung, klare Kommunikation und sauberen Code.",
+        "Ich löse Probleme mit echtem Fokus – entwickle Applikationen, auf die man sich verlassen kann, mit klarer Kommunikation und sauberer Qualität.",
       ctaPortfolio: "Portfolio ansehen",
       ctaContact: "Kontakt aufnehmen",
       cards: {
@@ -134,7 +138,7 @@ const translations = {
     },
     skills: {
       tag: "Skills",
-      title: "Informatik und soziale Kompetenzen.",
+      title: "",
       techTitle: "Informatik Skills",
       socialTitle: "Soziale Kompetenzen",
       socialItems: [
@@ -203,9 +207,9 @@ const translations = {
     nav: { about: "About", skills: "Skills", portfolio: "Portfolio", contact: "Contact" },
     hero: {
       badge: "Application developer apprentice at Swisscom",
-      lines: ["Clean Code.", "Strong teamwork.", "Clear solutions."],
+      lines: ["Clean Code.", "Strong Results.", "Real Solutions."],
       description:
-        "I build modern applications with a focus on responsibility, clear communication, and clean code.",
+        "I solve problems with real focus – building applications you can count on, with clear communication and solid quality.",
       ctaPortfolio: "View portfolio",
       ctaContact: "Get in touch",
       cards: {
@@ -251,7 +255,7 @@ const translations = {
     },
     skills: {
       tag: "Skills",
-      title: "Technical and social competencies.",
+      title: "",
       techTitle: "Technical skills",
       socialTitle: "Social competencies",
       socialItems: [
@@ -319,9 +323,9 @@ const translations = {
     nav: { about: "Over mij", skills: "Vaardigheden", portfolio: "Portfolio", contact: "Contact" },
     hero: {
       badge: "Applicatieontwikkelaar in opleiding bij Swisscom",
-      lines: ["Clean code.", "Sterke teamwork.", "Duidelijke oplossingen."],
+      lines: ["Schone Code.", "Sterke Resultaten.", "Echte Oplossingen."],
       description:
-        "Ik bouw moderne applicaties met focus op verantwoordelijkheid, duidelijke communicatie en clean code.",
+        "Ik los problemen op met echte focus – bouw applicaties waar je op kunt rekenen, met heldere communicatie en solide kwaliteit.",
       ctaPortfolio: "Bekijk portfolio",
       ctaContact: "Neem contact op",
       cards: {
@@ -367,7 +371,7 @@ const translations = {
     },
     skills: {
       tag: "Skills",
-      title: "Technische en sociale competenties.",
+      title: "",
       techTitle: "Technische skills",
       socialTitle: "Sociale competenties",
       socialItems: [
@@ -434,9 +438,9 @@ const translations = {
     nav: { about: "Om mig", skills: "Kompetenser", portfolio: "Portfolio", contact: "Kontakt" },
     hero: {
       badge: "Applikationsutvecklare under utbildning på Swisscom",
-      lines: ["Clean Code.", "Starkt teamarbete.", "Tydliga lösningar."],
-      description:
-        "Jag bygger moderna applikationer med fokus på ansvar, tydlig kommunikation och clean code.",
+      lines: ["Ren Kod.", "Starka Resultat.", "Äkta Lösningar."],
+      description:  
+        "Jag löser problem med verklig fokus – bygger applikationer du kan lita på, med tydlig kommunikation och solid kvalitet.",
       ctaPortfolio: "Se portfolio",
       ctaContact: "Kontakta mig",
       cards: {
@@ -482,7 +486,7 @@ const translations = {
     },
     skills: {
       tag: "Skills",
-      title: "Tekniska och sociala kompetenser.",
+      title: "",
       techTitle: "Tekniska skills",
       socialTitle: "Sociala kompetenser",
       socialItems: [
@@ -688,11 +692,43 @@ export default function MattiKoenisOnepage() {
             </select>
           </div>
 
-          <nav className="mt-2 grid grid-cols-4 gap-2 text-center text-xs md:hidden">
-            <a href="#about" className="rounded-lg border border-white/15 bg-white/5 px-2 py-2 text-white/85 transition hover:bg-white/10">{t.nav.about}</a>
-            <a href="#skills" className="rounded-lg border border-white/15 bg-white/5 px-2 py-2 text-white/85 transition hover:bg-white/10">{t.nav.skills}</a>
-            <a href="#portfolio" className="rounded-lg border border-white/15 bg-white/5 px-2 py-2 text-white/85 transition hover:bg-white/10">{t.nav.portfolio}</a>
-            <a href="#contact" className="rounded-lg border border-white/15 bg-white/5 px-2 py-2 text-white/85 transition hover:bg-white/10">{t.nav.contact}</a>
+          <nav className="mt-3 grid grid-cols-4 gap-2.5 md:hidden">
+            <a 
+              href="#about" 
+              className="group relative overflow-hidden rounded-xl border border-blue-400/40 bg-gradient-to-br from-blue-400/15 to-blue-400/5 px-2 py-3 text-center font-semibold text-blue-100 transition duration-300 hover:border-blue-300/80 hover:from-blue-400/25 hover:to-blue-400/10 hover:shadow-lg hover:shadow-blue-500/30"
+            >
+              <div className="flex flex-col items-center gap-1">
+                <User className="h-4 w-4" />
+                <span className="text-xs">{t.nav.about}</span>
+              </div>
+            </a>
+            <a 
+              href="#skills" 
+              className="group relative overflow-hidden rounded-xl border border-cyan-400/40 bg-gradient-to-br from-cyan-400/15 to-cyan-400/5 px-2 py-3 text-center font-semibold text-cyan-100 transition duration-300 hover:border-cyan-300/80 hover:from-cyan-400/25 hover:to-cyan-400/10 hover:shadow-lg hover:shadow-cyan-500/30"
+            >
+              <div className="flex flex-col items-center gap-1">
+                <Code2 className="h-4 w-4" />
+                <span className="text-xs">{t.nav.skills}</span>
+              </div>
+            </a>
+            <a 
+              href="#portfolio" 
+              className="group relative overflow-hidden rounded-xl border border-purple-400/40 bg-gradient-to-br from-purple-400/15 to-purple-400/5 px-2 py-3 text-center font-semibold text-purple-100 transition duration-300 hover:border-purple-300/80 hover:from-purple-400/25 hover:to-purple-400/10 hover:shadow-lg hover:shadow-purple-500/30"
+            >
+              <div className="flex flex-col items-center gap-1">
+                <Briefcase className="h-4 w-4" />
+                <span className="text-xs">{t.nav.portfolio}</span>
+              </div>
+            </a>
+            <a 
+              href="#contact" 
+              className="group relative overflow-hidden rounded-xl border border-white/40 bg-gradient-to-br from-white/15 to-white/5 px-2 py-3 text-center font-semibold text-white/90 transition duration-300 hover:border-white/70 hover:from-white/25 hover:to-white/10 hover:shadow-lg hover:shadow-white/30"
+            >
+              <div className="flex flex-col items-center gap-1">
+                <Send className="h-4 w-4" />
+                <span className="text-xs">{t.nav.contact}</span>
+              </div>
+            </a>
           </nav>
         </div>
       </header>
@@ -777,7 +813,7 @@ export default function MattiKoenisOnepage() {
 
         <section
           id="about"
-          className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8"
+          className="mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-32 lg:px-8 border-t border-[#e5e4e2]/30"
         >
           <div className="mb-16 text-center">
             <p className="text-sm font-medium uppercase tracking-[0.28em] text-blue-200/70">{t.about.tag}</p>
@@ -790,7 +826,7 @@ export default function MattiKoenisOnepage() {
             {/* Linke Spalte: Hobbys und Sprachen */}
             <div className="space-y-6">
               <div>
-                <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.12em] text-blue-200/70">{t.about.languagesTitle}</h3>
+                <h3 className="mb-6 text-4xl md:text-sm font-bold md:font-semibold uppercase tracking-[0.12em] text-[#e5e4e2] md:text-blue-200/70 font-serif">{t.about.languagesTitle}</h3>
                 <div className="space-y-3">
                   {localizedLanguageLevels.map((lang) => (
                     <div key={lang.name}>
@@ -813,27 +849,29 @@ export default function MattiKoenisOnepage() {
               </div>
 
               <div>
-                <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.12em] text-blue-200/70">{t.about.hobbiesTitle}</h3>
-                <div className="grid grid-cols-3 gap-2">
+                <h3 className="mb-6 text-4xl md:text-sm font-bold md:font-semibold uppercase tracking-[0.12em] text-[#e5e4e2] md:text-blue-200/70 font-serif">{t.about.hobbiesTitle}</h3>
+                <div className="grid grid-cols-3 gap-4 md:gap-3 pt-2">
                   {localizedHobbies.map((hobby, idx) => {
                     const Icon = hobby.icon;
                     const borderClasses = [
-                      "border-blue-400/30 bg-gradient-to-br from-blue-400/10 to-blue-400/5 hover:shadow-blue-500/20",
-                      "border-cyan-400/30 bg-gradient-to-br from-cyan-400/10 to-cyan-400/5 hover:shadow-cyan-500/20",
-                      "border-white/30 bg-gradient-to-br from-white/10 to-white/5 hover:shadow-white/20"
+                      "bg-gradient-to-br from-blue-400/12 to-blue-400/5 hover:bg-blue-400/20 hover:shadow-lg hover:shadow-blue-500/25",
+                      "bg-gradient-to-br from-cyan-400/12 to-cyan-400/5 hover:bg-cyan-400/20 hover:shadow-lg hover:shadow-cyan-500/25",
+                      "bg-gradient-to-br from-white/12 to-white/5 hover:bg-white/20 hover:shadow-lg hover:shadow-white/25"
                     ];
                     const iconClasses = [
-                      "text-blue-300 group-hover:text-blue-200",
-                      "text-cyan-300 group-hover:text-cyan-200",
+                      "text-blue-300 group-hover:text-blue-100",
+                      "text-cyan-300 group-hover:text-cyan-100",
                       "text-white/70 group-hover:text-white"
                     ];
                     
                     return (
                       <div
                         key={hobby.name}
-                        className={`group rounded-lg border backdrop-blur-sm p-3 text-center transition hover:border-opacity-60 hover:shadow-lg ${borderClasses[idx]}`}
+                        className={`group flex flex-col items-center justify-center text-center rounded-xl backdrop-blur-sm p-4 transition duration-300 ${borderClasses[idx]}`}
                       >
-                        <Icon className={`mx-auto mb-1 h-5 w-5 transition group-hover:scale-125 ${iconClasses[idx]}`} />
+                        <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg transition group-hover:scale-110">
+                          <Icon className={`h-6 w-6 transition ${iconClasses[idx]}`} />
+                        </div>
                         <p className="text-xs font-semibold text-white/90">{hobby.name}</p>
                       </div>
                     );
@@ -841,14 +879,9 @@ export default function MattiKoenisOnepage() {
                 </div>
               </div>
 
-              <div
-                className="rounded-2xl border border-white/15 bg-white/7 p-5 backdrop-blur-sm transition hover:border-white/30 hover:bg-white/12"
-              >
-                <div className="mb-3 inline-flex rounded-xl border border-white/20 bg-white/10 p-2.5 text-white/85">
-                  <Briefcase className="h-4 w-4" />
-                </div>
-                <h3 className="text-base font-semibold text-white">{t.about.shortProfileTitle}</h3>
-                <p className="mt-2 text-sm leading-6 text-white/72">
+              <div>
+                <h3 className="text-4xl md:text-base font-bold md:font-semibold text-[#e5e4e2] md:text-white font-serif md:font-sans hidden">{t.about.shortProfileTitle}</h3>
+                <p className="text-sm leading-6 text-white/72 hidden">
                   {t.about.shortProfileBefore} <span className="font-semibold text-white">{t.about.shortProfileHighlight}</span> {t.about.shortProfileAfter}
                 </p>
               </div>
@@ -862,7 +895,8 @@ export default function MattiKoenisOnepage() {
                 <img
                   src={profileImage}
                   alt="Matti Koenis portrait"
-                  className="w-full drop-shadow-2xl"
+                  className="w-full drop-shadow-2xl select-none"
+                  draggable={false}
                 />
               </div>
             </div>
@@ -891,7 +925,7 @@ export default function MattiKoenisOnepage() {
 
         <section
           id="skills"
-          className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8"
+          className="mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-32 lg:px-8 border-t border-[#e5e4e2]/30"
         >
           <div className="mb-10">
             <div className="max-w-2xl">
@@ -904,8 +938,8 @@ export default function MattiKoenisOnepage() {
           </div>
 
           <div className="grid gap-6 lg:grid-cols-2">
-            <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur-sm md:p-8">
-              <h3 className="mb-6 text-xl font-semibold text-white">{t.skills.techTitle}</h3>
+            <div className="md:rounded-[2rem] md:border md:border-white/10 md:bg-white/5 md:p-6 md:backdrop-blur-sm lg:md:p-8 border-b border-[#e5e4e2]/30 md:border-0 pb-6 md:pb-0">
+              <h3 className="mb-6 text-4xl md:text-xl font-bold md:font-semibold text-[#e5e4e2] md:text-white font-serif md:font-sans">{t.skills.techTitle}</h3>
               <div className="space-y-6">
                 {groupedTechSkills.map((group) => (
                   <div key={group.category}>
@@ -942,18 +976,18 @@ export default function MattiKoenisOnepage() {
               </div>
             </div>
 
-            <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur-sm md:p-8">
-              <h3 className="mb-6 text-xl font-semibold text-white">{t.skills.socialTitle}</h3>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+            <div className="md:rounded-[2rem] md:border md:border-white/10 md:bg-white/5 md:p-6 md:backdrop-blur-sm lg:md:p-8">
+              <h3 className="mb-6 text-4xl md:text-xl font-bold md:font-semibold text-[#e5e4e2] md:text-white font-serif md:font-sans">{t.skills.socialTitle}</h3>
+              <div className="grid gap-4 sm:grid-cols-2 md:auto-rows-max lg:grid-cols-1 md:lg:grid-cols-1 xl:grid-cols-2">
                 {localizedSocialSkills.map((skill) => {
                   const Icon = skill.icon;
 
                   return (
                     <div
                       key={skill.name}
-                      className="group rounded-xl border border-white/15 bg-white/5 p-4 backdrop-blur-sm transition hover:border-[#e5e4e2]/40 hover:bg-[#e5e4e2]/5"
+                      className="group md:rounded-xl md:border md:border-white/15 md:bg-white/5 md:p-4 md:backdrop-blur-sm transition hover:border-[#e5e4e2]/40 hover:bg-[#e5e4e2]/5"
                     >
-                      <div className="mb-3 inline-flex rounded-lg border border-[#e5e4e2]/30 bg-[#e5e4e2]/10 p-2 text-[#f2f1ef]">
+                      <div className="mb-3 md:inline-flex md:rounded-lg md:border md:border-[#e5e4e2]/30 md:bg-[#e5e4e2]/10 md:p-2 md:text-[#f2f1ef]">
                         <Icon className="h-5 w-5" />
                       </div>
                       <h4 className="text-base font-semibold text-white mb-2">{skill.name}</h4>
@@ -968,7 +1002,7 @@ export default function MattiKoenisOnepage() {
 
         <section
           id="experience"
-          className="mx-auto max-w-5xl px-4 py-16 sm:px-6 md:py-24 lg:px-8"
+          className="mx-auto max-w-5xl px-4 py-20 sm:px-6 md:py-32 lg:px-8 border-t border-[#e5e4e2]/30"
         >
           <div className="mb-16 text-center">
             <p className="text-sm font-medium uppercase tracking-[0.28em] text-blue-200/70">{t.experience.tag}</p>
@@ -1020,12 +1054,12 @@ export default function MattiKoenisOnepage() {
 
         <section
           id="portfolio"
-          className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8"
+          className="mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-32 lg:px-8 border-t border-[#e5e4e2]/30"
         >
           <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
-            <div className="rounded-[2rem] border border-white/30 bg-white/8 p-8 backdrop-blur-sm transition hover:border-white/50 hover:bg-white/12">
+            <div className="md:rounded-[2rem] md:border md:border-white/30 md:bg-white/8 md:p-8 md:backdrop-blur-sm transition md:hover:border-white/50 md:hover:bg-white/12">
               <p className="text-sm font-medium uppercase tracking-[0.28em] text-white/60">{t.portfolio.tag}</p>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-5xl text-white">
+              <h2 className="mt-4 text-4xl md:text-3xl font-bold md:font-semibold tracking-tight md:text-5xl text-[#e5e4e2] md:text-white font-serif md:font-sans">
                 {t.portfolio.title}
               </h2>
               <p className="mt-6 text-lg leading-8 text-white/75">
@@ -1034,15 +1068,15 @@ export default function MattiKoenisOnepage() {
             </div>
 
             <div className="grid gap-6">
-              <div className="rounded-[2rem] border border-white/30 bg-white/8 p-7 backdrop-blur-sm transition hover:border-white/50 hover:bg-white/12">
-                <h3 className="text-xl font-semibold text-white">{t.portfolio.bringTitle}</h3>
+              <div className="md:rounded-[2rem] md:border md:border-white/30 md:bg-white/8 md:p-7 md:backdrop-blur-sm transition md:hover:border-white/50 md:hover:bg-white/12">
+                <h3 className="text-4xl md:text-xl font-bold md:font-semibold text-[#e5e4e2] md:text-white font-serif md:font-sans">{t.portfolio.bringTitle}</h3>
                 <p className="mt-3 leading-7 text-white/75">
                   {t.portfolio.bringText}
                 </p>
               </div>
 
-              <div className="rounded-[2rem] border border-white/30 bg-white/8 p-7 backdrop-blur-sm transition hover:border-white/50 hover:bg-white/12">
-                <h3 className="text-xl font-semibold text-white">{t.portfolio.standTitle}</h3>
+              <div className="md:rounded-[2rem] md:border md:border-white/30 md:bg-white/8 md:p-7 md:backdrop-blur-sm transition md:hover:border-white/50 md:hover:bg-white/12">
+                <h3 className="text-4xl md:text-xl font-bold md:font-semibold text-[#e5e4e2] md:text-white font-serif md:font-sans">{t.portfolio.standTitle}</h3>
                 <p className="mt-3 leading-7 text-white/75">
                   {t.portfolio.standText}
                 </p>
@@ -1053,13 +1087,13 @@ export default function MattiKoenisOnepage() {
 
         <section
           id="contact"
-          className="mx-auto max-w-7xl px-4 pb-16 pt-8 sm:px-6 md:pb-24 md:pt-10 lg:px-8"
+          className="mx-auto max-w-7xl px-4 pb-20 pt-20 sm:px-6 md:pb-32 md:pt-32 lg:px-8 border-t border-[#e5e4e2]/30"
         >
-          <div className="overflow-hidden rounded-[2rem] border border-white/30 bg-white/8 backdrop-blur-sm">
-            <div className="grid gap-8 p-8 md:p-10 lg:grid-cols-[1.1fr_0.9fr] lg:p-12">
+          <div className="md:overflow-hidden md:rounded-[2rem] md:border md:border-white/30 md:bg-white/8 md:backdrop-blur-sm">
+            <div className="grid gap-8 md:p-8 md:p-10 lg:grid-cols-[1.1fr_0.9fr] lg:p-12">
               <div>
                 <p className="text-sm font-medium uppercase tracking-[0.28em] text-blue-200/70">{t.contact.tag}</p>
-                <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-5xl">
+                <h2 className="mt-4 text-4xl md:text-3xl font-bold md:font-semibold tracking-tight md:text-5xl text-[#e5e4e2] md:text-white font-serif md:font-sans">
                   {t.contact.title}
                 </h2>
                 <p className="mt-5 max-w-2xl text-lg leading-8 text-white/70">
@@ -1067,7 +1101,7 @@ export default function MattiKoenisOnepage() {
                 </p>
               </div>
 
-              <div className="grid gap-4">
+              <div className="grid gap-4 border-t md:border-0 border-[#e5e4e2]/30 pt-6 md:pt-0">
                 <a
                   href="mailto:matti@koenis.ch"
                   className="group flex items-center justify-between rounded-[1.5rem] border border-white/30 bg-white/10 p-5 transition hover:border-white/60 hover:bg-white/20"
