@@ -29,7 +29,6 @@ const informatikSkills = [
   { category: "frontend", name: "CSS", value: 65, logo: "https://cdn.simpleicons.org/css/FFFFFF" },
   { category: "frontend", name: "TypeScript", value: 60, logo: "https://cdn.simpleicons.org/typescript/FFFFFF" },
   { category: "frontend", name: "React", value: 70, logo: "https://cdn.simpleicons.org/react/FFFFFF" },
-  { category: "frontend", name: "Next.js", value: 60, logo: "https://cdn.simpleicons.org/nextdotjs/FFFFFF" },
   { category: "backend", name: "Node.js", value: 65, logo: "https://cdn.simpleicons.org/nodedotjs/FFFFFF" },
   { category: "backend", name: "Java", value: 40, logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" },
   { category: "database", name: "SQL", value: 50, logo: "https://cdn.simpleicons.org/mysql/FFFFFF" },
@@ -38,6 +37,8 @@ const informatikSkills = [
   { category: "cloud", name: "Docker", value: 50, logo: "https://cdn.simpleicons.org/docker/FFFFFF" },
   { category: "cloud", name: "Microsoft Power Platform", value: 75, logo: "https://commons.wikimedia.org/wiki/Special:FilePath/Microsoft_Power_Platform_logo.svg" },
   { category: "tools", name: "Git", value: 60, logo: "https://cdn.simpleicons.org/git/FFFFFF" },
+  { category: "tools", name: "VSCode", value: 70, logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" },
+  { category: "tools", name: "IntelliJ", value: 60, logo: "https://cdn.simpleicons.org/intellijidea/FFFFFF" },
 ];
 
 const techCategoryOrder = ["frontend", "backend", "database", "cloud", "tools"];
