@@ -7,6 +7,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
+  // credits to all the icons used in this project: https://www.flaticon.com/free-icons/technology
 )
-
-// credits to all the icons used in this project: https://www.flaticon.com/free-icons/technology
