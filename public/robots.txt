@@ -1,2 +1,2 @@
 User-agent: Googlebot-Image
-Disallow: /1-4-removebg-preview.png
+Disallow: /DSC09470-removebg-preview.png

@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 
 
-const profileImage = "1-4-removebg-preview.png";
+const profileImage = "DSC09470-removebg-preview.png";
 
 const informatikSkills = [
   { category: "frontend", name: "JavaScript", value: 65, logo: "https://cdn.simpleicons.org/javascript/FFFFFF" },
