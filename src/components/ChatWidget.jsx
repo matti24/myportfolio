@@ -23,7 +23,7 @@ const ChatWidget = ({ t, language }) => {
       t || {
         name: "Matti Koenis",
         status: "Online",
-        buttonLabel: "Chat mit mir",
+        buttonLabel: "Anfrage senden",
         intro: "Hey! 👋 Woher kennst du mich?",
         followUp: "Schön, dass du dich meldest! Worum geht es bei deiner Anfrage?",
         askName: "Damit ich dir persönlich antworten kann, wie heisst du?",

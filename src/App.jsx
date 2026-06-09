@@ -87,6 +87,27 @@ const languageOptions = [
   { code: "sv", label: "SV — Svenska" },
 ];
 
+const getTeamHaloPeriod = (language) => {
+  const teamHaloStart = new Date(2026, 7, 1);
+  const hasStarted = new Date() >= teamHaloStart;
+
+  if (!hasStarted) {
+    return {
+      de: "Ab Aug 2026",
+      en: "From Aug 2026",
+      nl: "vanaf aug 2026",
+      sv: "från aug 2026",
+    }[language];
+  }
+
+  return {
+    de: "Aug 2026 - Heute",
+    en: "Aug 2026 - Present",
+    nl: "aug 2026 - nu",
+    sv: "aug 2026 - nu",
+  }[language];
+};
+
 const hobbyIcons = [Trophy, Dumbbell, Snowflake];
 const highlightIcons = [Briefcase, Languages, Code2];
 const socialSkillIcons = [Users, Handshake, MessageCircle, Target, Lightbulb];
@@ -98,7 +119,7 @@ const translations = {
       badge: "Applikationsentwickler in Ausbildung bei Swisscom",
       lines: ["Sauberer Code.", "Starke Ergebnisse.", "Echte Lösungen."],
       description:
-        "Ich löse Probleme mit echtem Fokus – entwickle Applikationen, auf die man sich verlassen kann, mit klarer Kommunikation und sauberer Qualität.",
+        "Ich entwickle zuverlässige Web- und Business-Applikationen mit sauberer Qualität, klarer Kommunikation und starkem Fokus auf praktische Lösungen.",
       ctaPortfolio: "Portfolio ansehen",
       ctaContact: "Kontakt aufnehmen",
       cards: {
@@ -222,7 +243,7 @@ const translations = {
     chat: {
       name: "Matti Koenis",
       status: "Online",
-      buttonLabel: "Chat mit mir",
+      buttonLabel: "Anfrage senden",
       intro: "Hey! 👋 Woher kennst du mich?",
       followUp: "Schön, dass du dich meldest! Worum geht es bei deiner Anfrage?",
       askName: "Damit ich dir persönlich antworten kann, wie heisst du?",
@@ -256,7 +277,7 @@ const translations = {
       badge: "Application developer apprentice at Swisscom",
       lines: ["Clean Code.", "Strong Results.", "Real Solutions."],
       description:
-        "I solve problems with real focus – building applications you can count on, with clear communication and solid quality.",
+        "I build reliable web and business applications with clean quality, clear communication and a strong focus on practical solutions.",
       ctaPortfolio: "View portfolio",
       ctaContact: "Get in touch",
       cards: {
@@ -378,7 +399,7 @@ const translations = {
     chat: {
       name: "Matti Koenis",
       status: "Online",
-      buttonLabel: "Chat with me",
+      buttonLabel: "Send request",
       intro: "Hey! 👋 How do you know me?",
       followUp: "Nice to hear from you! What is your request about?",
       askName: "So I can reply to you personally, what's your name?",
@@ -412,7 +433,7 @@ const translations = {
       badge: "Applicatieontwikkelaar in opleiding bij Swisscom",
       lines: ["Schone Code.", "Sterke Resultaten.", "Echte Oplossingen."],
       description:
-        "Ik los problemen op met echte focus – bouw applicaties waar je op kunt rekenen, met heldere communicatie en solide kwaliteit.",
+        "Ik bouw betrouwbare web- en businessapplicaties met nette kwaliteit, heldere communicatie en een sterke focus op praktische oplossingen.",
       ctaPortfolio: "Bekijk portfolio",
       ctaContact: "Neem contact op",
       cards: {
@@ -533,7 +554,7 @@ const translations = {
     chat: {
       name: "Matti Koenis",
       status: "Online",
-      buttonLabel: "Chat met mij",
+      buttonLabel: "Aanvraag sturen",
       intro: "Hey! 👋 Waar ken je me van?",
       followUp: "Leuk dat je contact opneemt! Waar gaat je aanvraag over?",
       askName: "Zodat ik je persoonlijk kan antwoorden: hoe heet je?",
@@ -566,8 +587,8 @@ const translations = {
     hero: {
       badge: "Applikationsutvecklare under utbildning på Swisscom",
       lines: ["Ren Kod.", "Starka Resultat.", "Äkta Lösningar."],
-      description:  
-        "Jag löser problem med verklig fokus – bygger applikationer du kan lita på, med tydlig kommunikation och solid kvalitet.",
+      description:
+        "Jag bygger pålitliga webb- och affärsapplikationer med ren kvalitet, tydlig kommunikation och starkt fokus på praktiska lösningar.",
       ctaPortfolio: "Se portfolio",
       ctaContact: "Kontakta mig",
       cards: {
@@ -689,7 +710,7 @@ const translations = {
     chat: {
       name: "Matti Koenis",
       status: "Online",
-      buttonLabel: "Chatta med mig",
+      buttonLabel: "Skicka förfrågan",
       intro: "Hej! 👋 Varifrån känner du mig?",
       followUp: "Kul att du hör av dig! Vad handlar din förfrågan om?",
       askName: "Så att jag kan svara dig personligen, vad heter du?",
@@ -723,6 +744,7 @@ export default function MattiKoenisOnepage() {
   const [activeLanguage, setActiveLanguage] = useState("de");
   const t = translations[activeLanguage];
   const showChatWidget = true;
+  const activeLanguageOption = languageOptions.find((option) => option.code === activeLanguage) || languageOptions[0];
 
   const localizedLanguageLevels = t.about.languageLevels;
   const localizedHobbies = t.about.hobbies.map((name, idx) => ({
@@ -737,7 +759,11 @@ export default function MattiKoenisOnepage() {
     ...item,
     icon: socialSkillIcons[idx],
   }));
-  const localizedExperiences = t.experience.items;
+  const localizedExperiences = t.experience.items.map((item) =>
+    item.title === "Team Halo - Host"
+      ? { ...item, period: getTeamHaloPeriod(activeLanguage) }
+      : item
+  );
   const groupedTechSkills = techCategoryOrder
     .map((category) => ({
       category,
@@ -796,7 +822,6 @@ export default function MattiKoenisOnepage() {
         <div className="absolute left-1/2 top-0 h-[40rem] w-[40rem] -translate-x-1/2 rounded-full bg-blue-600/20 blur-3xl" />
         <div className="absolute bottom-0 right-0 h-[30rem] w-[30rem] rounded-full bg-blue-700/15 blur-3xl" />
         <div className="absolute top-1/3 -left-32 h-[28rem] w-[28rem] rounded-full bg-slate-800/15 blur-3xl" />
-        <div className="absolute top-1/4 right-1/4 h-[25rem] w-[25rem] rounded-full bg-amber-500/10 blur-3xl" />
       </div>
 
       <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/60 backdrop-blur-xl relative">
@@ -846,24 +871,39 @@ export default function MattiKoenisOnepage() {
           </div>
 
           <div className="mt-3 md:hidden">
-            <select
-              aria-label="Sprache auswählen"
-              value={activeLanguage}
-              onChange={(e) => setActiveLanguage(e.target.value)}
-              className="h-9 w-full rounded-md border border-white/25 bg-slate-950/90 px-3 text-xs font-medium text-white outline-none transition hover:border-[#e5e4e2]/50"
-            >
-              {languageOptions.map((option) => (
-                <option key={option.code} value={option.code} className="bg-slate-950 text-white">
-                  {option.label}
-                </option>
-              ))}
-            </select>
+            <div className="relative overflow-hidden rounded-xl border border-white/15 bg-white/5 shadow-lg shadow-slate-950/20 backdrop-blur-sm transition focus-within:border-blue-200/50">
+              <div className="absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-[#e5e4e2]/45 to-transparent" />
+              <div className="pointer-events-none flex items-center justify-between gap-3 px-4 py-3">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-blue-200/20 bg-blue-400/10 text-blue-100">
+                    <Languages className="h-4 w-4" />
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-blue-200/60">Sprache</p>
+                    <p className="truncate text-sm font-semibold text-[#f2f1ef]">{activeLanguageOption.label}</p>
+                  </div>
+                </div>
+                <ChevronDown className="h-4 w-4 shrink-0 text-white/55" />
+              </div>
+              <select
+                aria-label="Sprache auswählen"
+                value={activeLanguage}
+                onChange={(e) => setActiveLanguage(e.target.value)}
+                className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+              >
+                {languageOptions.map((option) => (
+                  <option key={option.code} value={option.code} className="bg-slate-950 text-white">
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
           <nav className="mt-3 grid grid-cols-4 gap-2.5 md:hidden">
             <a 
               href="#about" 
-              className="group relative overflow-hidden rounded-xl border border-blue-400/40 bg-gradient-to-br from-blue-400/15 to-blue-400/5 px-2 py-3 text-center font-semibold text-blue-100 transition duration-300 hover:border-blue-300/80 hover:from-blue-400/25 hover:to-blue-400/10 hover:shadow-lg hover:shadow-blue-500/30"
+              className="group relative overflow-hidden rounded-xl border border-blue-200/25 bg-white/[0.045] px-2 py-3 text-center font-semibold text-blue-100 transition duration-300 hover:border-blue-200/60 hover:bg-blue-400/10"
             >
               <div className="flex flex-col items-center gap-1">
                 <User className="h-4 w-4" />
@@ -872,7 +912,7 @@ export default function MattiKoenisOnepage() {
             </a>
             <a 
               href="#skills" 
-              className="group relative overflow-hidden rounded-xl border border-cyan-400/40 bg-gradient-to-br from-cyan-400/15 to-cyan-400/5 px-2 py-3 text-center font-semibold text-cyan-100 transition duration-300 hover:border-cyan-300/80 hover:from-cyan-400/25 hover:to-cyan-400/10 hover:shadow-lg hover:shadow-cyan-500/30"
+              className="group relative overflow-hidden rounded-xl border border-blue-200/20 bg-white/[0.04] px-2 py-3 text-center font-semibold text-white/85 transition duration-300 hover:border-blue-200/55 hover:bg-blue-400/10 hover:text-blue-100"
             >
               <div className="flex flex-col items-center gap-1">
                 <Code2 className="h-4 w-4" />
@@ -881,7 +921,7 @@ export default function MattiKoenisOnepage() {
             </a>
             <a 
               href="#portfolio" 
-              className="group relative overflow-hidden rounded-xl border border-purple-400/40 bg-gradient-to-br from-purple-400/15 to-purple-400/5 px-2 py-3 text-center font-semibold text-purple-100 transition duration-300 hover:border-purple-300/80 hover:from-purple-400/25 hover:to-purple-400/10 hover:shadow-lg hover:shadow-purple-500/30"
+              className="group relative overflow-hidden rounded-xl border border-blue-200/20 bg-white/[0.04] px-2 py-3 text-center font-semibold text-white/85 transition duration-300 hover:border-blue-200/55 hover:bg-blue-400/10 hover:text-blue-100"
             >
               <div className="flex flex-col items-center gap-1">
                 <Briefcase className="h-4 w-4" />
@@ -890,7 +930,7 @@ export default function MattiKoenisOnepage() {
             </a>
             <a 
               href="#contact" 
-              className="group relative overflow-hidden rounded-xl border border-white/40 bg-gradient-to-br from-white/15 to-white/5 px-2 py-3 text-center font-semibold text-white/90 transition duration-300 hover:border-white/70 hover:from-white/25 hover:to-white/10 hover:shadow-lg hover:shadow-white/30"
+              className="group relative overflow-hidden rounded-xl border border-[#e5e4e2]/30 bg-[#e5e4e2]/10 px-2 py-3 text-center font-semibold text-[#f2f1ef] transition duration-300 hover:border-[#e5e4e2]/60 hover:bg-[#e5e4e2]/15"
             >
               <div className="flex flex-col items-center gap-1">
                 <Send className="h-4 w-4" />
@@ -1169,23 +1209,23 @@ export default function MattiKoenisOnepage() {
 
                   {/* Inhaltskarte */}
                   <div className={`w-full md:w-[calc(50%-1.5rem)] ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
-                    <div className="rounded-xl border border-white/10 bg-gradient-to-br from-white/8 to-white/4 p-6 backdrop-blur-sm transition hover:border-[#e5e4e2]/45 hover:bg-white/8">
-                      <div className={`mb-3 flex flex-wrap gap-2 ${index % 2 === 0 ? 'md:justify-end' : 'md:justify-start'}`}>
-                        <span className="inline-flex rounded-full border border-[#e5e4e2]/40 bg-[#e5e4e2]/10 px-3 py-1 text-xs font-semibold text-[#f2f1ef]">
+                    <div className="rounded-lg border border-white/10 bg-white/[0.045] p-5 backdrop-blur-sm transition hover:border-blue-200/30 hover:bg-white/[0.065] sm:p-6">
+                      <div className={`mb-4 flex flex-wrap gap-2 ${index % 2 === 0 ? 'md:justify-end' : 'md:justify-start'}`}>
+                        <span className="inline-flex rounded-full border border-blue-200/25 bg-blue-400/10 px-3 py-1 text-xs font-semibold text-blue-100">
                           {exp.period}
                         </span>
-                        <span className="inline-flex items-center gap-1.5 rounded-full border border-[#e5e4e2]/25 bg-white/5 px-3 py-1 text-xs font-semibold text-[#f2f1ef]/85">
+                        <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.12] bg-white/[0.045] px-3 py-1 text-xs font-medium text-white/70">
                           <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
                           {exp.location}
                         </span>
                       </div>
-                      <h3 className="text-xl font-semibold leading-tight">{exp.title}</h3>
-                      <p className="mt-4 leading-6 text-white/70">{exp.description}</p>
+                      <h3 className="text-xl font-semibold leading-tight text-[#f2f1ef]">{exp.title}</h3>
+                      <p className="mt-3 leading-6 text-white/70">{exp.description}</p>
                       <div className={`mt-5 flex flex-wrap gap-2 ${index % 2 === 0 ? 'md:justify-end' : 'md:justify-start'}`}>
                         {exp.skills.map((skill) => (
                           <span
                             key={skill}
-                            className="rounded-full border border-white/15 bg-white/5 px-2.5 py-1 text-xs text-white/60"
+                            className="rounded-full border border-white/10 bg-white/[0.035] px-2.5 py-1 text-xs text-white/55"
                           >
                             {skill}
                           </span>
