@@ -19,6 +19,7 @@ import {
   User,
   BookOpen,
   Send,
+  MapPin,
 } from "lucide-react";
 import ChatWidget from "./components/ChatWidget";
 
@@ -160,20 +161,30 @@ const translations = {
       title: "Mein Weg als Applikationsentwickler in Ausbildung.",
       items: [
         {
+          title: "Team Halo - Host",
+          period: "Ab Aug 2026",
+          location: "Zürich / Bern",
+          description: "Teamlead-Rolle im Web Development Team mit Verantwortung für Koordination, Zusammenarbeit und moderne Weblösungen.",
+          skills: ["Web Development", "Frontend", "Teamführung", "Koordination"],
+        },
+        {
           title: "Power Platform Dev Ops",
-          period: "Aug 2025 - Aktuell",
+          period: "Aug 2025 - Aug 2026",
+          location: "Zürich",
           description: "Entwicklung und Verwaltung von PowerApps, Power BI und SharePoint Lösungen mit DevOps-Methodiken.",
           skills: ["PowerApps", "Power BI", "Power Automate", "SharePoint", "DevOps"],
         },
         {
           title: "Codemix Programmierprojekt",
           period: "Feb 2025 - Juli 2025",
+          location: "Zürich",
           description: "Strukturierte Einführung in Softwareentwicklung mit Fokus auf Grundlagen und praktische Anwendung.",
           skills: ["HTML", "CSS", "JavaScript", "Basiskonzepte"],
         },
         {
           title: "Future Work Specialist",
           period: "Aug 2024 - Feb 2025",
+          location: "Zürich / Bern",
           description: "Projekt zur Gestaltung zukünftiger Arbeitsmodelle und IT-Support für Floorwalking.",
           skills: ["IT-Support", "Kommunikation", "Teamarbeit"],
         },
@@ -307,20 +318,30 @@ const translations = {
       title: "My journey as an application developer apprentice.",
       items: [
         {
+          title: "Team Halo - Host",
+          period: "From Aug 2026",
+          location: "Zurich / Bern",
+          description: "Team lead role in the web development team with responsibility for coordination, collaboration and modern web solutions.",
+          skills: ["Web Development", "Frontend", "Team lead", "Coordination"],
+        },
+        {
           title: "Power Platform Dev Ops",
-          period: "Aug 2025 - Present",
+          period: "Aug 2025 - Aug 2026",
+          location: "Zurich",
           description: "Development and management of PowerApps, Power BI and SharePoint solutions with DevOps methods.",
           skills: ["PowerApps", "Power BI", "Power Automate", "SharePoint", "DevOps"],
         },
         {
           title: "Codemix programming project",
           period: "Feb 2025 - Jul 2025",
+          location: "Zurich",
           description: "Structured introduction to software development with focus on fundamentals and practical use.",
           skills: ["HTML", "CSS", "JavaScript", "Fundamentals"],
         },
         {
           title: "Future Work Specialist",
           period: "Aug 2024 - Feb 2025",
+          location: "Zurich / Bern",
           description: "Project about future work models and IT support for floorwalking.",
           skills: ["IT Support", "Communication", "Teamwork"],
         },
@@ -453,20 +474,30 @@ const translations = {
       title: "Mijn traject als applicatieontwikkelaar in opleiding.",
       items: [
         {
+          title: "Team Halo - Host",
+          period: "vanaf aug 2026",
+          location: "Zürich / Bern",
+          description: "Teamleadrol in het webdevelopmentteam met verantwoordelijkheid voor coordinatie, samenwerking en moderne weboplossingen.",
+          skills: ["Web Development", "Frontend", "Teamleiding", "Coordinatie"],
+        },
+        {
           title: "Power Platform Dev Ops",
-          period: "aug 2025 - heden",
+          period: "aug 2025 - aug 2026",
+          location: "Zürich",
           description: "Ontwikkeling en beheer van PowerApps-, Power BI- en SharePoint-oplossingen met DevOps-methodes.",
           skills: ["PowerApps", "Power BI", "Power Automate", "SharePoint", "DevOps"],
         },
         {
           title: "Codemix programmeerproject",
           period: "feb 2025 - jul 2025",
+          location: "Zürich",
           description: "Gestructureerde introductie in softwareontwikkeling met focus op basisprincipes en praktijk.",
           skills: ["HTML", "CSS", "JavaScript", "Basisconcepten"],
         },
         {
           title: "Future Work Specialist",
           period: "aug 2024 - feb 2025",
+          location: "Zürich / Bern",
           description: "Project over toekomstige werkmodellen en IT-support voor floorwalking.",
           skills: ["IT-support", "Communicatie", "Teamwerk"],
         },
@@ -598,20 +629,30 @@ const translations = {
       title: "Min resa som applikationsutvecklare under utbildning.",
       items: [
         {
+          title: "Team Halo - Host",
+          period: "från aug 2026",
+          location: "Zürich / Bern",
+          description: "Teamlead-roll i webbutvecklingsteamet med ansvar for koordinering, samarbete och moderna webblösningar.",
+          skills: ["Web Development", "Frontend", "Teamledning", "Koordinering"],
+        },
+        {
           title: "Power Platform Dev Ops",
-          period: "aug 2025 - nu",
+          period: "aug 2025 - aug 2026",
+          location: "Zürich",
           description: "Utveckling och förvaltning av PowerApps-, Power BI- och SharePoint-lösningar med DevOps-metodik.",
           skills: ["PowerApps", "Power BI", "Power Automate", "SharePoint", "DevOps"],
         },
         {
           title: "Codemix programmeringsprojekt",
           period: "feb 2025 - jul 2025",
+          location: "Zürich",
           description: "Strukturerad introduktion till mjukvaruutveckling med fokus på grunder och praktisk tillämpning.",
           skills: ["HTML", "CSS", "JavaScript", "Grundkoncept"],
         },
         {
           title: "Future Work Specialist",
           period: "aug 2024 - feb 2025",
+          location: "Zürich / Bern",
           description: "Projekt om framtidens arbetsmodeller och IT-support för floorwalking.",
           skills: ["IT-support", "Kommunikation", "Teamarbete"],
         },
@@ -1129,8 +1170,14 @@ export default function MattiKoenisOnepage() {
                   {/* Inhaltskarte */}
                   <div className={`w-full md:w-[calc(50%-1.5rem)] ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
                     <div className="rounded-xl border border-white/10 bg-gradient-to-br from-white/8 to-white/4 p-6 backdrop-blur-sm transition hover:border-[#e5e4e2]/45 hover:bg-white/8">
-                      <div className="mb-3 inline-flex rounded-full border border-[#e5e4e2]/40 bg-[#e5e4e2]/10 px-3 py-1 text-xs font-semibold text-[#f2f1ef]">
-                        {exp.period}
+                      <div className={`mb-3 flex flex-wrap gap-2 ${index % 2 === 0 ? 'md:justify-end' : 'md:justify-start'}`}>
+                        <span className="inline-flex rounded-full border border-[#e5e4e2]/40 bg-[#e5e4e2]/10 px-3 py-1 text-xs font-semibold text-[#f2f1ef]">
+                          {exp.period}
+                        </span>
+                        <span className="inline-flex items-center gap-1.5 rounded-full border border-[#e5e4e2]/25 bg-white/5 px-3 py-1 text-xs font-semibold text-[#f2f1ef]/85">
+                          <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
+                          {exp.location}
+                        </span>
                       </div>
                       <h3 className="text-xl font-semibold leading-tight">{exp.title}</h3>
                       <p className="mt-4 leading-6 text-white/70">{exp.description}</p>
