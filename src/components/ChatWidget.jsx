@@ -4,6 +4,7 @@ import { MessageCircle, Send, X } from "lucide-react";
 
 const ChatWidget = ({ t, language }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const [showFallback, setShowFallback] = useState(false);
   const [step, setStep] = useState(0);
   const [inputValue, setInputValue] = useState("");
@@ -193,6 +194,20 @@ const ChatWidget = ({ t, language }) => {
         ? safeTranslations.placeholderEmail
         : "";
   const inputDisabled = isSending || step < 2 || step > 3;
+  const showPanel = isOpen || isClosing;
+
+  const openChat = () => {
+    setIsClosing(false);
+    setIsOpen(true);
+  };
+
+  const closeChat = () => {
+    setIsClosing(true);
+    window.setTimeout(() => {
+      setIsOpen(false);
+      setIsClosing(false);
+    }, 280);
+  };
 
   useEffect(() => {
     setStep(0);
@@ -215,11 +230,53 @@ const ChatWidget = ({ t, language }) => {
   // Fallback Chat Widget
   if (showFallback) {
     return (
-      <div className={`fixed bottom-4 z-50 ${isOpen ? "inset-x-4 sm:inset-x-auto sm:right-4" : "right-4"}`}>
-        {!isOpen ? (
+      <div className={`fixed bottom-4 z-50 ${showPanel ? "inset-x-4 sm:inset-x-auto sm:right-4" : "right-4"}`}>
+        <style>{`
+          .chat-panel-open {
+            animation: chatPanelEnter 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
+          }
+
+          .chat-panel-close {
+            animation: chatPanelExit 280ms cubic-bezier(0.7, 0, 0.84, 0) both;
+          }
+
+          @keyframes chatPanelEnter {
+            0% {
+              opacity: 0;
+              transform: translate3d(18px, 18px, 0) scale(0.96);
+              filter: blur(6px);
+            }
+            100% {
+              opacity: 1;
+              transform: translate3d(0, 0, 0) scale(1);
+              filter: blur(0);
+            }
+          }
+
+          @keyframes chatPanelExit {
+            0% {
+              opacity: 1;
+              transform: translate3d(0, 0, 0) scale(1);
+              filter: blur(0);
+            }
+            100% {
+              opacity: 0;
+              transform: translate3d(18px, 18px, 0) scale(0.96);
+              filter: blur(6px);
+            }
+          }
+
+          @media (prefers-reduced-motion: reduce) {
+            .chat-panel-open,
+            .chat-panel-close {
+              animation: none;
+            }
+          }
+        `}</style>
+        {!showPanel ? (
           <button
-            onClick={() => setIsOpen(true)}
-            className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full border border-blue-300/40 bg-slate-950/85 px-5 py-3 text-white shadow-2xl shadow-blue-950/45 backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:border-blue-200/70 hover:bg-blue-500/15 hover:shadow-blue-500/25"
+            onClick={openChat}
+            className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full border border-blue-300/40 bg-slate-950/85 px-5 py-3 text-white shadow-2xl shadow-blue-950/35 backdrop-blur-xl transition duration-300 hover:border-blue-200/70 hover:bg-blue-500/15"
           >
             <span className="absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-[#e5e4e2]/70 to-transparent" />
             <span className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-400/15 text-blue-100 ring-1 ring-blue-200/25 transition group-hover:bg-blue-400/25">
@@ -228,7 +285,7 @@ const ChatWidget = ({ t, language }) => {
             <span className="text-sm font-semibold tracking-wide text-[#f2f1ef]">{safeTranslations.buttonLabel}</span>
           </button>
         ) : (
-          <div className="flex h-[calc(100dvh-2rem)] max-h-[34rem] w-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-950/95 text-white shadow-2xl shadow-blue-950/50 backdrop-blur-xl sm:h-[32rem] sm:w-[22rem]">
+          <div className={`${isClosing ? "chat-panel-close" : "chat-panel-open"} flex h-[calc(100dvh-2rem)] max-h-[34rem] w-full origin-bottom-right flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-950/95 text-white shadow-2xl shadow-blue-950/50 backdrop-blur-xl will-change-transform sm:h-[32rem] sm:w-[22rem]`}>
             {/* Header */}
             <div className="relative flex items-center justify-between border-b border-white/10 bg-gradient-to-r from-blue-500/20 via-slate-900/95 to-blue-400/10 p-4">
               <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-[#e5e4e2]/60 to-transparent" />
@@ -245,7 +302,7 @@ const ChatWidget = ({ t, language }) => {
                 </div>
               </div>
               <button
-                onClick={() => setIsOpen(false)}
+                onClick={closeChat}
                 className="rounded-full border border-white/10 bg-white/5 p-2 text-white/75 transition hover:border-blue-200/35 hover:bg-blue-400/10 hover:text-white"
                 aria-label="Chat schliessen"
               >

@@ -20,6 +20,9 @@ import {
   BookOpen,
   Send,
   MapPin,
+  X,
+  Maximize2,
+  Minus,
 } from "lucide-react";
 import ChatWidget from "./components/ChatWidget";
 
@@ -817,6 +820,74 @@ export default function MattiKoenisOnepage() {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-slate-950 text-white [scroll-behavior:smooth]">
+      <style>{`
+        .hero-code-line {
+          display: block;
+          max-width: 0;
+          overflow: hidden;
+          white-space: nowrap;
+          opacity: 0;
+          animation: heroCodeType 0.34s steps(36, end) forwards;
+        }
+
+        .hero-code-line:nth-child(1) { animation-delay: 0.08s; }
+        .hero-code-line:nth-child(2) { animation-delay: 0.34s; }
+        .hero-code-line:nth-child(3) { animation-delay: 0.6s; }
+        .hero-code-line:nth-child(4) { animation-delay: 0.86s; }
+        .hero-code-line:nth-child(5) { animation-delay: 1.12s; }
+        .hero-code-line:nth-child(6) { animation-delay: 1.38s; }
+        .hero-code-line:nth-child(7) { animation-delay: 1.64s; }
+        .hero-code-line:nth-child(8) { animation-delay: 1.9s; }
+        .hero-code-line:nth-child(9) { animation-delay: 2.16s; }
+
+        .hero-code-caret {
+          animation: heroCaretBlink 1s step-end infinite;
+        }
+
+        .hero-code-scan {
+          animation: heroCodeScan 4.8s ease-in-out infinite;
+        }
+
+        @keyframes heroCodeType {
+          to {
+            max-width: 100%;
+            opacity: 1;
+          }
+        }
+
+        @keyframes heroCaretBlink {
+          0%, 45% {
+            opacity: 1;
+          }
+          46%, 100% {
+            opacity: 0;
+          }
+        }
+
+        @keyframes heroCodeScan {
+          0%, 100% {
+            transform: translateY(-35%);
+            opacity: 0;
+          }
+          18%, 62% {
+            opacity: 1;
+          }
+          80% {
+            transform: translateY(135%);
+            opacity: 0;
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .hero-code-line,
+          .hero-code-caret,
+          .hero-code-scan {
+            animation: none;
+            opacity: 1;
+            max-width: none;
+          }
+        }
+      `}</style>
       <div className="fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(135deg,#0f172a_0%,#1e1b4b_50%,#0f172a_100%)]" />
         <div className="absolute left-1/2 top-0 h-[40rem] w-[40rem] -translate-x-1/2 rounded-full bg-blue-600/20 blur-3xl" />
@@ -942,10 +1013,17 @@ export default function MattiKoenisOnepage() {
       </header>
 
       <main id="top">
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid w-full gap-10 sm:gap-12 lg:grid-cols-1">
+        <section className="relative overflow-hidden">
+          <div className="pointer-events-none absolute inset-0">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_73%_42%,rgba(96,165,250,0.16),transparent_28%),radial-gradient(circle_at_20%_58%,rgba(229,228,226,0.06),transparent_26%),linear-gradient(180deg,rgba(15,23,42,0)_0%,rgba(15,23,42,0.76)_100%)]" />
+            <div className="absolute right-[-8rem] top-20 h-[34rem] w-[34rem] rounded-full border border-blue-200/10 bg-blue-400/[0.035] blur-3xl" />
+            <div className="absolute left-[-10rem] bottom-0 h-[24rem] w-[24rem] rounded-full bg-white/[0.035] blur-3xl" />
+            <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent via-slate-950/70 to-slate-950" />
+          </div>
+          <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid w-full items-center gap-10 sm:gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,0.82fr)]">
             <div
-              className="mx-auto flex min-h-[calc(100vh-73px)] w-full max-w-4xl flex-col justify-center text-center"
+              className="mx-auto flex min-h-[calc(100vh-73px)] w-full max-w-4xl flex-col justify-center text-center lg:mx-0 lg:text-left"
             >
               <h1 className="text-4xl font-semibold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-7xl">
                 <span className="bg-gradient-to-r from-[#969aa4] via-[#d8dbe1] to-[#f2f1ef] bg-clip-text text-transparent">
@@ -961,21 +1039,21 @@ export default function MattiKoenisOnepage() {
                 </span>
               </h1>
 
-              <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-white/70 sm:text-lg md:text-xl md:leading-8">
+              <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-white/70 sm:text-lg md:text-xl md:leading-8 lg:mx-0">
                 {t.hero.description}
               </p>
 
-              <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+              <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center lg:justify-start">
                 <a
                   href="#portfolio"
-                  className="group inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-white to-slate-100 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:shadow-lg hover:shadow-white/50 hover:scale-[1.05]"
+                  className="group inline-flex items-center justify-center gap-2 rounded-full border border-white bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition hover:border-blue-100 hover:bg-blue-50"
                 >
                   {t.hero.ctaPortfolio}
                   <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
                 </a>
                 <a
                   href="#contact"
-                  className="group inline-flex items-center justify-center gap-2 rounded-full border border-white/40 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition hover:border-white/70 hover:bg-white/20 hover:shadow-lg hover:shadow-white/40"
+                  className="group inline-flex items-center justify-center gap-2 rounded-full border border-white/35 bg-white/8 px-6 py-3 text-sm font-semibold text-white transition hover:border-blue-200/55 hover:bg-blue-400/10"
                 >
                   {t.hero.ctaContact}
                   <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
@@ -983,18 +1061,64 @@ export default function MattiKoenisOnepage() {
               </div>
               <a
                 href="#about"
-                className="mt-10 inline-flex items-center gap-2 text-sm text-white/50 transition hover:text-white/80"
+                className="mt-10 inline-flex items-center justify-center gap-2 text-sm text-white/50 transition hover:text-white/80 lg:justify-start"
               >
                 {t.hero.discover}
                 <ChevronDown className="h-4 w-4" />
               </a>
             </div>
+            <div className="hidden lg:flex min-h-[calc(100vh-73px)] items-center justify-end">
+              <div className="relative w-full max-w-[28rem] overflow-hidden rounded-2xl border border-blue-200/20 bg-slate-950/70 shadow-2xl shadow-blue-950/45 backdrop-blur-xl">
+                <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-blue-200/70 to-transparent" />
+                <div className="hero-code-scan pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-transparent via-blue-300/10 to-transparent" />
+                <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      aria-label="Close preview"
+                      className="group/control relative flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-300/75 ring-1 ring-red-200/20 transition duration-200 hover:bg-red-300 hover:shadow-[0_0_16px_rgba(252,165,165,0.22)]"
+                    >
+                      <X className="h-2.5 w-2.5 scale-75 text-slate-950 opacity-0 transition duration-200 group-hover/control:scale-100 group-hover/control:opacity-90" />
+                    </button>
+                    <button
+                      type="button"
+                      aria-label="Focus preview"
+                      className="group/control relative flex h-3.5 w-3.5 items-center justify-center rounded-full bg-yellow-200/75 ring-1 ring-yellow-100/20 transition duration-200 hover:bg-yellow-200 hover:shadow-[0_0_16px_rgba(254,240,138,0.18)]"
+                    >
+                      <Minus className="h-2.5 w-2.5 scale-75 text-slate-950 opacity-0 transition duration-200 group-hover/control:scale-100 group-hover/control:opacity-90" />
+                    </button>
+                    <button
+                      type="button"
+                      aria-label="Fullscreen preview"
+                      className="group/control relative flex h-3.5 w-3.5 items-center justify-center rounded-full bg-emerald-300/75 ring-1 ring-emerald-100/20 transition duration-200 hover:bg-emerald-300 hover:shadow-[0_0_16px_rgba(110,231,183,0.22)]"
+                    >
+                      <Maximize2 className="h-2.5 w-2.5 scale-75 text-slate-950 opacity-0 transition duration-200 group-hover/control:scale-100 group-hover/control:opacity-90" />
+                    </button>
+                  </div>
+                  <span className="text-xs font-medium text-blue-100/55">matti.profile.js</span>
+                </div>
+                <pre className="overflow-hidden px-5 py-5 text-left font-mono text-[0.82rem] leading-6 text-white/80">
+                  <code>
+                    <div className="hero-code-line"><span className="text-blue-200">const</span> matti = {"{"}</div>
+                    <div className="hero-code-line pl-5"><span className="text-white/45">role:</span> <span className="text-[#f2f1ef]">"Application Developer"</span>,</div>
+                    <div className="hero-code-line pl-5"><span className="text-white/45">focus:</span> <span className="text-[#f2f1ef]">"Web Solutions"</span>,</div>
+                    <div className="hero-code-line pl-5"><span className="text-white/45">quality:</span> <span className="text-[#f2f1ef]">"Clean & reliable"</span>,</div>
+                    <div className="hero-code-line pl-5"><span className="text-white/45">mindset:</span> [</div>
+                    <div className="hero-code-line pl-10"><span className="text-blue-100">"focused"</span>, <span className="text-blue-100">"curious"</span>,</div>
+                    <div className="hero-code-line pl-10"><span className="text-blue-100">"team strong"</span></div>
+                    <div className="hero-code-line pl-5">]</div>
+                    <div className="hero-code-line">{"};"}<span className="hero-code-caret ml-1 inline-block h-4 w-2 translate-y-0.5 bg-blue-200/80" /></div>
+                  </code>
+                </pre>
+              </div>
+            </div>
+          </div>
           </div>
         </section>
 
         <section
           id="about"
-          className="mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-32 lg:px-8 border-t border-[#e5e4e2]/30"
+          className="mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-32 lg:px-8"
         >
           <div className="mb-16 text-center">
             <p className="text-sm font-medium uppercase tracking-[0.28em] text-blue-200/70">{t.about.tag}</p>
@@ -1035,9 +1159,9 @@ export default function MattiKoenisOnepage() {
                   {localizedHobbies.map((hobby, idx) => {
                     const Icon = hobby.icon;
                     const borderClasses = [
-                      "bg-gradient-to-br from-blue-400/12 to-blue-400/5 hover:bg-blue-400/20 hover:shadow-lg hover:shadow-blue-500/25",
-                      "bg-gradient-to-br from-cyan-400/12 to-cyan-400/5 hover:bg-cyan-400/20 hover:shadow-lg hover:shadow-cyan-500/25",
-                      "bg-gradient-to-br from-white/12 to-white/5 hover:bg-white/20 hover:shadow-lg hover:shadow-white/25"
+                      "bg-blue-400/8 hover:bg-blue-400/14",
+                      "bg-blue-400/7 hover:bg-blue-400/12",
+                      "bg-white/8 hover:bg-white/12"
                     ];
                     const iconClasses = [
                       "text-blue-300 group-hover:text-blue-100",
@@ -1050,7 +1174,7 @@ export default function MattiKoenisOnepage() {
                         key={hobby.name}
                         className={`group flex flex-col items-center justify-center text-center rounded-xl backdrop-blur-sm p-4 transition duration-300 ${borderClasses[idx]}`}
                       >
-                        <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg transition group-hover:scale-110">
+                        <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg transition">
                           <Icon className={`h-6 w-6 transition ${iconClasses[idx]}`} />
                         </div>
                         <p className="text-xs font-semibold text-white/90">{hobby.name}</p>
@@ -1364,7 +1488,7 @@ export default function MattiKoenisOnepage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="mailto:matti@koenis.ch"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-base font-semibold text-slate-950 transition hover:scale-[1.02]"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white bg-white px-8 py-4 text-base font-semibold text-slate-950 transition hover:border-blue-100 hover:bg-blue-50"
               >
                 <Mail className="h-5 w-5" />
                 {t.footer.emailButton}
