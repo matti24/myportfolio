@@ -215,7 +215,7 @@ const ChatWidget = ({ t, language }) => {
   // Fallback Chat Widget
   if (showFallback) {
     return (
-      <div className="fixed bottom-4 right-4 z-50">
+      <div className={`fixed bottom-4 z-50 ${isOpen ? "inset-x-4 sm:inset-x-auto sm:right-4" : "right-4"}`}>
         {!isOpen ? (
           <button
             onClick={() => setIsOpen(true)}
@@ -228,7 +228,7 @@ const ChatWidget = ({ t, language }) => {
             <span className="text-sm font-semibold tracking-wide text-[#f2f1ef]">{safeTranslations.buttonLabel}</span>
           </button>
         ) : (
-          <div className="flex h-[32rem] w-[22rem] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-950/92 text-white shadow-2xl shadow-blue-950/50 backdrop-blur-xl">
+          <div className="flex h-[calc(100dvh-2rem)] max-h-[34rem] w-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-950/95 text-white shadow-2xl shadow-blue-950/50 backdrop-blur-xl sm:h-[32rem] sm:w-[22rem]">
             {/* Header */}
             <div className="relative flex items-center justify-between border-b border-white/10 bg-gradient-to-r from-blue-500/20 via-slate-900/95 to-blue-400/10 p-4">
               <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-[#e5e4e2]/60 to-transparent" />
@@ -254,7 +254,7 @@ const ChatWidget = ({ t, language }) => {
             </div>
 
             {/* Chat Area */}
-            <div className="flex-1 space-y-4 overflow-y-auto bg-[linear-gradient(135deg,#020617_0%,#0f172a_55%,#111827_100%)] p-4">
+            <div className="flex-1 touch-pan-y space-y-4 overflow-y-auto overscroll-contain scroll-smooth bg-[linear-gradient(135deg,#020617_0%,#0f172a_55%,#111827_100%)] p-4 [-webkit-overflow-scrolling:touch]">
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -289,15 +289,16 @@ const ChatWidget = ({ t, language }) => {
             </div>
 
             {/* Input Area */}
-            <form onSubmit={handleSubmit} className="border-t border-white/10 bg-slate-950/95 p-4">
+            <form onSubmit={handleSubmit} className="border-t border-white/10 bg-slate-950/95 p-3 sm:p-4">
               <div className="flex gap-2">
                 <input
                   type="text"
+                  inputMode={step === 3 ? "email" : "text"}
                   value={inputValue}
                   onChange={(event) => setInputValue(event.target.value)}
                   placeholder={inputPlaceholder}
                   disabled={inputDisabled}
-                  className="min-w-0 flex-1 rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none transition placeholder:text-white/35 focus:border-blue-200/50 focus:bg-white/8 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="min-w-0 flex-1 rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-base text-white outline-none transition placeholder:text-white/35 focus:border-blue-200/50 focus:bg-white/8 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm"
                 />
                 <button
                   type="submit"
