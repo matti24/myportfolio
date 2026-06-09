@@ -119,10 +119,10 @@ const translations = {
   de: {
     nav: { about: "Über mich", skills: "Kompetenzen", portfolio: "Portfolio", contact: "Kontakt" },
     hero: {
-      badge: "Applikationsentwickler in Ausbildung bei Swisscom",
-      lines: ["Sauberer Code.", "Starke Ergebnisse.", "Echte Lösungen."],
+      badge: "Applikationsentwickler",
+      lines: ["Matti"],
       description:
-        "Ich entwickle zuverlässige Web- und Business-Applikationen mit sauberer Qualität, klarer Kommunikation und starkem Fokus auf praktische Lösungen.",
+        "Ich schreibe nicht einfach Code. Ich verstehe zuerst das Problem und entwickle dann eine saubere, praktische Lösung.",
       ctaPortfolio: "Portfolio ansehen",
       ctaContact: "Kontakt aufnehmen",
       cards: {
@@ -172,6 +172,8 @@ const translations = {
       title: "",
       techTitle: "Informatik Skills",
       socialTitle: "Soziale Kompetenzen",
+      stackLabel: "Tools & Stack",
+      styleLabel: "Arbeitsstil",
       socialItems: [
         { name: "Soziale Stärke", description: "Empathie und zwischenmenschliche Fähigkeiten" },
         { name: "Teamarbeit", description: "Zusammenarbeit und gemeinsame Ziele erreichen" },
@@ -277,10 +279,10 @@ const translations = {
   en: {
     nav: { about: "About", skills: "Skills", portfolio: "Portfolio", contact: "Contact" },
     hero: {
-      badge: "Application developer apprentice at Swisscom",
-      lines: ["Clean Code.", "Strong Results.", "Real Solutions."],
+      badge: "Software developer ",
+      lines: ["Matti"],
       description:
-        "I build reliable web and business applications with clean quality, clear communication and a strong focus on practical solutions.",
+        "I do not just write code. I understand the problem first, then build a clean and practical solution.",
       ctaPortfolio: "View portfolio",
       ctaContact: "Get in touch",
       cards: {
@@ -329,6 +331,8 @@ const translations = {
       title: "",
       techTitle: "Technical skills",
       socialTitle: "Social competencies",
+      stackLabel: "Tools & Stack",
+      styleLabel: "Working style",
       socialItems: [
         { name: "Social awareness", description: "Empathy and strong interpersonal skills" },
         { name: "Teamwork", description: "Collaborating and reaching shared goals" },
@@ -433,10 +437,10 @@ const translations = {
   nl: {
     nav: { about: "Over mij", skills: "Vaardigheden", portfolio: "Portfolio", contact: "Contact" },
     hero: {
-      badge: "Applicatieontwikkelaar in opleiding bij Swisscom",
-      lines: ["Schone Code.", "Sterke Resultaten.", "Echte Oplossingen."],
+      badge: "Applicatieontwikkelaar",
+      lines: ["Matti"],
       description:
-        "Ik bouw betrouwbare web- en businessapplicaties met nette kwaliteit, heldere communicatie en een sterke focus op praktische oplossingen.",
+        "Ik schrijf niet zomaar code. Ik begrijp eerst het probleem en bouw daarna een nette, praktische oplossing.",
       ctaPortfolio: "Bekijk portfolio",
       ctaContact: "Neem contact op",
       cards: {
@@ -485,6 +489,8 @@ const translations = {
       title: "",
       techTitle: "Technische skills",
       socialTitle: "Sociale competenties",
+      stackLabel: "Tools & Stack",
+      styleLabel: "Werkstijl",
       socialItems: [
         { name: "Sociale kracht", description: "Empathie en sterke interpersoonlijke vaardigheden" },
         { name: "Teamwerk", description: "Samenwerken en gezamenlijke doelen bereiken" },
@@ -588,10 +594,10 @@ const translations = {
   sv: {
     nav: { about: "Om mig", skills: "Kompetenser", portfolio: "Portfolio", contact: "Kontakt" },
     hero: {
-      badge: "Applikationsutvecklare under utbildning på Swisscom",
-      lines: ["Ren Kod.", "Starka Resultat.", "Äkta Lösningar."],
+      badge: "Applikationsutvecklare",
+      lines: ["Matti"],
       description:
-        "Jag bygger pålitliga webb- och affärsapplikationer med ren kvalitet, tydlig kommunikation och starkt fokus på praktiska lösningar.",
+        "Jag skriver inte bara kod. Jag förstår problemet först och bygger sedan en ren, praktisk lösning.",
       ctaPortfolio: "Se portfolio",
       ctaContact: "Kontakta mig",
       cards: {
@@ -640,6 +646,8 @@ const translations = {
       title: "",
       techTitle: "Tekniska skills",
       socialTitle: "Sociala kompetenser",
+      stackLabel: "Tools & Stack",
+      styleLabel: "Arbetsstil",
       socialItems: [
         { name: "Social styrka", description: "Empati och starka mellanmänskliga färdigheter" },
         { name: "Teamarbete", description: "Samarbete och att nå gemensamma mål" },
@@ -774,6 +782,14 @@ export default function MattiKoenisOnepage() {
       items: informatikSkills.filter((skill) => skill.category === category),
     }))
     .filter((group) => group.items.length > 0);
+  const techSkillColumns = [
+    ["frontend", "database"],
+    ["backend", "cloud", "tools"],
+  ].map((column) =>
+    column
+      .map((category) => groupedTechSkills.find((group) => group.category === category))
+      .filter(Boolean)
+  );
 
   useEffect(() => {
     if ("scrollRestoration" in window.history) {
@@ -1025,21 +1041,23 @@ export default function MattiKoenisOnepage() {
             <div
               className="mx-auto flex min-h-[calc(100vh-73px)] w-full max-w-4xl flex-col justify-center text-center lg:mx-0 lg:text-left"
             >
-              <h1 className="text-4xl font-semibold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-7xl">
-                <span className="bg-gradient-to-r from-[#969aa4] via-[#d8dbe1] to-[#f2f1ef] bg-clip-text text-transparent">
+              <div className="mb-8 flex items-center justify-center gap-4 lg:justify-start">
+                <span className="hidden h-px w-10 bg-white/35 sm:block" />
+                <p className="text-xs font-semibold uppercase tracking-[0.34em] text-blue-100/75">
+                  {t.hero.badge}
+                </p>
+              </div>
+              <h1 className="text-6xl font-semibold leading-[0.95] tracking-tight text-white sm:text-7xl md:text-8xl lg:text-[8.5rem]">
+                <span className="bg-gradient-to-r from-white via-[#e5e4e2] to-[#aeb6c5] bg-clip-text text-transparent">
                   {t.hero.lines[0]}
                 </span>
                 <br />
-                <span className="bg-gradient-to-r from-[#8f949e] via-[#cfd4db] to-[#eceae7] bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[#f2f1ef] via-[#cfd4db] to-[#8f949e] bg-clip-text text-transparent">
                   {t.hero.lines[1]}
-                </span>
-                <br />
-                <span className="bg-gradient-to-r from-[#f7f6f4] via-[#d6d9df] to-[#959aa4] bg-clip-text text-transparent">
-                  {t.hero.lines[2]}
                 </span>
               </h1>
 
-              <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-white/70 sm:text-lg md:text-xl md:leading-8 lg:mx-0">
+              <p className="mx-auto mt-8 max-w-2xl text-base leading-7 text-white/65 sm:text-lg md:text-xl md:leading-8 lg:mx-0">
                 {t.hero.description}
               </p>
 
@@ -1159,8 +1177,8 @@ export default function MattiKoenisOnepage() {
                   {localizedHobbies.map((hobby, idx) => {
                     const Icon = hobby.icon;
                     const borderClasses = [
-                      "bg-blue-400/8 hover:bg-blue-400/14",
-                      "bg-blue-400/7 hover:bg-blue-400/12",
+                      "bg-blue-400/[0.08] hover:bg-blue-400/[0.14]",
+                      "bg-blue-400/[0.07] hover:bg-blue-400/[0.12]",
                       "bg-white/8 hover:bg-white/12"
                     ];
                     const iconClasses = [
@@ -1213,9 +1231,9 @@ export default function MattiKoenisOnepage() {
                 return (
                   <div
                     key={item.title}
-                    className="rounded-2xl border border-white/15 bg-white/7 p-5 backdrop-blur-sm transition hover:border-white/30 hover:bg-white/12"
+                    className="group border-t border-white/[0.12] py-5 transition hover:border-blue-200/35"
                   >
-                    <div className="mb-3 inline-flex rounded-xl border border-white/20 bg-white/10 p-2.5 text-white/85">
+                    <div className="mb-3 inline-flex text-blue-100/80 transition group-hover:text-blue-100">
                       <Icon className="h-4 w-4" />
                     </div>
                     <h3 className="text-3xl md:text-base font-bold md:font-semibold leading-tight break-words text-[#e5e4e2] md:text-white font-serif md:font-sans">{item.title}</h3>
@@ -1242,61 +1260,79 @@ export default function MattiKoenisOnepage() {
               
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-2">
-            <div className="md:rounded-[2rem] md:border md:border-white/10 md:bg-white/5 md:p-6 md:backdrop-blur-sm lg:md:p-8 border-b border-[#e5e4e2]/30 md:border-0 pb-6 md:pb-0">
-              <h3 className="mb-6 text-4xl md:text-xl font-bold md:font-semibold text-[#e5e4e2] md:text-white font-serif md:font-sans">{t.skills.techTitle}</h3>
-              <div className="space-y-6">
-                {groupedTechSkills.map((group) => (
-                  <div key={group.category}>
-                    <p className="mb-3 text-xs font-semibold uppercase tracking-[0.15em] text-[#d8d8d6]/75">{group.label}</p>
-                    <div className="space-y-4">
-                      {group.items.map((skill) => (
-                        <div key={skill.name}>
-                          <div className="mb-2 flex items-center justify-between gap-3 text-sm md:text-base">
-                            <div className="flex min-w-0 items-center gap-3">
-                              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-white/15 bg-white/5 p-1">
-                                <img
-                                  src={skill.logo}
-                                  alt={`${skill.name} Logo`}
-                                  className="h-4 w-4 object-contain"
-                                  style={{ filter: "grayscale(1) brightness(0) invert(1)" }}
-                                  loading="lazy"
-                                />
-                              </span>
-                              <span className="truncate font-medium text-white/90">{skill.name}</span>
-                            </div>
-                            <span className="text-white/60">{skill.value}%</span>
-                          </div>
-                          <div className="h-3 overflow-hidden rounded-full bg-white/8">
-                            <div
-                              style={{ width: `${skill.value}%` }}
-                              className="h-full rounded-full bg-[#e5e4e2]"
-                            />
-                          </div>
+          <div className="grid gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20">
+            <div className="border-t border-[#e5e4e2]/25 pt-8">
+              <div className="mb-8 flex items-end justify-between gap-6">
+                <h3 className="text-4xl md:text-xl font-bold md:font-semibold text-[#e5e4e2] md:text-white font-serif md:font-sans">{t.skills.techTitle}</h3>
+                <span className="hidden text-xs font-medium uppercase tracking-[0.22em] text-white/35 md:inline">
+                  {t.skills.stackLabel}
+                </span>
+              </div>
+              <div className="grid gap-8 md:grid-cols-2">
+                {techSkillColumns.map((column, columnIndex) => (
+                  <div key={columnIndex} className="space-y-8">
+                    {column.map((group) => (
+                      <div key={group.category}>
+                        <div className="mb-4 flex items-center justify-between gap-4 border-b border-white/10 pb-3">
+                          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-200/70">{group.label}</p>
                         </div>
-                      ))}
-                    </div>
+                        <div className="space-y-4">
+                          {group.items.map((skill) => (
+                            <div key={skill.name}>
+                              <div className="mb-2 flex items-center justify-between gap-3 text-sm">
+                                <div className="flex min-w-0 items-center gap-3">
+                                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-white/10 bg-white/[0.035] p-1">
+                                    <img
+                                      src={skill.logo}
+                                      alt={`${skill.name} Logo`}
+                                      className="h-4 w-4 object-contain"
+                                      style={{ filter: "grayscale(1) brightness(0) invert(1)" }}
+                                      loading="lazy"
+                                    />
+                                  </span>
+                                  <span className="truncate font-medium text-white/90">{skill.name}</span>
+                                </div>
+                                <span className="text-xs text-white/50">{skill.value}%</span>
+                              </div>
+                              <div className="h-1.5 overflow-hidden rounded-full bg-white/8">
+                                <div
+                                  style={{ width: `${skill.value}%` }}
+                                  className="h-full rounded-full bg-gradient-to-r from-blue-200/70 to-[#e5e4e2]"
+                                />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="md:rounded-[2rem] md:border md:border-white/10 md:bg-white/5 md:p-6 md:backdrop-blur-sm lg:md:p-8">
-              <h3 className="mb-6 text-4xl md:text-xl font-bold md:font-semibold text-[#e5e4e2] md:text-white font-serif md:font-sans">{t.skills.socialTitle}</h3>
-              <div className="grid gap-4 sm:grid-cols-2 md:auto-rows-max lg:grid-cols-1 md:lg:grid-cols-1 xl:grid-cols-2">
+            <div className="border-t border-[#e5e4e2]/25 pt-8">
+              <div className="mb-8 flex items-end justify-between gap-6">
+                <h3 className="text-4xl md:text-xl font-bold md:font-semibold text-[#e5e4e2] md:text-white font-serif md:font-sans">{t.skills.socialTitle}</h3>
+                <span className="hidden text-xs font-medium uppercase tracking-[0.22em] text-white/35 md:inline">
+                  {t.skills.styleLabel}
+                </span>
+              </div>
+              <div className="grid gap-x-8 sm:grid-cols-2 lg:grid-cols-1">
                 {localizedSocialSkills.map((skill) => {
                   const Icon = skill.icon;
 
                   return (
                     <div
                       key={skill.name}
-                      className="group md:rounded-xl md:border md:border-white/15 md:bg-white/5 md:p-4 md:backdrop-blur-sm transition hover:border-[#e5e4e2]/40 hover:bg-[#e5e4e2]/5"
+                      className="group flex gap-4 border-b border-white/10 py-5 transition hover:border-blue-200/35"
                     >
-                      <div className="mb-3 md:inline-flex md:rounded-lg md:border md:border-[#e5e4e2]/30 md:bg-[#e5e4e2]/10 md:p-2 md:text-[#f2f1ef]">
+                      <div className="mt-0.5 text-blue-100/75 transition group-hover:text-blue-100">
                         <Icon className="h-5 w-5" />
                       </div>
-                      <h4 className="text-base font-semibold text-white mb-2">{skill.name}</h4>
-                      <p className="text-sm leading-6 text-white/70">{skill.description}</p>
+                      <div>
+                        <h4 className="text-base font-semibold text-white mb-1.5">{skill.name}</h4>
+                        <p className="text-sm leading-6 text-white/70">{skill.description}</p>
+                      </div>
                     </div>
                   );
                 })}
@@ -1367,8 +1403,8 @@ export default function MattiKoenisOnepage() {
           id="portfolio"
           className="mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-32 lg:px-8 border-t border-[#e5e4e2]/30"
         >
-          <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
-            <div className="md:rounded-[2rem] md:border md:border-white/30 md:bg-white/8 md:p-8 md:backdrop-blur-sm transition md:hover:border-white/50 md:hover:bg-white/12">
+          <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16">
+            <div className="border-t border-[#e5e4e2]/25 pt-8">
               <p className="text-sm font-medium uppercase tracking-[0.28em] text-white/60">{t.portfolio.tag}</p>
               <h2 className="mt-4 text-4xl md:text-3xl font-bold md:font-semibold tracking-tight md:text-5xl text-[#e5e4e2] md:text-white font-serif md:font-sans">
                 {t.portfolio.title}
@@ -1378,15 +1414,15 @@ export default function MattiKoenisOnepage() {
               </p>
             </div>
 
-            <div className="grid gap-6">
-              <div className="md:rounded-[2rem] md:border md:border-white/30 md:bg-white/8 md:p-7 md:backdrop-blur-sm transition md:hover:border-white/50 md:hover:bg-white/12">
+            <div className="grid gap-0 border-t border-[#e5e4e2]/25">
+              <div className="border-b border-white/10 py-8">
                 <h3 className="text-4xl md:text-xl font-bold md:font-semibold text-[#e5e4e2] md:text-white font-serif md:font-sans">{t.portfolio.bringTitle}</h3>
                 <p className="mt-3 leading-7 text-white/75">
                   {t.portfolio.bringText}
                 </p>
               </div>
 
-              <div className="md:rounded-[2rem] md:border md:border-white/30 md:bg-white/8 md:p-7 md:backdrop-blur-sm transition md:hover:border-white/50 md:hover:bg-white/12">
+              <div className="border-b border-white/10 py-8">
                 <h3 className="text-4xl md:text-xl font-bold md:font-semibold text-[#e5e4e2] md:text-white font-serif md:font-sans">{t.portfolio.standTitle}</h3>
                 <p className="mt-3 leading-7 text-white/75">
                   {t.portfolio.standText}
@@ -1400,8 +1436,8 @@ export default function MattiKoenisOnepage() {
           id="contact"
           className="mx-auto max-w-7xl px-4 pb-20 pt-20 sm:px-6 md:pb-32 md:pt-32 lg:px-8 border-t border-[#e5e4e2]/30"
         >
-          <div className="md:overflow-hidden md:rounded-[2rem] md:border md:border-white/30 md:bg-white/8 md:backdrop-blur-sm">
-            <div className="grid gap-8 md:p-8 md:p-10 lg:grid-cols-[1.1fr_0.9fr] lg:p-12">
+          <div>
+            <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
               <div>
                 <p className="text-sm font-medium uppercase tracking-[0.28em] text-blue-200/70">{t.contact.tag}</p>
                 <h2 className="mt-4 text-4xl md:text-3xl font-bold md:font-semibold tracking-tight md:text-5xl text-[#e5e4e2] md:text-white font-serif md:font-sans">
@@ -1412,13 +1448,13 @@ export default function MattiKoenisOnepage() {
                 </p>
               </div>
 
-              <div className="grid gap-4 border-t md:border-0 border-[#e5e4e2]/30 pt-6 md:pt-0">
+              <div className="grid gap-3">
                 <a
                   href="mailto:matti@koenis.ch"
-                  className="group flex items-center justify-between rounded-[1.5rem] border border-white/30 bg-white/10 p-5 transition hover:border-white/60 hover:bg-white/20"
+                  className="group flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.035] px-5 py-4 transition hover:border-blue-200/35 hover:bg-blue-400/[0.06]"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="rounded-2xl bg-white/15 p-3 text-white">
+                    <div className="text-blue-100/75 transition group-hover:text-blue-100">
                       <Mail className="h-5 w-5" />
                     </div>
                     <div>
@@ -1433,10 +1469,10 @@ export default function MattiKoenisOnepage() {
                   href="https://github.com/matti24"
                   target="_blank"
                   rel="noreferrer"
-                  className="group flex items-center justify-between rounded-[1.5rem] border border-white/30 bg-white/10 p-5 transition hover:border-white/60 hover:bg-white/20"
+                  className="group flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.035] px-5 py-4 transition hover:border-blue-200/35 hover:bg-blue-400/[0.06]"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="rounded-2xl bg-white/15 p-3 text-white">
+                    <div className="text-blue-100/75 transition group-hover:text-blue-100">
                       <Github className="h-5 w-5" />
                     </div>
                     <div>
@@ -1451,10 +1487,10 @@ export default function MattiKoenisOnepage() {
                   href="https://www.linkedin.com/in/matti-koenis-4b6462334/"
                   target="_blank"
                   rel="noreferrer"
-                  className="group flex items-center justify-between rounded-[1.5rem] border border-white/30 bg-white/10 p-5 transition hover:border-white/60 hover:bg-white/20"
+                  className="group flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.035] px-5 py-4 transition hover:border-blue-200/35 hover:bg-blue-400/[0.06]"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="rounded-2xl bg-white/15 p-3 text-white">
+                    <div className="text-blue-100/75 transition group-hover:text-blue-100">
                       <Linkedin className="h-5 w-5" />
                     </div>
                     <div>
@@ -1467,9 +1503,6 @@ export default function MattiKoenisOnepage() {
               </div>
             </div>
 
-            <div className="border-t border-white/10 px-8 py-5 text-sm text-white/40 md:px-10 lg:px-12">
-              {t.footer.bottom}
-            </div>
           </div>
         </section>
       </main>
