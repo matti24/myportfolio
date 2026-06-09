@@ -84,8 +84,8 @@ const techCategoryLabels = {
 };
 
 const languageOptions = [
-  { code: "de", label: "DE — Deutsch" },
   { code: "en", label: "EN — English" },
+  { code: "de", label: "DE — Deutsch" },
   { code: "nl", label: "NL — Nederlands" },
   { code: "sv", label: "SV — Svenska" },
 ];
@@ -752,7 +752,7 @@ const translations = {
 };
 
 export default function MattiKoenisOnepage() {
-  const [activeLanguage, setActiveLanguage] = useState("de");
+  const [activeLanguage, setActiveLanguage] = useState("en");
   const t = translations[activeLanguage];
   const showChatWidget = true;
   const activeLanguageOption = languageOptions.find((option) => option.code === activeLanguage) || languageOptions[0];
