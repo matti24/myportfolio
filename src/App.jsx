@@ -1296,9 +1296,9 @@ export default function MattiKoenisOnepage() {
                               </div>
                               <div className="h-1.5 overflow-hidden rounded-full bg-white/8">
                                 <div
-                                  style={{ width: `${skill.value}%` }}
-                                  className="h-full rounded-full bg-gradient-to-r from-blue-200/70 to-[#e5e4e2]"
-                                />
+                              style={{ width: `${skill.value}%` }}
+                              className="h-full rounded-full bg-gradient-to-r from-[#e5e4e2] via-[#d8d8d6] to-[#f2f1ef]"
+                            />
                               </div>
                             </div>
                           ))}
