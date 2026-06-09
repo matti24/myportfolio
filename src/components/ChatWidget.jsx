@@ -14,9 +14,9 @@ const ChatWidget = ({ t, language }) => {
   const [isSending, setIsSending] = useState(false);
   const messagesEndRef = useRef(null);
   const REPSEND_CHANNEL_ID = "YOUR_CHANNEL_ID"; // Ersetze mit deiner Repsend Channel ID
-  const emailjsServiceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-  const emailjsTemplateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-  const emailjsPublicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+  const emailjsServiceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_icdpyyy";
+  const emailjsTemplateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "template_lhkxuip";
+  const emailjsPublicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "wwOYxb6uc1pR2r4j1";
 
   const safeTranslations = useMemo(
     () =>
@@ -133,6 +133,7 @@ const ChatWidget = ({ t, language }) => {
       addMessage("bot", safeTranslations.sendSuccess);
       setStep(4);
     } catch (error) {
+      console.error("EmailJS request failed:", error);
       addMessage("bot", safeTranslations.sendError);
     } finally {
       setIsSending(false);
