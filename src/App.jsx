@@ -20,6 +20,7 @@ import {
   BookOpen,
   Send,
 } from "lucide-react";
+import ChatWidget from "./components/ChatWidget";
 
 
 const profileImage = "DSC09470-removebg-preview.png";
@@ -207,6 +208,36 @@ const translations = {
       linkedinButton: "LinkedIn",
       bottom: "Matti Koenis · Applikationsentwickler in Ausbildung",
     },
+    chat: {
+      name: "Matti Koenis",
+      status: "Online",
+      buttonLabel: "Chat mit mir",
+      intro: "Hey! 👋 Woher kennst du mich?",
+      followUp: "Schön, dass du dich meldest! Was kann ich für dich tun?",
+      askName: "Alles klar! Wie heißt du?",
+      askEmail: "Schön, {name}! Und deine E-Mail-Adresse?",
+      thanks: "Danke! Ich melde mich so schnell wie möglich.",
+      sending: "Ich sende deine Anfrage…",
+      sendSuccess: "Danke! Deine Nachricht wurde gesendet.",
+      sendError: "Ups, das hat nicht geklappt. Bitte versuche es erneut.",
+      invalidEmail: "Bitte gib eine gültige E-Mail-Adresse ein.",
+      placeholderName: "Max Muster",
+      placeholderEmail: "max@test.muster",
+      quickRepliesIntro: [
+        "Teams / Swisscom intern",
+        "Wir haben uns getroffen",
+        "Via LinkedIn",
+        "Diese Website gefunden",
+        "Über eine Empfehlung",
+      ],
+      quickRepliesIntent: [
+        "Ich habe eine Frage",
+        "Projekt- / Zusammenarbeitsanfrage",
+        "Feedback zu deiner Arbeit",
+        "Einfach mal Netzwerken",
+        "Anderes",
+      ],
+    },
   },
   en: {
     nav: { about: "About", skills: "Skills", portfolio: "Portfolio", contact: "Contact" },
@@ -323,6 +354,36 @@ const translations = {
       linkedinButton: "LinkedIn",
       bottom: "Matti Koenis · Application developer apprentice",
     },
+    chat: {
+      name: "Matti Koenis",
+      status: "Online",
+      buttonLabel: "Chat with me",
+      intro: "Hey! 👋 How do you know me?",
+      followUp: "Nice to hear from you! What can I do for you?",
+      askName: "Got it! What's your name?",
+      askEmail: "Nice to meet you, {name}! What's your email address?",
+      thanks: "Thanks! I'll get back to you as soon as possible.",
+      sending: "Sending your request…",
+      sendSuccess: "Thanks! Your message has been sent.",
+      sendError: "Oops, something went wrong. Please try again.",
+      invalidEmail: "Please enter a valid email address.",
+      placeholderName: "John Doe",
+      placeholderEmail: "john@example.com",
+      quickRepliesIntro: [
+        "Teams / Swisscom internal",
+        "We met",
+        "Via LinkedIn",
+        "Found this website",
+        "By recommendation",
+      ],
+      quickRepliesIntent: [
+        "I have a question",
+        "Project / collaboration request",
+        "Feedback on your work",
+        "Just networking",
+        "Other",
+      ],
+    },
   },
   nl: {
     nav: { about: "Over mij", skills: "Vaardigheden", portfolio: "Portfolio", contact: "Contact" },
@@ -437,6 +498,36 @@ const translations = {
       emailButton: "E-mail sturen",
       linkedinButton: "LinkedIn",
       bottom: "Matti Koenis · Applicatieontwikkelaar in opleiding",
+    },
+    chat: {
+      name: "Matti Koenis",
+      status: "Online",
+      buttonLabel: "Chat met mij",
+      intro: "Hey! 👋 Waar ken je me van?",
+      followUp: "Leuk dat je contact opneemt! Waarmee kan ik je helpen?",
+      askName: "Helder! Hoe heet je?",
+      askEmail: "Leuk, {name}! Wat is je e-mailadres?",
+      thanks: "Dank je! Ik neem zo snel mogelijk contact met je op.",
+      sending: "Ik stuur je aanvraag…",
+      sendSuccess: "Dank je! Je bericht is verzonden.",
+      sendError: "Oeps, er ging iets mis. Probeer het opnieuw.",
+      invalidEmail: "Vul een geldig e-mailadres in.",
+      placeholderName: "Max Musters",
+      placeholderEmail: "max@example.com",
+      quickRepliesIntro: [
+        "Teams / Swisscom intern",
+        "We hebben elkaar ontmoet",
+        "Via LinkedIn",
+        "Deze website gevonden",
+        "Via een aanbeveling",
+      ],
+      quickRepliesIntent: [
+        "Ik heb een vraag",
+        "Project- / samenwerkingsaanvraag",
+        "Feedback op je werk",
+        "Even netwerken",
+        "Anders",
+      ],
     },
   },
   sv: {
@@ -554,12 +645,43 @@ const translations = {
       linkedinButton: "LinkedIn",
       bottom: "Matti Koenis · Applikationsutvecklare under utbildning",
     },
+    chat: {
+      name: "Matti Koenis",
+      status: "Online",
+      buttonLabel: "Chatta med mig",
+      intro: "Hej! 👋 Varifrån känner du mig?",
+      followUp: "Kul att du hör av dig! Vad kan jag hjälpa dig med?",
+      askName: "Toppen! Vad heter du?",
+      askEmail: "Kul, {name}! Vad är din e-postadress?",
+      thanks: "Tack! Jag hör av mig så snart som möjligt.",
+      sending: "Jag skickar din förfrågan…",
+      sendSuccess: "Tack! Ditt meddelande har skickats.",
+      sendError: "Hoppsan, något gick fel. Försök igen.",
+      invalidEmail: "Ange en giltig e-postadress.",
+      placeholderName: "Max Muster",
+      placeholderEmail: "max@example.com",
+      quickRepliesIntro: [
+        "Teams / Swisscom internt",
+        "Vi har träffats",
+        "Via LinkedIn",
+        "Hittade den här webbplatsen",
+        "Genom en rekommendation",
+      ],
+      quickRepliesIntent: [
+        "Jag har en fråga",
+        "Projekt- / samarbetsförfrågan",
+        "Feedback på ditt arbete",
+        "Bara nätverka",
+        "Annat",
+      ],
+    },
   },
 };
 
 export default function MattiKoenisOnepage() {
   const [activeLanguage, setActiveLanguage] = useState("de");
   const t = translations[activeLanguage];
+  const showChatWidget = false;
 
   const localizedLanguageLevels = t.about.languageLevels;
   const localizedHobbies = t.about.hobbies.map((name, idx) => ({
@@ -1173,6 +1295,8 @@ export default function MattiKoenisOnepage() {
           </div>
         </div>
       </footer>
+
+      {showChatWidget ? <ChatWidget t={t.chat} language={activeLanguage} /> : null}
     </div>
   );
 }
