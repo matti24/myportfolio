@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import { MessageCircle, Send, X } from "lucide-react";
 
@@ -12,6 +12,7 @@ const ChatWidget = ({ t, language }) => {
   const [visitorName, setVisitorName] = useState("");
   const [visitorEmail, setVisitorEmail] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const messagesEndRef = useRef(null);
   const REPSEND_CHANNEL_ID = "YOUR_CHANNEL_ID"; // Ersetze mit deiner Repsend Channel ID
   const emailjsServiceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
   const emailjsTemplateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
@@ -24,12 +25,12 @@ const ChatWidget = ({ t, language }) => {
         status: "Online",
         buttonLabel: "Chat mit mir",
         intro: "Hey! 👋 Woher kennst du mich?",
-        followUp: "Schön, dass du dich meldest! Was kann ich für dich tun?",
-        askName: "Alles klar! Wie heißt du?",
-        askEmail: "Schön, {name}! Und deine E-Mail-Adresse?",
-        thanks: "Danke! Ich melde mich so schnell wie möglich.",
+        followUp: "Schön, dass du dich meldest! Worum geht es bei deiner Anfrage?",
+        askName: "Damit ich dir persönlich antworten kann, wie heisst du?",
+        askEmail: "Danke, {name}. An welche E-Mail-Adresse darf ich meine Antwort senden?",
+        thanks: "Danke! Deine Angaben werden jetzt als E-Mail-Anfrage an mich gesendet.",
         sending: "Ich sende deine Anfrage…",
-        sendSuccess: "Danke! Deine Nachricht wurde gesendet.",
+        sendSuccess: "Danke! Deine Anfrage wurde per E-Mail an mich gesendet.",
         sendError: "Ups, das hat nicht geklappt. Bitte versuche es erneut.",
         invalidEmail: "Bitte gib eine gültige E-Mail-Adresse ein.",
         placeholderName: "Max Muster",
@@ -202,6 +203,14 @@ const ChatWidget = ({ t, language }) => {
     setMessages([{ id: "intro", from: "bot", text: safeTranslations.intro }]);
   }, [safeTranslations]);
 
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [messages, quickReplies, isOpen]);
+
   // Fallback Chat Widget
   if (showFallback) {
     return (
@@ -209,45 +218,55 @@ const ChatWidget = ({ t, language }) => {
         {!isOpen ? (
           <button
             onClick={() => setIsOpen(true)}
-            className="flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-3 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+            className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full border border-blue-300/40 bg-slate-950/85 px-5 py-3 text-white shadow-2xl shadow-blue-950/45 backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:border-blue-200/70 hover:bg-blue-500/15 hover:shadow-blue-500/25"
           >
-            <MessageCircle className="h-5 w-5" />
-            <span className="text-sm font-semibold">{safeTranslations.buttonLabel}</span>
+            <span className="absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-[#e5e4e2]/70 to-transparent" />
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-400/15 text-blue-100 ring-1 ring-blue-200/25 transition group-hover:bg-blue-400/25">
+              <MessageCircle className="h-[18px] w-[18px]" />
+            </span>
+            <span className="text-sm font-semibold tracking-wide text-[#f2f1ef]">{safeTranslations.buttonLabel}</span>
           </button>
         ) : (
-          <div className="w-80 h-96 rounded-2xl bg-slate-900 border border-white/10 shadow-2xl flex flex-col overflow-hidden">
+          <div className="flex h-[32rem] w-[22rem] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-950/92 text-white shadow-2xl shadow-blue-950/50 backdrop-blur-xl">
             {/* Header */}
-            <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-4 flex items-center justify-between">
+            <div className="relative flex items-center justify-between border-b border-white/10 bg-gradient-to-r from-blue-500/20 via-slate-900/95 to-blue-400/10 p-4">
+              <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-[#e5e4e2]/60 to-transparent" />
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                  <MessageCircle className="h-6 w-6 text-white" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-blue-200/25 bg-blue-400/15 text-blue-100 shadow-lg shadow-blue-500/10">
+                  <MessageCircle className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-white">{safeTranslations.name}</h3>
-                  <p className="text-xs text-blue-100">{safeTranslations.status}</p>
+                  <h3 className="text-sm font-semibold text-[#f2f1ef]">{safeTranslations.name}</h3>
+                  <p className="mt-0.5 flex items-center gap-1.5 text-xs text-blue-100/80">
+                    <span className="h-1.5 w-1.5 rounded-full bg-blue-300 shadow-[0_0_10px_rgba(147,197,253,0.9)]" />
+                    {safeTranslations.status}
+                  </p>
                 </div>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-white hover:bg-white/20 p-2 rounded-full transition"
+                className="rounded-full border border-white/10 bg-white/5 p-2 text-white/75 transition hover:border-blue-200/35 hover:bg-blue-400/10 hover:text-white"
+                aria-label="Chat schliessen"
               >
-                <X className="h-5 w-5" />
+                <X className="h-[18px] w-[18px]" />
               </button>
             </div>
 
             {/* Chat Area */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-950">
+            <div className="flex-1 space-y-4 overflow-y-auto bg-[linear-gradient(135deg,#020617_0%,#0f172a_55%,#111827_100%)] p-4">
               {messages.map((message) => (
                 <div
                   key={message.id}
                   className={message.from === "user" ? "flex justify-end" : "flex justify-start"}
                 >
                   <div
-                    className={`max-w-xs rounded-lg p-3 ${
-                      message.from === "user" ? "bg-blue-600" : "bg-slate-800"
+                    className={`max-w-[16rem] rounded-2xl px-3.5 py-3 text-sm leading-5 shadow-lg ${
+                      message.from === "user"
+                        ? "rounded-br-md border border-blue-300/35 bg-blue-500/20 text-blue-50 shadow-blue-950/25"
+                        : "rounded-bl-md border border-white/10 bg-white/[0.07] text-white/85 shadow-slate-950/30"
                     }`}
                   >
-                    <p className="text-sm text-white">{message.text}</p>
+                    <p>{message.text}</p>
                   </div>
                 </div>
               ))}
@@ -258,17 +277,18 @@ const ChatWidget = ({ t, language }) => {
                     <button
                       key={reply}
                       onClick={() => handleQuickReply(reply)}
-                      className="rounded-full border border-blue-400/40 bg-blue-500/10 px-3 py-1.5 text-xs font-medium text-blue-100 transition hover:border-blue-300/80 hover:bg-blue-500/20"
+                      className="rounded-full border border-blue-300/30 bg-blue-400/10 px-3 py-1.5 text-xs font-medium text-blue-100 transition hover:border-blue-200/70 hover:bg-blue-400/20 hover:text-white"
                     >
                       {reply}
                     </button>
                   ))}
                 </div>
               )}
+              <div ref={messagesEndRef} />
             </div>
 
             {/* Input Area */}
-            <form onSubmit={handleSubmit} className="border-t border-white/10 p-4 bg-slate-900">
+            <form onSubmit={handleSubmit} className="border-t border-white/10 bg-slate-950/95 p-4">
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -276,14 +296,14 @@ const ChatWidget = ({ t, language }) => {
                   onChange={(event) => setInputValue(event.target.value)}
                   placeholder={inputPlaceholder}
                   disabled={inputDisabled}
-                  className="flex-1 rounded-lg bg-slate-800 border border-white/10 px-3 py-2 text-sm text-white placeholder-white/50 focus:outline-none focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="min-w-0 flex-1 rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white outline-none transition placeholder:text-white/35 focus:border-blue-200/50 focus:bg-white/8 disabled:cursor-not-allowed disabled:opacity-50"
                 />
                 <button
                   type="submit"
                   disabled={inputDisabled}
-                  className="rounded-lg bg-blue-600 p-2 text-white hover:bg-blue-700 transition disabled:cursor-not-allowed disabled:opacity-60"
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-blue-300/35 bg-blue-500/20 text-blue-50 transition hover:border-blue-200/70 hover:bg-blue-500/30 disabled:cursor-not-allowed disabled:opacity-45"
                 >
-                  <Send className="h-5 w-5" />
+                  <Send className="h-[18px] w-[18px]" />
                 </button>
               </div>
             </form>

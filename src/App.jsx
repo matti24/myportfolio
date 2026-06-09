@@ -224,12 +224,12 @@ const translations = {
       status: "Online",
       buttonLabel: "Chat mit mir",
       intro: "Hey! 👋 Woher kennst du mich?",
-      followUp: "Schön, dass du dich meldest! Was kann ich für dich tun?",
-      askName: "Alles klar! Wie heißt du?",
-      askEmail: "Schön, {name}! Und deine E-Mail-Adresse?",
-      thanks: "Danke! Ich melde mich so schnell wie möglich.",
+      followUp: "Schön, dass du dich meldest! Worum geht es bei deiner Anfrage?",
+      askName: "Damit ich dir persönlich antworten kann, wie heisst du?",
+      askEmail: "Danke, {name}. An welche E-Mail-Adresse darf ich meine Antwort senden?",
+      thanks: "Danke! Deine Angaben werden jetzt als E-Mail-Anfrage an mich gesendet.",
       sending: "Ich sende deine Anfrage…",
-      sendSuccess: "Danke! Deine Nachricht wurde gesendet.",
+      sendSuccess: "Danke! Deine Anfrage wurde per E-Mail an mich gesendet.",
       sendError: "Ups, das hat nicht geklappt. Bitte versuche es erneut.",
       invalidEmail: "Bitte gib eine gültige E-Mail-Adresse ein.",
       placeholderName: "Max Muster",
@@ -380,12 +380,12 @@ const translations = {
       status: "Online",
       buttonLabel: "Chat with me",
       intro: "Hey! 👋 How do you know me?",
-      followUp: "Nice to hear from you! What can I do for you?",
-      askName: "Got it! What's your name?",
-      askEmail: "Nice to meet you, {name}! What's your email address?",
-      thanks: "Thanks! I'll get back to you as soon as possible.",
+      followUp: "Nice to hear from you! What is your request about?",
+      askName: "So I can reply to you personally, what's your name?",
+      askEmail: "Thanks, {name}. Which email address should I use to reply?",
+      thanks: "Thanks! Your details are now being sent to me as an email request.",
       sending: "Sending your request…",
-      sendSuccess: "Thanks! Your message has been sent.",
+      sendSuccess: "Thanks! Your request has been sent to me by email.",
       sendError: "Oops, something went wrong. Please try again.",
       invalidEmail: "Please enter a valid email address.",
       placeholderName: "John Doe",
@@ -535,12 +535,12 @@ const translations = {
       status: "Online",
       buttonLabel: "Chat met mij",
       intro: "Hey! 👋 Waar ken je me van?",
-      followUp: "Leuk dat je contact opneemt! Waarmee kan ik je helpen?",
-      askName: "Helder! Hoe heet je?",
-      askEmail: "Leuk, {name}! Wat is je e-mailadres?",
-      thanks: "Dank je! Ik neem zo snel mogelijk contact met je op.",
+      followUp: "Leuk dat je contact opneemt! Waar gaat je aanvraag over?",
+      askName: "Zodat ik je persoonlijk kan antwoorden: hoe heet je?",
+      askEmail: "Dank je, {name}. Naar welk e-mailadres mag ik mijn antwoord sturen?",
+      thanks: "Dank je! Je gegevens worden nu als e-mailaanvraag naar mij verzonden.",
       sending: "Ik stuur je aanvraag…",
-      sendSuccess: "Dank je! Je bericht is verzonden.",
+      sendSuccess: "Dank je! Je aanvraag is per e-mail naar mij verzonden.",
       sendError: "Oeps, er ging iets mis. Probeer het opnieuw.",
       invalidEmail: "Vul een geldig e-mailadres in.",
       placeholderName: "Max Musters",
@@ -691,12 +691,12 @@ const translations = {
       status: "Online",
       buttonLabel: "Chatta med mig",
       intro: "Hej! 👋 Varifrån känner du mig?",
-      followUp: "Kul att du hör av dig! Vad kan jag hjälpa dig med?",
-      askName: "Toppen! Vad heter du?",
-      askEmail: "Kul, {name}! Vad är din e-postadress?",
-      thanks: "Tack! Jag hör av mig så snart som möjligt.",
+      followUp: "Kul att du hör av dig! Vad handlar din förfrågan om?",
+      askName: "Så att jag kan svara dig personligen, vad heter du?",
+      askEmail: "Tack, {name}. Vilken e-postadress ska jag svara till?",
+      thanks: "Tack! Dina uppgifter skickas nu till mig som en e-postförfrågan.",
       sending: "Jag skickar din förfrågan…",
-      sendSuccess: "Tack! Ditt meddelande har skickats.",
+      sendSuccess: "Tack! Din förfrågan har skickats till mig via e-post.",
       sendError: "Hoppsan, något gick fel. Försök igen.",
       invalidEmail: "Ange en giltig e-postadress.",
       placeholderName: "Max Muster",
@@ -722,7 +722,7 @@ const translations = {
 export default function MattiKoenisOnepage() {
   const [activeLanguage, setActiveLanguage] = useState("de");
   const t = translations[activeLanguage];
-  const showChatWidget = false;
+  const showChatWidget = true;
 
   const localizedLanguageLevels = t.about.languageLevels;
   const localizedHobbies = t.about.hobbies.map((name, idx) => ({
@@ -1028,7 +1028,7 @@ export default function MattiKoenisOnepage() {
               </div>
             </div>
 
-            {/* Mitte: Großes Bild */}
+            {/* Mitte: Grosses Bild */}
             <div
               className="relative order-first group flex justify-center lg:order-none"
             >
