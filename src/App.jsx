@@ -122,7 +122,7 @@ const translations = {
       badge: "Applikationsentwickler",
       lines: ["Matti"],
       description:
-        "Ich schreibe nicht einfach Code. Ich verstehe zuerst das Problem und entwickle dann eine saubere, praktische Lösung.",
+        "Präzision im Code. Perfektion im Ergebnis.",
       ctaPortfolio: "Portfolio ansehen",
       ctaContact: "Kontakt aufnehmen",
       cards: {
@@ -282,7 +282,7 @@ const translations = {
       badge: "Software developer ",
       lines: ["Matti"],
       description:
-        "I do not just write code. I understand the problem first, then build a clean and practical solution.",
+        "Transforming your ideas into reliable software.",
       ctaPortfolio: "View portfolio",
       ctaContact: "Get in touch",
       cards: {
@@ -440,7 +440,7 @@ const translations = {
       badge: "Applicatieontwikkelaar",
       lines: ["Matti"],
       description:
-        "Ik schrijf niet zomaar code. Ik begrijp eerst het probleem en bouw daarna een nette, praktische oplossing.",
+        "De mens achter de code.",
       ctaPortfolio: "Bekijk portfolio",
       ctaContact: "Neem contact op",
       cards: {
@@ -597,7 +597,7 @@ const translations = {
       badge: "Applikationsutvecklare",
       lines: ["Matti"],
       description:
-        "Jag skriver inte bara kod. Jag förstår problemet först och bygger sedan en ren, praktisk lösning.",
+        "Från idé till digital verklighet.",
       ctaPortfolio: "Se portfolio",
       ctaContact: "Kontakta mig",
       cards: {
