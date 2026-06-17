@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import { MessageCircle, Send, X } from "lucide-react";
 
-const ChatWidget = ({ t, language }) => {
+const ChatWidget = ({ t, language, openSignal }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [showFallback, setShowFallback] = useState(false);
@@ -36,6 +36,8 @@ const ChatWidget = ({ t, language }) => {
         invalidEmail: "Bitte gib eine gültige E-Mail-Adresse ein.",
         placeholderName: "Max Muster",
         placeholderEmail: "max@test.muster",
+        placeholderOrigin: "Oder frei eintippen…",
+        placeholderIntent: "Oder frei eintippen…",
         quickRepliesIntro: [
           "Teams / Swisscom intern",
           "Wir haben uns getroffen",
@@ -151,6 +153,20 @@ const ChatWidget = ({ t, language }) => {
     addMessage("user", value);
     setInputValue("");
 
+    if (step === 0) {
+      setOrigin(value);
+      addMessage("bot", safeTranslations.followUp);
+      setStep(1);
+      return;
+    }
+
+    if (step === 1) {
+      setIntent(value);
+      addMessage("bot", safeTranslations.askName);
+      setStep(2);
+      return;
+    }
+
     if (step === 2) {
       setVisitorName(value);
       addMessage("bot", safeTranslations.askEmail.replace("{name}", value));
@@ -188,18 +204,30 @@ const ChatWidget = ({ t, language }) => {
         : [];
 
   const inputPlaceholder =
-    step === 2
-      ? safeTranslations.placeholderName
-      : step === 3
-        ? safeTranslations.placeholderEmail
-        : "";
-  const inputDisabled = isSending || step < 2 || step > 3;
+    step === 0
+      ? safeTranslations.placeholderOrigin
+      : step === 1
+        ? safeTranslations.placeholderIntent
+        : step === 2
+          ? safeTranslations.placeholderName
+          : step === 3
+            ? safeTranslations.placeholderEmail
+            : "";
+  const inputMaxLength = step === 0 || step === 1 ? 100 : undefined;
+  const inputDisabled = isSending || step < 0 || step > 3;
   const showPanel = isOpen || isClosing;
 
   const openChat = () => {
     setIsClosing(false);
     setIsOpen(true);
   };
+
+  useEffect(() => {
+    if (openSignal) {
+      setIsClosing(false);
+      setIsOpen(true);
+    }
+  }, [openSignal]);
 
   const closeChat = () => {
     setIsClosing(true);
@@ -355,6 +383,7 @@ const ChatWidget = ({ t, language }) => {
                   onChange={(event) => setInputValue(event.target.value)}
                   placeholder={inputPlaceholder}
                   disabled={inputDisabled}
+                  maxLength={inputMaxLength}
                   className="min-w-0 flex-1 rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-base text-white outline-none transition placeholder:text-white/35 focus:border-blue-200/50 focus:bg-white/8 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm"
                 />
                 <button

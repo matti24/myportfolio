@@ -262,6 +262,8 @@ const translations = {
       invalidEmail: "Bitte gib eine gültige E-Mail-Adresse ein.",
       placeholderName: "Max Muster",
       placeholderEmail: "max@test.muster",
+      placeholderOrigin: "Oder frei eintippen…",
+      placeholderIntent: "Oder frei eintippen…",
       quickRepliesIntro: [
         "Teams / Swisscom intern",
         "Wir haben uns getroffen",
@@ -420,6 +422,8 @@ const translations = {
       invalidEmail: "Please enter a valid email address.",
       placeholderName: "John Doe",
       placeholderEmail: "john@example.com",
+      placeholderOrigin: "Or type freely…",
+      placeholderIntent: "Or type freely…",
       quickRepliesIntro: [
         "Teams / Swisscom internal",
         "We met",
@@ -577,6 +581,8 @@ const translations = {
       invalidEmail: "Vul een geldig e-mailadres in.",
       placeholderName: "Max Musters",
       placeholderEmail: "max@example.com",
+      placeholderOrigin: "Of typ vrij…",
+      placeholderIntent: "Of typ vrij…",
       quickRepliesIntro: [
         "Teams / Swisscom intern",
         "We hebben elkaar ontmoet",
@@ -735,6 +741,8 @@ const translations = {
       invalidEmail: "Ange en giltig e-postadress.",
       placeholderName: "Max Muster",
       placeholderEmail: "max@example.com",
+      placeholderOrigin: "Eller skriv fritt…",
+      placeholderIntent: "Eller skriv fritt…",
       quickRepliesIntro: [
         "Teams / Swisscom internt",
         "Vi har träffats",
@@ -757,6 +765,7 @@ export default function MattiKoenisOnepage() {
   const [activeLanguage, setActiveLanguage] = useState("en");
   const t = translations[activeLanguage];
   const showChatWidget = true;
+  const [chatOpenSignal, setChatOpenSignal] = useState(0);
   const activeLanguageOption = languageOptions.find((option) => option.code === activeLanguage) || languageOptions[0];
 
   const localizedLanguageLevels = t.about.languageLevels;
@@ -1068,14 +1077,14 @@ export default function MattiKoenisOnepage() {
               <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center lg:justify-start">
                 <a
                   href="#portfolio"
-                  className="group inline-flex items-center justify-center gap-2 rounded-full border border-white bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition hover:border-blue-100 hover:bg-blue-50"
+                  className="group inline-flex items-center justify-center gap-2 rounded-full border border-white/35 bg-white/8 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:border-white/60 hover:bg-white/15"
                 >
                   {t.hero.ctaPortfolio}
                   <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
                 </a>
                 <a
                   href="#contact"
-                  className="group inline-flex items-center justify-center gap-2 rounded-full border border-white/35 bg-white/8 px-6 py-3 text-sm font-semibold text-white transition hover:border-blue-200/55 hover:bg-blue-400/10"
+                  className="group inline-flex items-center justify-center gap-2 rounded-full border border-white/35 bg-white/8 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:border-white/60 hover:bg-white/15"
                 >
                   {t.hero.ctaContact}
                   <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
@@ -1524,9 +1533,10 @@ export default function MattiKoenisOnepage() {
             </p>
             <div className="flex flex-row flex-wrap items-center gap-4 justify-center">
               <LiquidMetalButton
-                href="mailto:matti@koenis.ch"
-                label={t.footer.emailButton}
-                icon={<Mail className="h-5 w-5" />}
+                label={t.chat.buttonLabel}
+                icon={<MessageCircle className="h-5 w-5" />}
+                onClick={() => setChatOpenSignal((s) => s + 1)}
+                ariaLabel={t.chat.buttonLabel}
                 speed={0.5}
                 angle={20}
                 offsetX={0.15}
@@ -1550,7 +1560,7 @@ export default function MattiKoenisOnepage() {
         </div>
       </footer>
 
-      {showChatWidget ? <ChatWidget t={t.chat} language={activeLanguage} /> : null}
+      {showChatWidget ? <ChatWidget t={t.chat} language={activeLanguage} openSignal={chatOpenSignal} /> : null}
     </div>
   );
 }
