@@ -5,4 +5,14 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   base: '/',
   plugins: [react(), tailwindcss()],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          three: ['three'],
+          shaders: ['@paper-design/shaders'],
+        },
+      },
+    },
+  },
 })

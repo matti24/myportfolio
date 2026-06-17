@@ -118,15 +118,50 @@ export function WebGLShader() {
       refs.animationId = requestAnimationFrame(animate);
     };
 
+    let isVisible = true;
+    let isPageVisible = !document.hidden;
+
+    const startLoop = () => {
+      if (refs.animationId == null && isVisible && isPageVisible) {
+        refs.animationId = requestAnimationFrame(animate);
+      }
+    };
+
+    const stopLoop = () => {
+      if (refs.animationId != null) {
+        cancelAnimationFrame(refs.animationId);
+        refs.animationId = null;
+      }
+    };
+
     initScene();
-    animate();
+    startLoop();
+
+    const intersectionObserver = new IntersectionObserver(
+      (entries) => {
+        isVisible = entries[0]?.isIntersecting ?? true;
+        if (isVisible) startLoop();
+        else stopLoop();
+      },
+      { threshold: 0 }
+    );
+    intersectionObserver.observe(canvas);
+
+    const handleVisibilityChange = () => {
+      isPageVisible = !document.hidden;
+      if (isPageVisible) startLoop();
+      else stopLoop();
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     const resizeObserver = new ResizeObserver(handleResize);
     if (canvas.parentElement) resizeObserver.observe(canvas.parentElement);
     window.addEventListener("resize", handleResize);
 
     return () => {
-      if (refs.animationId) cancelAnimationFrame(refs.animationId);
+      stopLoop();
+      intersectionObserver.disconnect();
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       resizeObserver.disconnect();
       window.removeEventListener("resize", handleResize);
       if (refs.mesh) {

@@ -94,6 +94,40 @@ export function LiquidMetalButton({
     };
   }, []);
 
+  // Shader pausieren, wenn der Button nicht sichtbar ist oder der Tab im Hintergrund läuft (spart GPU/CPU, keine sichtbare Änderung).
+  useEffect(() => {
+    const el = shaderRef.current;
+    if (!el) return;
+
+    let isVisible = true;
+    let isPageVisible = !document.hidden;
+
+    const apply = () => {
+      const active = isVisible && isPageVisible;
+      shaderMount.current?.setSpeed?.(active ? speed : 0);
+    };
+
+    const intersectionObserver = new IntersectionObserver(
+      (entries) => {
+        isVisible = entries[0]?.isIntersecting ?? true;
+        apply();
+      },
+      { threshold: 0 }
+    );
+    intersectionObserver.observe(el);
+
+    const handleVisibilityChange = () => {
+      isPageVisible = !document.hidden;
+      apply();
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      intersectionObserver.disconnect();
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [speed]);
+
   const handleMouseEnter = () => {
     setIsHovered(true);
     shaderMount.current?.setSpeed?.(1);
