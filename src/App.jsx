@@ -25,6 +25,8 @@ import {
   Minus,
 } from "lucide-react";
 import ChatWidget from "./components/ChatWidget";
+import { WebGLShader } from "./components/ui/web-gl-shader";
+import { LiquidMetalButton } from "./components/ui/liquid-metal-button";
 
 
 const profileImage = "DSC09470-removebg-preview.png";
@@ -1031,10 +1033,12 @@ export default function MattiKoenisOnepage() {
       <main id="top">
         <section className="relative overflow-hidden">
           <div className="pointer-events-none absolute inset-0">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_73%_42%,rgba(96,165,250,0.16),transparent_28%),radial-gradient(circle_at_20%_58%,rgba(229,228,226,0.06),transparent_26%),linear-gradient(180deg,rgba(15,23,42,0)_0%,rgba(15,23,42,0.76)_100%)]" />
+            <WebGLShader />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_73%_42%,rgba(96,165,250,0.16),transparent_28%),radial-gradient(circle_at_20%_58%,rgba(229,228,226,0.06),transparent_26%),linear-gradient(180deg,rgba(15,23,42,0.25)_0%,rgba(15,23,42,0.55)_100%)]" />
             <div className="absolute right-[-8rem] top-20 h-[34rem] w-[34rem] rounded-full border border-blue-200/10 bg-blue-400/[0.035] blur-3xl" />
             <div className="absolute left-[-10rem] bottom-0 h-[24rem] w-[24rem] rounded-full bg-white/[0.035] blur-3xl" />
-            <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent via-slate-950/70 to-slate-950" />
+            <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-slate-950 via-slate-950/70 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-b from-transparent via-slate-950/70 to-slate-950" />
           </div>
           <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid w-full items-center gap-10 sm:gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,0.82fr)]">
@@ -1518,23 +1522,29 @@ export default function MattiKoenisOnepage() {
             <p className="text-lg text-white/70 mb-12 max-w-2xl mx-auto">
               {t.footer.description}
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
+            <div className="flex flex-row flex-wrap items-center gap-4 justify-center">
+              <LiquidMetalButton
                 href="mailto:matti@koenis.ch"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-white bg-white px-8 py-4 text-base font-semibold text-slate-950 transition hover:border-blue-100 hover:bg-blue-50"
-              >
-                <Mail className="h-5 w-5" />
-                {t.footer.emailButton}
-              </a>
-              <a
+                label={t.footer.emailButton}
+                icon={<Mail className="h-5 w-5" />}
+                speed={0.5}
+                angle={20}
+                offsetX={0.15}
+                offsetY={-0.05}
+                frame={0}
+              />
+              <LiquidMetalButton
                 href="https://www.linkedin.com/in/matti-koenis-4b6462334/"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-8 py-4 text-base font-semibold text-white transition hover:border-blue-400/40 hover:bg-blue-500/10"
-              >
-                <Linkedin className="h-5 w-5" />
-                {t.footer.linkedinButton}
-              </a>
+                label={t.footer.linkedinButton}
+                icon={<Linkedin className="h-5 w-5" />}
+                speed={0.85}
+                angle={200}
+                offsetX={-0.3}
+                offsetY={0.25}
+                frame={9000}
+              />
             </div>
           </div>
         </div>
