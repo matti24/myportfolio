@@ -11,6 +11,7 @@ import {
   Dumbbell,
   Trophy,
   Snowflake,
+  Footprints,
   Users,
   MessageCircle,
   Handshake,
@@ -113,7 +114,7 @@ const getTeamHaloPeriod = (language) => {
   }[language];
 };
 
-const hobbyIcons = [Trophy, Dumbbell, Snowflake];
+const hobbyIcons = [Trophy, Dumbbell, Snowflake, Footprints];
 const highlightIcons = [Briefcase, Languages, Code2];
 const socialSkillIcons = [Users, Handshake, MessageCircle, Target, Lightbulb];
 
@@ -153,7 +154,7 @@ const translations = {
         { name: "Englisch", level: 80, flag: "🇬🇧" },
         { name: "Schwedisch", level: 70, flag: "🇸🇪" },
       ],
-      hobbies: ["Tennis", "Fitness", "Skifahren"],
+      hobbies: ["Tennis", "Fitness", "Skifahren", "Joggen"],
       highlights: [
         {
           title: "Applikationsentwickler in Ausbildung",
@@ -314,7 +315,7 @@ const translations = {
         { name: "English", level: 80, flag: "🇬🇧" },
         { name: "Swedish", level: 70, flag: "🇸🇪" },
       ],
-      hobbies: ["Tennis", "Gym", "Skiing"],
+      hobbies: ["Tennis", "Gym", "Skiing", "Running"],
       highlights: [
         {
           title: "Application developer apprentice",
@@ -474,7 +475,7 @@ const translations = {
         { name: "Engels", level: 80, flag: "🇬🇧" },
         { name: "Zweeds", level: 70, flag: "🇸🇪" },
       ],
-      hobbies: ["Tennis", "Fitness", "Skiën"],
+      hobbies: ["Tennis", "Fitness", "Skiën", "Hardlopen"],
       highlights: [
         {
           title: "Applicatieontwikkelaar in opleiding",
@@ -633,7 +634,7 @@ const translations = {
         { name: "Engelska", level: 80, flag: "🇬🇧" },
         { name: "Svenska", level: 70, flag: "🇸🇪" },
       ],
-      hobbies: ["Tennis", "Fitness", "Skidåkning"],
+      hobbies: ["Tennis", "Fitness", "Skidåkning", "Löpning"],
       highlights: [
         {
           title: "Applikationsutvecklare under utbildning",
@@ -1186,18 +1187,20 @@ export default function MattiKoenisOnepage() {
 
               <div>
                 <h3 className="mb-6 text-4xl md:text-sm font-bold md:font-semibold uppercase tracking-[0.12em] text-[#e5e4e2] md:text-blue-200/70 font-serif md:font-sans">{t.about.hobbiesTitle}</h3>
-                <div className="grid grid-cols-3 gap-4 md:gap-3 pt-2">
+                <div className="grid grid-cols-2 gap-4 md:gap-3 pt-2">
                   {localizedHobbies.map((hobby, idx) => {
                     const Icon = hobby.icon;
                     const borderClasses = [
-                      "bg-blue-400/[0.08] hover:bg-blue-400/[0.14]",
+                      "bg-green-400/[0.08] hover:bg-green-400/[0.14]",
                       "bg-blue-400/[0.07] hover:bg-blue-400/[0.12]",
-                      "bg-white/8 hover:bg-white/12"
+                      "bg-white/8 hover:bg-white/12",
+                      "bg-cyan-400/[0.07] hover:bg-cyan-400/[0.12]"
                     ];
                     const iconClasses = [
-                      "text-blue-300 group-hover:text-blue-100",
+                      "text-green-300 group-hover:text-green-100",
                       "text-cyan-300 group-hover:text-cyan-100",
-                      "text-white/70 group-hover:text-white"
+                      "text-white/70 group-hover:text-white",
+                      "text-sky-300 group-hover:text-sky-100"
                     ];
                     
                     return (
@@ -1305,7 +1308,6 @@ export default function MattiKoenisOnepage() {
                                   </span>
                                   <span className="truncate font-medium text-white/90">{skill.name}</span>
                                 </div>
-                                <span className="text-xs text-white/50">{skill.value}%</span>
                               </div>
                               <div className="h-1.5 overflow-hidden rounded-full bg-white/8">
                                 <div
