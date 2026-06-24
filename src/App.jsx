@@ -24,6 +24,7 @@ import {
   X,
   Maximize2,
   Minus,
+  Menu,
 } from "lucide-react";
 import ChatWidget from "./components/ChatWidget";
 import { WebGLShader } from "./components/ui/web-gl-shader";
@@ -767,7 +768,19 @@ export default function MattiKoenisOnepage() {
   const t = translations[activeLanguage];
   const showChatWidget = true;
   const [chatOpenSignal, setChatOpenSignal] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
   const activeLanguageOption = languageOptions.find((option) => option.code === activeLanguage) || languageOptions[0];
+
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
 
   const localizedLanguageLevels = t.about.languageLevels;
   const localizedHobbies = t.about.hobbies.map((name, idx) => ({
@@ -967,18 +980,82 @@ export default function MattiKoenisOnepage() {
                 <span className="absolute bottom-0 left-0 w-0 h-px bg-gradient-to-r from-[#f2f1ef] to-[#d8d8d6] group-hover:w-full transition-all duration-300" />
               </a>
             </nav>
+
+            <button
+              type="button"
+              aria-label="Menü öffnen"
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen(true)}
+              className="group relative flex h-11 w-11 items-center justify-center rounded-xl border border-white/15 bg-white/5 text-white/85 backdrop-blur-sm transition hover:border-[#e5e4e2]/50 hover:bg-white/10 hover:text-[#f2f1ef] md:hidden"
+            >
+              <span className="absolute inset-x-2 top-0 h-px bg-gradient-to-r from-transparent via-[#e5e4e2]/45 to-transparent" />
+              <Menu className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Burger-Menü */}
+      <div
+        className={`fixed inset-0 z-50 md:hidden ${menuOpen ? "pointer-events-auto" : "pointer-events-none"}`}
+        aria-hidden={!menuOpen}
+      >
+        <div
+          onClick={() => setMenuOpen(false)}
+          className={`absolute inset-0 bg-slate-950/70 backdrop-blur-sm transition-opacity duration-300 ${menuOpen ? "opacity-100" : "opacity-0"}`}
+        />
+
+        <div
+          className={`absolute right-0 top-0 flex h-full w-[80%] max-w-xs flex-col border-l border-white/10 bg-slate-950/95 shadow-2xl shadow-black/50 backdrop-blur-xl transition-transform duration-300 ease-out ${menuOpen ? "translate-x-0" : "translate-x-full"}`}
+        >
+          <div className="absolute inset-y-0 left-0 w-px bg-gradient-to-b from-transparent via-[#e5e4e2]/40 to-transparent" />
+
+          <div className="flex items-center justify-between border-b border-white/10 px-6 py-5">
+            <span className="text-xs font-semibold uppercase tracking-[0.24em] bg-gradient-to-r from-white to-[#d8d8d6] bg-clip-text text-transparent">
+              Menü
+            </span>
+            <button
+              type="button"
+              aria-label="Menü schließen"
+              onClick={() => setMenuOpen(false)}
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/15 bg-white/5 text-white/80 transition hover:border-[#e5e4e2]/50 hover:bg-white/10 hover:text-[#f2f1ef]"
+            >
+              <X className="h-4 w-4" />
+            </button>
           </div>
 
-          <div className="mt-3 md:hidden">
-            <div className="relative overflow-hidden rounded-xl border border-white/15 bg-white/5 shadow-lg shadow-slate-950/20 backdrop-blur-sm transition focus-within:border-blue-200/50">
+          <nav className="flex flex-col gap-1.5 px-4 py-6">
+            {[
+              { href: "#about", label: t.nav.about, icon: User },
+              { href: "#skills", label: t.nav.skills, icon: Code2 },
+              { href: "#portfolio", label: t.nav.portfolio, icon: Briefcase },
+              { href: "#contact", label: t.nav.contact, icon: Send },
+            ].map(({ href, label, icon: Icon }) => (
+              <a
+                key={href}
+                href={href}
+                onClick={() => setMenuOpen(false)}
+                className="group relative flex items-center gap-4 overflow-hidden rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3.5 text-white/85 transition duration-300 hover:border-[#e5e4e2]/40 hover:bg-white/[0.07] hover:text-[#f2f1ef]"
+              >
+                <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white/70 transition group-hover:border-[#e5e4e2]/40 group-hover:text-[#f2f1ef]">
+                  <Icon className="h-4 w-4" />
+                </span>
+                <span className="text-sm font-semibold tracking-wide">{label}</span>
+                <ArrowRight className="ml-auto h-4 w-4 -translate-x-1 text-white/30 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:text-[#e5e4e2]/70 group-hover:opacity-100" />
+              </a>
+            ))}
+          </nav>
+
+          <div className="mt-auto border-t border-white/10 px-4 py-6">
+            <div className="relative overflow-hidden rounded-xl border border-white/12 bg-white/[0.04] shadow-lg shadow-slate-950/20 transition focus-within:border-[#e5e4e2]/45">
               <div className="absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-[#e5e4e2]/45 to-transparent" />
               <div className="pointer-events-none flex items-center justify-between gap-3 px-4 py-3">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-blue-200/20 bg-blue-400/10 text-blue-100">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white/75">
                     <Languages className="h-4 w-4" />
                   </span>
                   <div className="min-w-0">
-                    <p className="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-blue-200/60">Sprache</p>
+                    <p className="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-white/45">Sprache</p>
                     <p className="truncate text-sm font-semibold text-[#f2f1ef]">{activeLanguageOption.label}</p>
                   </div>
                 </div>
@@ -998,47 +1075,8 @@ export default function MattiKoenisOnepage() {
               </select>
             </div>
           </div>
-
-          <nav className="mt-3 grid grid-cols-4 gap-2.5 md:hidden">
-            <a 
-              href="#about" 
-              className="group relative overflow-hidden rounded-xl border border-blue-200/25 bg-white/[0.045] px-2 py-3 text-center font-semibold text-blue-100 transition duration-300 hover:border-blue-200/60 hover:bg-blue-400/10"
-            >
-              <div className="flex flex-col items-center gap-1">
-                <User className="h-4 w-4" />
-                <span className="text-xs">{t.nav.about}</span>
-              </div>
-            </a>
-            <a 
-              href="#skills" 
-              className="group relative overflow-hidden rounded-xl border border-blue-200/20 bg-white/[0.04] px-2 py-3 text-center font-semibold text-white/85 transition duration-300 hover:border-blue-200/55 hover:bg-blue-400/10 hover:text-blue-100"
-            >
-              <div className="flex flex-col items-center gap-1">
-                <Code2 className="h-4 w-4" />
-                <span className="text-xs">{t.nav.skills}</span>
-              </div>
-            </a>
-            <a 
-              href="#portfolio" 
-              className="group relative overflow-hidden rounded-xl border border-blue-200/20 bg-white/[0.04] px-2 py-3 text-center font-semibold text-white/85 transition duration-300 hover:border-blue-200/55 hover:bg-blue-400/10 hover:text-blue-100"
-            >
-              <div className="flex flex-col items-center gap-1">
-                <Briefcase className="h-4 w-4" />
-                <span className="text-xs">{t.nav.portfolio}</span>
-              </div>
-            </a>
-            <a 
-              href="#contact" 
-              className="group relative overflow-hidden rounded-xl border border-[#e5e4e2]/30 bg-[#e5e4e2]/10 px-2 py-3 text-center font-semibold text-[#f2f1ef] transition duration-300 hover:border-[#e5e4e2]/60 hover:bg-[#e5e4e2]/15"
-            >
-              <div className="flex flex-col items-center gap-1">
-                <Send className="h-4 w-4" />
-                <span className="text-xs">{t.nav.contact}</span>
-              </div>
-            </a>
-          </nav>
         </div>
-      </header>
+      </div>
 
       <main id="top">
         <section className="relative overflow-hidden">
