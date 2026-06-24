@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import { MessageCircle, Send, X } from "lucide-react";
 
-const ChatWidget = ({ t, language, openSignal }) => {
+const ChatWidget = ({ t, language, openSignal, tucked }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [showFallback, setShowFallback] = useState(false);
@@ -258,7 +258,7 @@ const ChatWidget = ({ t, language, openSignal }) => {
   // Fallback Chat Widget
   if (showFallback) {
     return (
-      <div className={`fixed bottom-4 z-50 ${showPanel ? "inset-x-4 sm:inset-x-auto sm:right-4" : "right-4"}`}>
+      <div className={`fixed bottom-4 z-50 transition-transform duration-[600ms] ease-[cubic-bezier(0.83,0,0.17,1)] ${tucked && !showPanel ? "translate-x-[160%]" : "translate-x-0"} ${showPanel ? "inset-x-4 sm:inset-x-auto sm:right-4" : "right-4"}`}>
         <style>{`
           .chat-panel-open {
             animation: chatPanelEnter 280ms cubic-bezier(0.16, 1, 0.3, 1) both;

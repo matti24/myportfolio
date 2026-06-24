@@ -789,7 +789,7 @@ function ProjectCard({ exp, index, total, articleStyle, contentStyle }) {
       {/* linke Akzentkante */}
       <div className="pointer-events-none absolute inset-y-0 left-0 w-[2px] bg-gradient-to-b from-transparent via-[#e5e4e2]/70 to-transparent" />
 
-      <motion.div style={contentStyle} className="relative z-10 p-6 sm:p-9">
+      <motion.div style={contentStyle} className="relative z-10 p-5 sm:p-9">
         {/* Kopfzeile: Index + Ort */}
         <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-4 sm:pb-5">
           <span className="font-mono text-xs tracking-[0.3em] text-white/40">
@@ -802,7 +802,7 @@ function ProjectCard({ exp, index, total, articleStyle, contentStyle }) {
           </span>
         </div>
 
-        <p className="mt-6 text-[11px] font-semibold uppercase tracking-[0.3em] text-blue-200/55 sm:mt-8">
+        <p className="mt-5 text-[11px] font-semibold uppercase tracking-[0.3em] text-blue-200/55 sm:mt-8">
           {exp.period}
         </p>
         <h3 className="mt-3 text-[1.55rem] font-semibold leading-[1.1] tracking-tight text-white sm:mt-4 sm:text-[2.85rem] sm:leading-[1.05]">
@@ -813,7 +813,7 @@ function ProjectCard({ exp, index, total, articleStyle, contentStyle }) {
         </p>
 
         {/* Skills als schlichte, eckige Chips */}
-        <div className="mt-7 flex flex-wrap gap-2 sm:mt-9">
+        <div className="mt-6 flex flex-wrap gap-2 sm:mt-9">
           {exp.skills.map((skill) => (
             <span
               key={skill}
@@ -877,7 +877,7 @@ function MobileProjectSlider({ experiences, activeSlide, total, tag, overview })
   return (
     <div className="absolute inset-0 flex flex-col overflow-hidden md:hidden">
       {/* Statisches Intro oben: macht klar, dass dies meine absolvierten & aktuellen Projekte sind */}
-      <div className="shrink-0 px-5 pt-20 text-center">
+      <div className="shrink-0 pl-10 pr-5 pt-16 text-center">
         <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-blue-200/70">
           {tag}
         </p>
@@ -885,7 +885,7 @@ function MobileProjectSlider({ experiences, activeSlide, total, tag, overview })
       </div>
 
       {/* Projekt-Box: zentriert im flexiblen Mittelbereich */}
-      <div className="flex min-h-0 flex-1 items-center justify-center px-5 py-5">
+      <div className="flex min-h-0 flex-1 items-center justify-center pl-10 pr-5 pb-2 pt-4">
         {/* slidet abwechselnd von der Seite */}
         <AnimatePresence mode="popLayout" initial={false}>
           <motion.div
@@ -902,7 +902,7 @@ function MobileProjectSlider({ experiences, activeSlide, total, tag, overview })
       </div>
 
       {/* Datum: fester Block unten – bleibt beim Wechsel und im Stehen exakt am gleichen Ort */}
-      <div className="relative mb-20 flex h-24 shrink-0 items-center justify-center overflow-hidden px-5">
+      <div className="relative mb-20 flex h-20 shrink-0 items-center justify-center overflow-hidden pl-10 pr-5">
         <AnimatePresence initial={false} mode="popLayout">
           <motion.div
             key={activeSlide}
@@ -1000,6 +1000,7 @@ export default function MattiKoenisOnepage() {
   );
   const [viewport, setViewport] = useState({ w: 1200, h: 800 });
   const [activeSlide, setActiveSlide] = useState(0);
+  const [tuckChat, setTuckChat] = useState(false);
   const isMobile = viewport.w > 0 && viewport.w < 768;
 
   useEffect(() => {
@@ -1012,6 +1013,8 @@ export default function MattiKoenisOnepage() {
   useMotionValueEvent(sliderProgress, "change", (value) => {
     const next = Math.min(totalSlides - 1, Math.max(0, Math.floor(value * totalSlides)));
     setActiveSlide(next);
+    // Handy: Send-request-Button rausgleiten lassen, solange die Projekt-Sektion im Blick ist
+    setTuckChat(isMobile && value > 0.01 && value < 0.99);
   });
 
   const goToSlide = (target) => {
@@ -1692,7 +1695,7 @@ export default function MattiKoenisOnepage() {
             )}
 
             {/* Sektions-Label oben rechts */}
-            <div className="pointer-events-none absolute right-6 top-8 z-30 hidden text-right sm:block sm:right-10 lg:right-16">
+            <div className="pointer-events-none absolute right-6 top-24 z-30 hidden text-right sm:block sm:right-10 lg:right-16">
               <p className="text-xs font-medium uppercase tracking-[0.28em] text-blue-200/70 sm:text-sm">
                 {t.experience.tag}
               </p>
@@ -1809,7 +1812,7 @@ export default function MattiKoenisOnepage() {
             </div>
 
             {/* Paginierung unten mittig */}
-            <div className="absolute bottom-8 left-1/2 z-30 flex -translate-x-1/2 items-end gap-3">
+            <div className="absolute bottom-10 left-1/2 z-30 flex -translate-x-1/2 items-end gap-3 md:bottom-8">
               <span className="text-3xl font-bold leading-none text-[#e5e4e2]">
                 {String(activeSlide + 1).padStart(2, "0")}
               </span>
@@ -1818,8 +1821,8 @@ export default function MattiKoenisOnepage() {
               </span>
             </div>
 
-            {/* Navigationspfeile unten rechts */}
-            <div className="absolute bottom-8 right-6 z-30 flex items-center gap-2 sm:right-10 lg:right-16">
+            {/* Navigationspfeile unten rechts – nur auf dem Handy (Desktop: Send-request-Button liegt darüber) */}
+            <div className="absolute bottom-10 right-6 z-30 flex items-center gap-2 sm:right-10 md:hidden">
               <button
                 type="button"
                 aria-label="Vorheriges Projekt"
@@ -1840,11 +1843,19 @@ export default function MattiKoenisOnepage() {
               </button>
             </div>
 
-            {/* Fortschrittsbalken unten */}
-            <div className="absolute inset-x-0 bottom-0 z-30 h-0.5 bg-white/10">
+            {/* Fortschrittsbalken: Desktop horizontal unten */}
+            <div className="absolute inset-x-0 bottom-0 z-30 hidden h-0.5 bg-white/10 md:block">
               <motion.div
                 style={{ scaleX: sliderBarScaleX }}
                 className="h-full w-full origin-left bg-gradient-to-r from-[#f2f1ef] via-[#e5e4e2] to-[#d8d8d6]"
+              />
+            </div>
+
+            {/* Fortschrittsbalken: Handy vertikal links neben dem Container */}
+            <div className="absolute left-5 top-1/2 z-30 h-64 w-0.5 -translate-y-1/2 overflow-hidden rounded-full bg-white/10 md:hidden">
+              <motion.div
+                style={{ scaleY: sliderBarScaleX }}
+                className="h-full w-full origin-top bg-gradient-to-b from-[#f2f1ef] via-[#e5e4e2] to-[#d8d8d6]"
               />
             </div>
           </div>
@@ -1998,7 +2009,7 @@ export default function MattiKoenisOnepage() {
         </div>
       </footer>
 
-      {showChatWidget && !menuOpen ? <ChatWidget t={t.chat} language={activeLanguage} openSignal={chatOpenSignal} /> : null}
+      {showChatWidget && !menuOpen ? <ChatWidget t={t.chat} language={activeLanguage} openSignal={chatOpenSignal} tucked={tuckChat} /> : null}
     </div>
   );
 }
