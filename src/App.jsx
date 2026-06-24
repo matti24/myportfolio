@@ -1718,9 +1718,17 @@ export default function MattiKoenisOnepage() {
                   transition={{ duration: 0.55, ease: [0.83, 0, 0.17, 1] }}
                   className="absolute inset-0 flex flex-col items-end justify-center text-right"
                 >
-                  {(localizedExperiences[activeSlide]?.period || "")
-                    .split(/\s*[-–—]\s*/)
-                    .map((part, i) => (
+                  {(() => {
+                    const raw = localizedExperiences[activeSlide]?.period || "";
+                    let parts = raw.split(/\s*[-–—]\s*/);
+                    // Start-Angaben ohne Bindestrich (z. B. "Ab Aug 2026") in zwei Zeilen stapeln
+                    if (parts.length === 1) {
+                      const idx = parts[0].indexOf(" ");
+                      if (idx > 0) {
+                        parts = [parts[0].slice(0, idx), parts[0].slice(idx + 1)];
+                      }
+                    }
+                    return parts.map((part, i) => (
                       <span
                         key={part}
                         className={`block font-semibold leading-[1.02] tracking-tight text-5xl 2xl:text-7xl ${
@@ -1729,7 +1737,8 @@ export default function MattiKoenisOnepage() {
                       >
                         {part}
                       </span>
-                    ))}
+                    ));
+                  })()}
                 </motion.div>
               </AnimatePresence>
             </div>
