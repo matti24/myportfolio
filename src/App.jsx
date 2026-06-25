@@ -36,6 +36,7 @@ import {
   Menu,
 } from "lucide-react";
 import ChatWidget from "./components/ChatWidget";
+import AssistantWidget from "./components/AssistantWidget";
 import { WebGLShader } from "./components/ui/web-gl-shader";
 import { LiquidMetalButton } from "./components/ui/liquid-metal-button";
 
@@ -2019,6 +2020,7 @@ export default function MattiKoenisOnepage() {
       </footer>
 
       {showChatWidget && !menuOpen ? <ChatWidget t={t.chat} language={activeLanguage} openSignal={chatOpenSignal} tucked={tuckChat} /> : null}
+      {!menuOpen ? <AssistantWidget t={t} language={activeLanguage} skills={informatikSkills} /> : null}
     </div>
   );
 }
