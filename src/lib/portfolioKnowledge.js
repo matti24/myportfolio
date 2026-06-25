@@ -27,7 +27,7 @@ export const assistantUi = {
     status: "KI-Assistent · powered by Matti",
     openLabel: "Frage Mattis KI",
     intro:
-      "Hi! 👋 Ich bin Mattis persönliche KI – trainiert auf seinem Profil. Frag mich alles über ihn: Skills, Erfahrung, Sprachen, Hobbys oder Kontakt.",
+      "Hi! 👋 Ich bin Mattis persönliche KI – trainiert auf seinem Profil. Frag mich alles über ihn: Skills, Erfahrung, Sprachen, Hobbys, Kontakt oder etwas anderes.",
     placeholder: "Stell mir eine Frage…",
     suggestionsLabel: "Beliebte Fragen",
     noAnswer:
@@ -40,7 +40,7 @@ export const assistantUi = {
     status: "AI assistant · powered by Matti",
     openLabel: "Ask Matti's AI",
     intro:
-      "Hi! 👋 I'm Matti's personal AI – trained on his profile. Ask me anything about him: skills, experience, languages, hobbies or contact.",
+      "Hi! 👋 I'm Matti's personal AI – trained on his profile. Ask me anything about him: skills, experience, languages, hobbies, contact or anything else.",
     placeholder: "Ask me a question…",
     suggestionsLabel: "Popular questions",
     noAnswer:
@@ -53,7 +53,7 @@ export const assistantUi = {
     status: "AI-assistent · powered by Matti",
     openLabel: "Vraag Matti's AI",
     intro:
-      "Hoi! 👋 Ik ben Matti's persoonlijke AI – getraind op zijn profiel. Vraag me alles over hem: skills, ervaring, talen, hobby's of contact.",
+      "Hoi! 👋 Ik ben Matti's persoonlijke AI – getraind op zijn profiel. Vraag me alles over hem: skills, ervaring, talen, hobby's, contact of iets anders.",
     placeholder: "Stel me een vraag…",
     suggestionsLabel: "Populaire vragen",
     noAnswer:
@@ -66,7 +66,7 @@ export const assistantUi = {
     status: "AI-assistent · powered by Matti",
     openLabel: "Fråga Mattis AI",
     intro:
-      "Hej! 👋 Jag är Mattis personliga AI – tränad på hans profil. Fråga mig allt om honom: skills, erfarenhet, språk, hobbyer eller kontakt.",
+      "Hej! 👋 Jag är Mattis personliga AI – tränad på hans profil. Fråga mig allt om honom: skills, erfarenhet, språk, hobbyer, kontakt eller något annat.",
     placeholder: "Ställ en fråga…",
     suggestionsLabel: "Populära frågor",
     noAnswer:

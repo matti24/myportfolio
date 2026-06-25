@@ -10,7 +10,7 @@ import {
 import { askGemini, isGeminiConfigured } from "../lib/geminiClient";
 import ColorOrb from "./ui/color-orb";
 
-const AssistantWidget = ({ t, language = "en", skills = [] }) => {
+const AssistantWidget = ({ t, language = "en", skills = [], tucked = false }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -137,9 +137,11 @@ const AssistantWidget = ({ t, language = "en", skills = [] }) => {
 
   return (
     <div
-      className={`fixed bottom-4 left-4 z-50 ${
-        showPanel ? "right-4 sm:right-auto" : ""
-      }`}
+      className={`fixed bottom-4 left-4 ${
+        showPanel ? "z-[70]" : "z-50"
+      } transition-transform duration-[600ms] ease-[cubic-bezier(0.83,0,0.17,1)] ${
+        tucked && !showPanel ? "-translate-x-[160%]" : "translate-x-0"
+      } ${showPanel ? "right-4 sm:right-auto" : ""}`}
     >
       <style>{`
         .assistant-panel-open {
@@ -168,13 +170,13 @@ const AssistantWidget = ({ t, language = "en", skills = [] }) => {
       {!showPanel ? (
         <button
           onClick={openChat}
-          className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full border border-blue-300/40 bg-slate-950/85 px-5 py-3 text-white shadow-2xl shadow-blue-950/35 backdrop-blur-xl transition duration-300 hover:border-blue-200/70 hover:bg-blue-500/15"
+          className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full border border-blue-300/40 bg-slate-950/85 px-3 py-3 text-white shadow-2xl shadow-blue-950/35 backdrop-blur-xl transition duration-300 hover:border-blue-200/70 hover:bg-blue-500/15 sm:px-5"
         >
           <span className="absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-[#e5e4e2]/70 to-transparent" />
           <span className="flex h-9 w-9 items-center justify-center rounded-full ring-1 ring-blue-200/25 transition group-hover:ring-blue-200/45">
             <ColorOrb dimension="30px" spinDuration={16} />
           </span>
-          <span className="text-sm font-semibold tracking-wide text-[#f2f1ef]">{ui.openLabel}</span>
+          <span className="hidden text-sm font-semibold tracking-wide text-[#f2f1ef] sm:inline">{ui.openLabel}</span>
         </button>
       ) : (
         <div

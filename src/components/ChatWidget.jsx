@@ -14,6 +14,7 @@ const ChatWidget = ({ t, language, openSignal, tucked }) => {
   const [visitorEmail, setVisitorEmail] = useState("");
   const [isSending, setIsSending] = useState(false);
   const messagesEndRef = useRef(null);
+  const inputRef = useRef(null);
   const REPSEND_CHANNEL_ID = "YOUR_CHANNEL_ID"; // Ersetze mit deiner Repsend Channel ID
   const emailjsServiceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_icdpyyy";
   const emailjsTemplateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "template_lhkxuip";
@@ -36,8 +37,8 @@ const ChatWidget = ({ t, language, openSignal, tucked }) => {
         invalidEmail: "Bitte gib eine gültige E-Mail-Adresse ein.",
         placeholderName: "Max Muster",
         placeholderEmail: "max@test.muster",
-        placeholderOrigin: "Oder frei eintippen…",
-        placeholderIntent: "Oder frei eintippen…",
+        placeholderOrigin: "Schreib, woher du mich kennst…",
+        placeholderIntent: "Beschreibe kurz dein Anliegen…",
         quickRepliesIntro: [
           "Teams / Swisscom intern",
           "Wir haben uns getroffen",
@@ -255,10 +256,18 @@ const ChatWidget = ({ t, language, openSignal, tucked }) => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages, quickReplies, isOpen]);
 
+  // Eingabefeld fokussiert halten: beim Öffnen und nach jeder Antwort/Schritt.
+  useEffect(() => {
+    if (showPanel && !inputDisabled) {
+      const id = window.setTimeout(() => inputRef.current?.focus(), 0);
+      return () => window.clearTimeout(id);
+    }
+  }, [showPanel, inputDisabled, step, messages]);
+
   // Fallback Chat Widget
   if (showFallback) {
     return (
-      <div className={`fixed bottom-4 z-50 transition-transform duration-[600ms] ease-[cubic-bezier(0.83,0,0.17,1)] ${tucked && !showPanel ? "translate-x-[160%]" : "translate-x-0"} ${showPanel ? "inset-x-4 sm:inset-x-auto sm:right-4" : "right-4"}`}>
+      <div className={`fixed bottom-4 ${showPanel ? "z-[70]" : "z-[60]"} transition-transform duration-[600ms] ease-[cubic-bezier(0.83,0,0.17,1)] ${tucked && !showPanel ? "translate-x-[160%]" : "translate-x-0"} ${showPanel ? "inset-x-4 sm:inset-x-auto sm:right-4" : "right-4"}`}>
         <style>{`
           .chat-panel-open {
             animation: chatPanelEnter 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -304,13 +313,13 @@ const ChatWidget = ({ t, language, openSignal, tucked }) => {
         {!showPanel ? (
           <button
             onClick={openChat}
-            className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full border border-blue-300/40 bg-slate-950/85 px-5 py-3 text-white shadow-2xl shadow-blue-950/35 backdrop-blur-xl transition duration-300 hover:border-blue-200/70 hover:bg-blue-500/15"
+            className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full border border-blue-300/40 bg-slate-950/85 px-3 py-3 text-white shadow-2xl shadow-blue-950/35 backdrop-blur-xl transition duration-300 hover:border-blue-200/70 hover:bg-blue-500/15 sm:px-5"
           >
             <span className="absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-[#e5e4e2]/70 to-transparent" />
             <span className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-400/15 text-blue-100 ring-1 ring-blue-200/25 transition group-hover:bg-blue-400/25">
               <MessageCircle className="h-[18px] w-[18px]" />
             </span>
-            <span className="text-sm font-semibold tracking-wide text-[#f2f1ef]">{safeTranslations.buttonLabel}</span>
+            <span className="hidden text-sm font-semibold tracking-wide text-[#f2f1ef] sm:inline">{safeTranslations.buttonLabel}</span>
           </button>
         ) : (
           <div className={`${isClosing ? "chat-panel-close" : "chat-panel-open"} flex h-[calc(100dvh-2rem)] max-h-[34rem] w-full origin-bottom-right flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-950/95 text-white shadow-2xl shadow-blue-950/50 backdrop-blur-xl will-change-transform sm:h-[32rem] sm:w-[22rem]`}>
@@ -378,6 +387,7 @@ const ChatWidget = ({ t, language, openSignal, tucked }) => {
               <div className="flex gap-2">
                 <input
                   type="text"
+                  ref={inputRef}
                   inputMode={step === 3 ? "email" : "text"}
                   value={inputValue}
                   onChange={(event) => setInputValue(event.target.value)}

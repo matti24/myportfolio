@@ -268,7 +268,7 @@ const translations = {
       name: "Matti Koenis",
       status: "Online",
       buttonLabel: "Anfrage senden",
-      intro: "Hey! 👋 Woher kennst du mich?",
+      intro: "Hey! 👋 Über diesen Chat kannst du mir direkt eine Anfrage schicken – sie wird automatisch per E-Mail an mich gesendet und ich melde mich bei dir. Woher kennst du mich?",
       followUp: "Schön, dass du dich meldest! Worum geht es bei deiner Anfrage?",
       askName: "Damit ich dir persönlich antworten kann, wie heisst du?",
       askEmail: "Danke, {name}. An welche E-Mail-Adresse darf ich meine Antwort senden?",
@@ -279,8 +279,8 @@ const translations = {
       invalidEmail: "Bitte gib eine gültige E-Mail-Adresse ein.",
       placeholderName: "Max Muster",
       placeholderEmail: "max@test.muster",
-      placeholderOrigin: "Oder frei eintippen…",
-      placeholderIntent: "Oder frei eintippen…",
+      placeholderOrigin: "Schreib, woher du mich kennst…",
+      placeholderIntent: "Beschreibe kurz dein Anliegen…",
       quickRepliesIntro: [
         "Teams / Swisscom intern",
         "Wir haben uns getroffen",
@@ -429,7 +429,7 @@ const translations = {
       name: "Matti Koenis",
       status: "Online",
       buttonLabel: "Send request",
-      intro: "Hey! 👋 How do you know me?",
+      intro: "Hey! 👋 This chat lets you send me a request directly – it's automatically emailed to me and I'll get back to you. How do you know me?",
       followUp: "Nice to hear from you! What is your request about?",
       askName: "So I can reply to you personally, what's your name?",
       askEmail: "Thanks, {name}. Which email address should I use to reply?",
@@ -440,8 +440,8 @@ const translations = {
       invalidEmail: "Please enter a valid email address.",
       placeholderName: "John Doe",
       placeholderEmail: "john@example.com",
-      placeholderOrigin: "Or type freely…",
-      placeholderIntent: "Or type freely…",
+      placeholderOrigin: "Tell me how you know me…",
+      placeholderIntent: "Briefly describe your request…",
       quickRepliesIntro: [
         "Teams / Swisscom internal",
         "We met",
@@ -589,7 +589,7 @@ const translations = {
       name: "Matti Koenis",
       status: "Online",
       buttonLabel: "Aanvraag sturen",
-      intro: "Hey! 👋 Waar ken je me van?",
+      intro: "Hey! 👋 Via deze chat kun je me direct een aanvraag sturen – die wordt automatisch per e-mail naar mij verstuurd en ik kom bij je terug. Waar ken je me van?",
       followUp: "Leuk dat je contact opneemt! Waar gaat je aanvraag over?",
       askName: "Zodat ik je persoonlijk kan antwoorden: hoe heet je?",
       askEmail: "Dank je, {name}. Naar welk e-mailadres mag ik mijn antwoord sturen?",
@@ -600,8 +600,8 @@ const translations = {
       invalidEmail: "Vul een geldig e-mailadres in.",
       placeholderName: "Max Musters",
       placeholderEmail: "max@example.com",
-      placeholderOrigin: "Of typ vrij…",
-      placeholderIntent: "Of typ vrij…",
+      placeholderOrigin: "Vertel hoe je me kent…",
+      placeholderIntent: "Beschrijf kort je aanvraag…",
       quickRepliesIntro: [
         "Teams / Swisscom intern",
         "We hebben elkaar ontmoet",
@@ -750,7 +750,7 @@ const translations = {
       name: "Matti Koenis",
       status: "Online",
       buttonLabel: "Skicka förfrågan",
-      intro: "Hej! 👋 Varifrån känner du mig?",
+      intro: "Hej! 👋 Via den här chatten kan du skicka mig en förfrågan direkt – den skickas automatiskt via e-post till mig och jag återkommer. Varifrån känner du mig?",
       followUp: "Kul att du hör av dig! Vad handlar din förfrågan om?",
       askName: "Så att jag kan svara dig personligen, vad heter du?",
       askEmail: "Tack, {name}. Vilken e-postadress ska jag svara till?",
@@ -761,8 +761,8 @@ const translations = {
       invalidEmail: "Ange en giltig e-postadress.",
       placeholderName: "Max Muster",
       placeholderEmail: "max@example.com",
-      placeholderOrigin: "Eller skriv fritt…",
-      placeholderIntent: "Eller skriv fritt…",
+      placeholderOrigin: "Berätta hur du känner mig…",
+      placeholderIntent: "Beskriv kort din förfrågan…",
       quickRepliesIntro: [
         "Teams / Swisscom internt",
         "Vi har träffats",
@@ -2020,7 +2020,7 @@ export default function MattiKoenisOnepage() {
       </footer>
 
       {showChatWidget && !menuOpen ? <ChatWidget t={t.chat} language={activeLanguage} openSignal={chatOpenSignal} tucked={tuckChat} /> : null}
-      {!menuOpen ? <AssistantWidget t={t} language={activeLanguage} skills={informatikSkills} /> : null}
+      {!menuOpen ? <AssistantWidget t={t} language={activeLanguage} skills={informatikSkills} tucked={tuckChat} /> : null}
     </div>
   );
 }
