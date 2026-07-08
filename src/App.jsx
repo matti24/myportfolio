@@ -39,6 +39,12 @@ import ChatWidget from "./components/ChatWidget";
 import AssistantWidget from "./components/AssistantWidget";
 import { WebGLShader } from "./components/ui/web-gl-shader";
 import { LiquidMetalButton } from "./components/ui/liquid-metal-button";
+import WireframeDottedGlobe from "./components/ui/wireframe-dotted-globe";
+
+// Auf false setzen, um wieder auf den ursprünglichen Hintergrund zurückzuwechseln
+const SHOW_GLOBE_BACKGROUND = true;
+// Auf true setzen, um den alten WebGL-Shader im Hero wieder zu aktivieren
+const SHOW_HERO_SHADER = false;
 
 
 const profileImage = "DSC09470-removebg-preview.png";
@@ -1133,7 +1139,7 @@ export default function MattiKoenisOnepage() {
   }, []);
 
   return (
-    <div className="min-h-screen overflow-x-clip bg-slate-950 text-white [scroll-behavior:smooth]">
+    <div className={`min-h-screen overflow-x-clip ${SHOW_GLOBE_BACKGROUND ? "bg-transparent" : "bg-slate-950"} text-white [scroll-behavior:smooth]`}>
       <style>{`
         .hero-code-line {
           display: block;
@@ -1202,14 +1208,19 @@ export default function MattiKoenisOnepage() {
           }
         }
       `}</style>
-      <div className="fixed inset-0 -z-10 overflow-hidden">
+      <div className="fixed inset-0 -z-10 overflow-hidden [transform:translateZ(0)]">
         <div className="absolute inset-0 bg-[linear-gradient(135deg,#0f172a_0%,#1e1b4b_50%,#0f172a_100%)]" />
         <div className="absolute left-1/2 top-0 h-[40rem] w-[40rem] -translate-x-1/2 rounded-full bg-blue-600/20 blur-3xl" />
         <div className="absolute bottom-0 right-0 h-[30rem] w-[30rem] rounded-full bg-blue-700/15 blur-3xl" />
         <div className="absolute top-1/3 -left-32 h-[28rem] w-[28rem] rounded-full bg-slate-800/15 blur-3xl" />
+        {SHOW_GLOBE_BACKGROUND && (
+          <div className="pointer-events-none absolute inset-0 opacity-70">
+            <WireframeDottedGlobe />
+          </div>
+        )}
       </div>
 
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/60 backdrop-blur-xl relative">
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/60 backdrop-blur-md relative">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#e5e4e2]/55 to-transparent" />
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
@@ -1354,12 +1365,7 @@ export default function MattiKoenisOnepage() {
       <main id="top">
         <section className="relative overflow-hidden">
           <div className="pointer-events-none absolute inset-0">
-            <WebGLShader />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_73%_42%,rgba(96,165,250,0.16),transparent_28%),radial-gradient(circle_at_20%_58%,rgba(229,228,226,0.06),transparent_26%),linear-gradient(180deg,rgba(15,23,42,0.25)_0%,rgba(15,23,42,0.55)_100%)]" />
-            <div className="absolute right-[-8rem] top-20 h-[34rem] w-[34rem] rounded-full border border-blue-200/10 bg-blue-400/[0.035] blur-3xl" />
-            <div className="absolute left-[-10rem] bottom-0 h-[24rem] w-[24rem] rounded-full bg-white/[0.035] blur-3xl" />
-            <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-slate-950 via-slate-950/70 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-b from-transparent via-slate-950/70 to-slate-950" />
+            {SHOW_HERO_SHADER && <WebGLShader />}
           </div>
           <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid w-full items-center gap-10 sm:gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,0.82fr)]">
@@ -1411,7 +1417,7 @@ export default function MattiKoenisOnepage() {
               </a>
             </div>
             <div className="hidden lg:flex min-h-[calc(100vh-73px)] items-center justify-end">
-              <div className="relative w-full max-w-[28rem] overflow-hidden rounded-2xl border border-blue-200/20 bg-slate-950/70 shadow-2xl shadow-blue-950/45 backdrop-blur-xl">
+              <div className="relative w-full max-w-[28rem] overflow-hidden rounded-2xl border border-blue-200/20 bg-slate-950/70 shadow-2xl shadow-blue-950/45 backdrop-blur-md">
                 <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-blue-200/70 to-transparent" />
                 <div className="hero-code-scan pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-transparent via-blue-300/10 to-transparent" />
                 <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
@@ -1979,7 +1985,7 @@ export default function MattiKoenisOnepage() {
         </section>
       </main>
 
-      <footer id="contact" className="border-t border-white/10 bg-slate-950 px-4 py-20 sm:px-6 md:py-32 lg:px-8">
+      <footer id="contact" className="border-t border-white/10 bg-transparent px-4 py-20 sm:px-6 md:py-32 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           <div
           >
