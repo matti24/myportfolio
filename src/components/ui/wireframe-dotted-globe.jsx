@@ -29,11 +29,13 @@ export default function WireframeDottedGlobe({ className = "" }) {
 
     let width = container.clientWidth || window.innerWidth;
     let height = container.clientHeight || window.innerHeight;
-    let baseRadius = Math.min(width, height) / 2.2;
+    let isMobile = width < 768;
+    let baseRadius = Math.min(width, height) / (isMobile ? 2.1 : 2.2);
 
     const projection = d3.geoOrthographic().clipAngle(90);
     const path = d3.geoPath().projection(projection).context(context);
     const graticule = d3.geoGraticule();
+    const RAD = Math.PI / 180;
 
     // Layout-Werte werden gecacht, um pro Frame teure Reflows zu vermeiden
     let scrollMax = 1;
@@ -47,10 +49,11 @@ export default function WireframeDottedGlobe({ className = "" }) {
     const setSize = () => {
       width = container.clientWidth || window.innerWidth;
       height = container.clientHeight || window.innerHeight;
-      baseRadius = Math.min(width, height) / 2.2;
+      isMobile = width < 768;
+      baseRadius = Math.min(width, height) / (isMobile ? 2.1 : 2.2);
 
-      // DPR deckeln – auf HiDPI-Displays spart das massiv Füllrate
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      // DPR deckeln – auf Handys (hohe Pixeldichte) stärker begrenzen für mehr Glätte
+      const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.25 : 1.5);
       canvas.width = width * dpr;
       canvas.height = height * dpr;
       canvas.style.width = `${width}px`;
@@ -204,54 +207,101 @@ export default function WireframeDottedGlobe({ className = "" }) {
       projection.scale(scale);
 
       const scaleFactor = scale / baseRadius;
+      const cx = width / 2;
+      const cy = height / 2;
 
       context.clearRect(0, 0, width, height);
 
-      // Ozean / Globuskörper
+      // Atmosphären-Halo (weicher blauer Schein außerhalb der Kugel)
+      const halo = context.createRadialGradient(
+        cx, cy, scale * 0.92,
+        cx, cy, scale * 1.2,
+      );
+      halo.addColorStop(0, "rgba(96, 165, 250, 0)");
+      halo.addColorStop(0.55, "rgba(96, 165, 250, 0.12)");
+      halo.addColorStop(1, "rgba(96, 165, 250, 0)");
       context.beginPath();
-      context.arc(width / 2, height / 2, scale, 0, 2 * Math.PI);
-      context.fillStyle = "rgba(2, 6, 23, 0.55)";
+      context.arc(cx, cy, scale * 1.2, 0, 2 * Math.PI);
+      context.fillStyle = halo;
       context.fill();
-      context.strokeStyle = "rgba(255, 255, 255, 0.28)";
-      context.lineWidth = 1.6 * scaleFactor;
+
+      // Kugelkörper mit Lichtverlauf (3D-Shading, Lichtquelle oben links)
+      const gx = cx - scale * 0.34;
+      const gy = cy - scale * 0.34;
+      const body = context.createRadialGradient(
+        gx, gy, scale * 0.05,
+        cx, cy, scale * 1.05,
+      );
+      body.addColorStop(0, "rgba(41, 55, 102, 0.66)");
+      body.addColorStop(0.55, "rgba(14, 22, 50, 0.62)");
+      body.addColorStop(1, "rgba(3, 6, 18, 0.6)");
+      context.beginPath();
+      context.arc(cx, cy, scale, 0, 2 * Math.PI);
+      context.fillStyle = body;
+      context.fill();
+
+      // Feiner Rand (Rim-Light)
+      context.strokeStyle = "rgba(147, 197, 253, 0.38)";
+      context.lineWidth = 1.4 * scaleFactor;
       context.stroke();
 
       if (landFeatures) {
-        // Gradnetz
+        // Gradnetz (sehr dezent)
         context.beginPath();
         path(graticule());
-        context.strokeStyle = "rgba(255, 255, 255, 0.5)";
-        context.lineWidth = 0.8 * scaleFactor;
-        context.globalAlpha = 0.18;
+        context.strokeStyle = "rgba(148, 197, 253, 0.5)";
+        context.lineWidth = 0.7 * scaleFactor;
+        context.globalAlpha = 0.13;
         context.stroke();
         context.globalAlpha = 1;
 
-        // Landumrisse
+        // Landumrisse (kühl, dezent)
         context.beginPath();
         landFeatures.features.forEach((feature) => path(feature));
-        context.strokeStyle = "rgba(255, 255, 255, 0.35)";
+        context.strokeStyle = "rgba(191, 219, 254, 0.26)";
         context.lineWidth = 0.9 * scaleFactor;
         context.stroke();
 
-        // Halbton-Punkte: alle Punkte in EINEN Pfad sammeln und einmal füllen
-        const r = 1.1 * scaleFactor;
-        context.fillStyle = "rgba(148, 163, 184, 0.55)";
-        context.beginPath();
+        // Halbton-Punkte mit Tiefen-Shading – nur Vorderseite, in 4 Bänder gebündelt
+        const rot = projection.rotate();
+        const lam0 = -rot[0] * RAD;
+        const phi0 = -rot[1] * RAD;
+        const sinPhi0 = Math.sin(phi0);
+        const cosPhi0 = Math.cos(phi0);
+        const sinLam0 = Math.sin(lam0);
+        const cosLam0 = Math.cos(lam0);
+        const rBase = 1.15 * scaleFactor;
+
+        const bands = [new Path2D(), new Path2D(), new Path2D(), new Path2D()];
         for (let i = 0; i < allDots.length; i++) {
-          const dot = allDots[i];
-          const projected = projection(dot);
-          if (
-            projected &&
-            projected[0] >= 0 &&
-            projected[0] <= width &&
-            projected[1] >= 0 &&
-            projected[1] <= height
-          ) {
-            context.moveTo(projected[0] + r, projected[1]);
-            context.arc(projected[0], projected[1], r, 0, 2 * Math.PI);
-          }
+          const d = allDots[i];
+          // cosc > 0  ->  Punkt liegt auf der sichtbaren Halbkugel (billig, keine Trig)
+          const cosDelta = d.cosL * cosLam0 + d.sinL * sinLam0;
+          const cosc = sinPhi0 * d.sinP + cosPhi0 * d.cosP * cosDelta;
+          if (cosc <= 0.02) continue;
+
+          const projected = projection(d.c);
+          if (!projected) continue;
+          const px = projected[0];
+          const py = projected[1];
+          if (px < -4 || px > width + 4 || py < -4 || py > height + 4) continue;
+
+          const b = cosc > 0.72 ? 3 : cosc > 0.48 ? 2 : cosc > 0.24 ? 1 : 0;
+          const rr = rBase * (0.6 + 0.42 * cosc);
+          bands[b].moveTo(px + rr, py);
+          bands[b].arc(px, py, rr, 0, 2 * Math.PI);
         }
-        context.fill();
+
+        const bandColors = [
+          "rgba(150, 178, 222, 0.22)",
+          "rgba(167, 195, 236, 0.36)",
+          "rgba(192, 216, 249, 0.54)",
+          "rgba(216, 232, 255, 0.74)",
+        ];
+        for (let b = 0; b < 4; b++) {
+          context.fillStyle = bandColors[b];
+          context.fill(bands[b]);
+        }
       }
 
       // Standort-Pin auf Zürich – nur zeichnen, wenn er auf der Vorderseite liegt
@@ -272,9 +322,21 @@ export default function WireframeDottedGlobe({ className = "" }) {
         const data = await response.json();
         if (cancelled) return;
         landFeatures = data;
+        // Auf dem Handy größerer Punktabstand -> weniger Punkte, flüssigeres Rendern
+        const dotSpacing = isMobile ? 27 : 20;
         landFeatures.features.forEach((feature) => {
-          // Punkte direkt als [lng, lat] speichern -> projection(dot) ohne Alloc
-          generateDotsInPolygon(feature, 20).forEach((pt) => allDots.push(pt));
+          // Punkte samt vorberechneter Trigonometrie speichern (Tiefen-Shading)
+          generateDotsInPolygon(feature, dotSpacing).forEach((pt) => {
+            const lam = pt[0] * RAD;
+            const phi = pt[1] * RAD;
+            allDots.push({
+              c: pt,
+              sinL: Math.sin(lam),
+              cosL: Math.cos(lam),
+              sinP: Math.sin(phi),
+              cosP: Math.cos(phi),
+            });
+          });
         });
         measureScroll(); // Seitenhöhe kann sich durch Nachladen ändern
       } catch {

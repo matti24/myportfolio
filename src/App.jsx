@@ -1220,7 +1220,7 @@ export default function MattiKoenisOnepage() {
         )}
       </div>
 
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/60 backdrop-blur-md relative">
+      <header className="sticky top-0 z-40 relative">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#e5e4e2]/55 to-transparent" />
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
@@ -1229,12 +1229,12 @@ export default function MattiKoenisOnepage() {
             </a>
 
             <nav className="hidden items-center gap-4 text-sm md:flex">
-              <div className="relative">
+              <div className="relative flex items-center">
                 <select
                   aria-label="Sprache auswählen"
                   value={activeLanguage}
                   onChange={(e) => setActiveLanguage(e.target.value)}
-                  className="h-9 min-w-[8.5rem] rounded-md border border-white/25 bg-slate-950/90 px-3 text-xs font-medium text-white outline-none transition hover:border-[#e5e4e2]/50 focus:border-[#f2f1ef]"
+                  className="appearance-none bg-transparent pr-5 text-sm text-white/80 outline-none cursor-pointer transition hover:text-white"
                 >
                   {languageOptions.map((option) => (
                     <option key={option.code} value={option.code} className="bg-slate-950 text-white">
@@ -1242,6 +1242,7 @@ export default function MattiKoenisOnepage() {
                     </option>
                   ))}
                 </select>
+                <ChevronDown className="pointer-events-none absolute right-0 h-3.5 w-3.5 text-white/60" />
               </div>
               <a href="#about" className="relative text-white/80 transition group">
                 {t.nav.about}
