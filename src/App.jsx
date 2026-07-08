@@ -15,6 +15,7 @@ import {
   Mail,
   Briefcase,
   Languages,
+  Check,
   ChevronDown,
   ChevronUp,
   Dumbbell,
@@ -45,6 +46,80 @@ import WireframeDottedGlobe from "./components/ui/wireframe-dotted-globe";
 const SHOW_GLOBE_BACKGROUND = true;
 // Auf true setzen, um den alten WebGL-Shader im Hero wieder zu aktivieren
 const SHOW_HERO_SHADER = false;
+
+// Eigenes, voll gestaltbares Sprach-Dropdown (statt nativem <select>)
+function LanguageDropdown({ options, value, onChange }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+  const current = options.find((o) => o.code === value) || options[0];
+
+  useEffect(() => {
+    if (!open) return;
+    const onDoc = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    };
+    const onKey = (e) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("mousedown", onDoc);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDoc);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        onClick={() => setOpen((v) => !v)}
+        className="flex items-center gap-1.5 text-sm text-white/80 outline-none transition hover:text-white"
+      >
+        {current?.label}
+        <ChevronDown
+          className={`h-3.5 w-3.5 text-white/60 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+
+      <div
+        role="listbox"
+        className={`absolute right-0 top-full z-50 mt-2 w-44 origin-top-right overflow-hidden rounded-xl border border-white/10 bg-slate-950/80 p-1 shadow-2xl shadow-black/40 backdrop-blur-xl transition duration-200 ${
+          open
+            ? "pointer-events-auto scale-100 opacity-100 translate-y-0"
+            : "pointer-events-none -translate-y-1 scale-95 opacity-0"
+        }`}
+      >
+        <div className="pointer-events-none absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+        {options.map((option) => {
+          const isActive = option.code === value;
+          return (
+            <button
+              key={option.code}
+              type="button"
+              role="option"
+              aria-selected={isActive}
+              onClick={() => {
+                onChange(option.code);
+                setOpen(false);
+              }}
+              className={`flex w-full items-center justify-between gap-2 rounded-lg px-3 py-2 text-left text-sm transition ${
+                isActive
+                  ? "bg-white/10 text-white"
+                  : "text-white/70 hover:bg-white/5 hover:text-white"
+              }`}
+            >
+              <span>{option.label}</span>
+              {isActive && <Check className="h-3.5 w-3.5 text-blue-300" />}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 
 const profileImage = "DSC09470-removebg-preview.png";
@@ -1229,21 +1304,11 @@ export default function MattiKoenisOnepage() {
             </a>
 
             <nav className="hidden items-center gap-4 text-sm md:flex">
-              <div className="relative flex items-center">
-                <select
-                  aria-label="Sprache auswählen"
-                  value={activeLanguage}
-                  onChange={(e) => setActiveLanguage(e.target.value)}
-                  className="appearance-none bg-transparent pr-5 text-sm text-white/80 outline-none cursor-pointer transition hover:text-white"
-                >
-                  {languageOptions.map((option) => (
-                    <option key={option.code} value={option.code} className="bg-slate-950 text-white">
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown className="pointer-events-none absolute right-0 h-3.5 w-3.5 text-white/60" />
-              </div>
+              <LanguageDropdown
+                options={languageOptions}
+                value={activeLanguage}
+                onChange={setActiveLanguage}
+              />
               <a href="#about" className="relative text-white/80 transition group">
                 {t.nav.about}
                 <span className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#e5e4e2]/45 via-[#e5e4e2]/0 to-transparent" />
@@ -1418,7 +1483,7 @@ export default function MattiKoenisOnepage() {
               </a>
             </div>
             <div className="hidden lg:flex min-h-[calc(100vh-73px)] items-center justify-end">
-              <div className="relative w-full max-w-[28rem] overflow-hidden rounded-2xl border border-blue-200/20 bg-slate-950/70 shadow-2xl shadow-blue-950/45 backdrop-blur-md">
+              <div className="relative w-full max-w-[28rem] overflow-hidden rounded-2xl border border-white/12 bg-slate-950/45 shadow-xl shadow-black/25 backdrop-blur-md">
                 <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-blue-200/70 to-transparent" />
                 <div className="hero-code-scan pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-transparent via-blue-300/10 to-transparent" />
                 <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">

@@ -170,7 +170,7 @@ const AssistantWidget = ({ t, language = "en", skills = [], tucked = false }) =>
       {!showPanel ? (
         <button
           onClick={openChat}
-          className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full border border-blue-300/40 bg-slate-950/85 px-3 py-3 text-white shadow-2xl shadow-blue-950/35 backdrop-blur-xl transition duration-300 hover:border-blue-200/70 hover:bg-blue-500/15 sm:px-5"
+          className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full border border-white/15 bg-slate-950/40 px-3 py-3 text-white shadow-lg shadow-black/20 backdrop-blur-md transition duration-300 hover:border-white/30 hover:bg-slate-900/55 sm:px-5"
         >
           <span className="absolute inset-x-4 top-0 hidden h-px bg-gradient-to-r from-transparent via-[#e5e4e2]/70 to-transparent sm:block" />
           <span className="flex h-9 w-9 items-center justify-center rounded-full ring-1 ring-blue-200/25 transition group-hover:ring-blue-200/45">
