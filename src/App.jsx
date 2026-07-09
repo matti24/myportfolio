@@ -866,7 +866,7 @@ function ProjectCard({ exp, index, total, articleStyle, contentStyle }) {
   return (
     <motion.article
       style={articleStyle}
-      className="relative z-10 w-full max-w-2xl overflow-hidden border border-white/12 bg-slate-900/45 backdrop-blur-md"
+      className="relative z-10 w-full max-w-2xl overflow-hidden border border-white/12 bg-slate-900/55"
     >
       {/* linke Akzentkante */}
       <div className="pointer-events-none absolute inset-y-0 left-0 w-[2px] bg-gradient-to-b from-transparent via-[#e5e4e2]/70 to-transparent" />
@@ -916,19 +916,9 @@ function ProjectParallaxSlide({ exp, index, total, progress }) {
   const outEnd = (index + 1) * segment;
   const local = useTransform(progress, [inStart, outEnd], [0, 1]);
 
-  // Desktop: Öffnen / Schliessen
+  // Desktop: Öffnen / Schliessen (GPU-günstig über scale + opacity, kein clip-path)
   const opacity = useTransform(local, [0, 0.22, 0.78, 1], [0, 1, 1, 0]);
-  const scale = useTransform(local, [0, 0.5, 1], [0.93, 1, 0.93]);
-  const clip = useTransform(
-    local,
-    [0, 0.4, 0.6, 1],
-    [
-      "inset(38% 4% 38% 4%)",
-      "inset(0% 0% 0% 0%)",
-      "inset(0% 0% 0% 0%)",
-      "inset(38% 4% 38% 4%)",
-    ]
-  );
+  const scale = useTransform(local, [0, 0.5, 1], [0.9, 1, 0.9]);
   const contentY = useTransform(local, [0, 0.5, 1], [36, 0, -36]);
   const contentOpacity = useTransform(local, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
   const zIndex = useTransform(local, (v) => (v > 0.04 && v < 0.96 ? 20 : 1));
@@ -942,7 +932,7 @@ function ProjectParallaxSlide({ exp, index, total, progress }) {
         exp={exp}
         index={index}
         total={total}
-        articleStyle={{ scale, clipPath: clip }}
+        articleStyle={{ scale }}
         contentStyle={{ y: contentY, opacity: contentOpacity }}
       />
     </motion.div>
@@ -1589,7 +1579,7 @@ export default function MattiKoenisOnepage() {
                     return (
                       <div
                         key={hobby.name}
-                        className={`group flex flex-col items-center justify-center text-center rounded-xl backdrop-blur-sm p-4 transition duration-300 ${borderClasses[idx]}`}
+                        className={`group flex flex-col items-center justify-center text-center rounded-xl p-4 transition duration-300 ${borderClasses[idx]}`}
                       >
                         <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg transition">
                           <Icon className={`h-6 w-6 transition ${iconClasses[idx]}`} />

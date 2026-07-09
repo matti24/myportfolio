@@ -1,4 +1,5 @@
-import { createGlobeRenderer, LAND_URL } from "./globeRenderer";
+import { createGlobeRenderer } from "./globeRenderer";
+import landData from "./land-110m.json";
 
 let canvas = null;
 let ctx = null;
@@ -24,21 +25,14 @@ function applySize(d) {
 }
 
 async function loadLand() {
-  try {
-    const res = await fetch(LAND_URL);
-    if (res.ok) renderer.setLand(await res.json());
-  } catch {
-    // still ignorieren – Globus bleibt ohne Land
-  }
+  // Länderdaten sind lokal gebündelt -> sofort verfügbar, keine Netzabhängigkeit
+  renderer.setLand(landData);
 }
 
 function loop(t) {
   rafId = requestAnimationFrame(loop);
-  // Adaptive FPS: während aktivem Scrollen 30fps (entlastet den Compositor),
-  // im Ruhezustand 60fps für seidenweiche Rotation.
-  const scrolling = t - lastScroll < 180;
-  const frameMs = scrolling ? 1000 / 30 : 1000 / 60;
-  if (t - lastDraw < frameMs) return;
+  // Konstante 60fps – das Rendering läuft off-thread, der Main-Thread bleibt frei.
+  if (t - lastDraw < 1000 / 60) return;
   lastDraw = t;
   renderer.frame(t);
 }

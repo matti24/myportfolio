@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { createGlobeRenderer, LAND_URL } from "../../lib/globeRenderer";
+import { createGlobeRenderer } from "../../lib/globeRenderer";
 
 /**
  * Rotierender Draht-Globus als Hintergrund. Fokussiert beim Scrollen sanft auf
@@ -29,7 +29,10 @@ export default function WireframeDottedGlobe({ className = "" }) {
       const width = container.clientWidth || window.innerWidth;
       const height = container.clientHeight || window.innerHeight;
       const isMobile = width < 768;
-      const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2);
+      // Pixeldichte bewusst begrenzen: eine bildschirmfüllende, 60fps-animierte
+      // Canvas ist der größte Compositor-Kostenfaktor. 1.5x ist für einen
+      // dekorativen Hintergrund gestochen scharf und deutlich flüssiger als 2x.
+      const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.25 : 1.5);
       return { width, height, dpr, isMobile };
     };
 
@@ -132,30 +135,25 @@ function runMainThread(canvas, getDims) {
   };
   postScroll();
 
-  let cancelled = false;
-  (async () => {
-    try {
-      const res = await fetch(LAND_URL);
-      if (res.ok && !cancelled) renderer.setLand(await res.json());
-    } catch {
-      // ignorieren
-    }
-  })();
+  // Länderdaten nur im Fallback laden (dynamischer Import -> nicht im Haupt-Bundle)
+  let disposed = false;
+  import("../../lib/land-110m.json")
+    .then((m) => {
+      if (!disposed) renderer.setLand(m.default);
+    })
+    .catch(() => {});
 
-  let lastScroll = -Infinity;
   let lastDraw = -Infinity;
   let rafId = requestAnimationFrame(function loop(t) {
     rafId = requestAnimationFrame(loop);
-    const scrolling = t - lastScroll < 180;
-    const frameMs = scrolling ? 1000 / 30 : 1000 / 40;
-    if (t - lastDraw < frameMs) return;
+    // Konstante 60fps für flüssige Bewegung.
+    if (t - lastDraw < 1000 / 60) return;
     lastDraw = t;
     renderer.frame(t);
   });
 
   let pending = false;
   const onScroll = () => {
-    lastScroll = performance.now();
     if (pending) return;
     pending = true;
     requestAnimationFrame(() => {
@@ -172,7 +170,7 @@ function runMainThread(canvas, getDims) {
   window.addEventListener("resize", onResize);
 
   return () => {
-    cancelled = true;
+    disposed = true;
     cancelAnimationFrame(rafId);
     window.removeEventListener("scroll", onScroll);
     window.removeEventListener("resize", onResize);

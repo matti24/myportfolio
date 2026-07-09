@@ -6,9 +6,6 @@ const SWITZERLAND = { lng: 8.23, lat: 46.8 };
 const ZURICH = [8.5417, 47.3769];
 const RAD = Math.PI / 180;
 
-export const LAND_URL =
-  "https://raw.githubusercontent.com/martynafford/natural-earth-geojson/refs/heads/master/110m/physical/ne_110m_land.json";
-
 // ---- Geometrie-Helfer -------------------------------------------------------
 function pointInPolygon(point, polygon) {
   const [x, y] = point;
@@ -287,9 +284,25 @@ export function createGlobeRenderer(ctx) {
     smoothP += (targetP - smoothP) * damp;
     const p = easeInOut(smoothP);
 
-    // Automatische Rotation wird beim Scrollen zur Schweiz überblendet
-    autoLng += 0.0072 * dt;
-    projection.rotate([lerp(autoLng, -SWITZERLAND.lng, p), lerp(0, -SWITZERLAND.lat, p)]);
+    const targetLng = -SWITZERLAND.lng;
+    const rotLat = lerp(0, -SWITZERLAND.lat, p);
+    let rotLng;
+
+    if (p < 0.02) {
+      // Ganz oben: frei rotieren. Winkel unsichtbar auf ±180° um das Ziel
+      // normalisieren (360°-Sprünge sind visuell identisch) -> es sammeln sich
+      // nie mehrere volle Umdrehungen an.
+      autoLng += 0.0072 * dt;
+      while (autoLng - targetLng > 180) autoLng -= 360;
+      while (autoLng - targetLng < -180) autoLng += 360;
+      rotLng = autoLng;
+    } else {
+      // Fokus: autoLng ist eingefroren (max. 180° vom Ziel entfernt) -> es wird
+      // immer der kürzeste, direkte Weg zur Schweiz genommen, kein Mehrfach-Drehen.
+      rotLng = lerp(autoLng, targetLng, p);
+    }
+
+    projection.rotate([rotLng, rotLat]);
 
     const scale = lerp(baseRadius, baseRadius * 4.2, p);
     projection.scale(scale);
