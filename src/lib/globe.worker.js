@@ -1,5 +1,4 @@
 import { createGlobeRenderer } from "./globeRenderer";
-import landData from "./land-110m.json";
 
 let canvas = null;
 let ctx = null;
@@ -24,11 +23,6 @@ function applySize(d) {
   renderer.setSize(cssW, cssH, d.isMobile);
 }
 
-async function loadLand() {
-  // Länderdaten sind lokal gebündelt -> sofort verfügbar, keine Netzabhängigkeit
-  renderer.setLand(landData);
-}
-
 function loop(t) {
   rafId = requestAnimationFrame(loop);
   // Konstante 60fps – das Rendering läuft off-thread, der Main-Thread bleibt frei.
@@ -45,11 +39,13 @@ self.onmessage = (e) => {
     if (!ctx) return;
     renderer = createGlobeRenderer(ctx);
     applySize(d);
-    loadLand();
     if (!running) {
       running = true;
       rafId = requestAnimationFrame(loop);
     }
+  } else if (d.type === "land" && renderer) {
+    // Länderdaten kommen fertig geparst vom Main-Thread (früh angestoßen).
+    renderer.setLand(d.land);
   } else if (d.type === "resize" && renderer) {
     applySize(d);
   } else if (d.type === "scroll" && renderer) {

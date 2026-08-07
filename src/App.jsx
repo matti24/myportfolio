@@ -1020,6 +1020,13 @@ export default function MattiKoenisOnepage() {
     };
   }, [menuOpen]);
 
+  // KI-Assistent kann per Link "Anfrage senden" das Kontaktformular öffnen.
+  useEffect(() => {
+    const openSendRequest = () => setChatOpenSignal((s) => s + 1);
+    window.addEventListener("open-send-request", openSendRequest);
+    return () => window.removeEventListener("open-send-request", openSendRequest);
+  }, []);
+
   const localizedLanguageLevels = t.about.languageLevels;
   const localizedHobbies = t.about.hobbies.map((name, idx) => ({
     name,

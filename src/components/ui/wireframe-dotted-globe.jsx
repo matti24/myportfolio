@@ -3,6 +3,23 @@
 import { useEffect, useRef } from "react";
 import { createGlobeRenderer } from "../../lib/globeRenderer";
 
+// Länderdaten liegen in public/ und werden same-origin geladen (BASE_URL-sicher)
+const LAND_URL = `${import.meta.env.BASE_URL}land-110m.json`;
+
+// Download der Länderdaten so früh wie möglich anstoßen (beim ersten Import der
+// Komponente, noch bevor React den Effekt ausführt). Der Request läuft damit
+// parallel zum Hochfahren des Workers und wird nur EINMAL ausgeführt – Worker
+// und Main-Thread-Fallback teilen sich dieselbe Promise.
+let landDataPromise = null;
+function getLandData() {
+  if (!landDataPromise) {
+    landDataPromise = fetch(LAND_URL)
+      .then((res) => (res.ok ? res.json() : null))
+      .catch(() => null);
+  }
+  return landDataPromise;
+}
+
 /**
  * Rotierender Draht-Globus als Hintergrund. Fokussiert beim Scrollen sanft auf
  * die Schweiz und zoomt heran. Rendert bevorzugt in einem Web Worker via
@@ -78,9 +95,13 @@ function runWorker(canvas, getDims) {
     return null; // -> Fallback
   }
 
-  worker.postMessage({ type: "init", canvas: offscreen, ...getDims() }, [
-    offscreen,
-  ]);
+  worker.postMessage({ type: "init", canvas: offscreen, ...getDims() }, [offscreen]);
+
+  // Länderdaten (früh angestoßen) an den Worker übergeben, sobald sie da sind.
+  let disposed = false;
+  getLandData().then((land) => {
+    if (land && !disposed) worker.postMessage({ type: "land", land });
+  });
 
   const postScroll = () => {
     const max = document.documentElement.scrollHeight - window.innerHeight;
@@ -107,6 +128,7 @@ function runWorker(canvas, getDims) {
   postScroll();
 
   return () => {
+    disposed = true;
     window.removeEventListener("scroll", onScroll);
     window.removeEventListener("resize", onResize);
     worker.terminate();
@@ -135,13 +157,11 @@ function runMainThread(canvas, getDims) {
   };
   postScroll();
 
-  // Länderdaten nur im Fallback laden (dynamischer Import -> nicht im Haupt-Bundle)
+  // Länderdaten (früh angestoßen, geteilt mit dem Worker-Pfad) verwenden.
   let disposed = false;
-  import("../../lib/land-110m.json")
-    .then((m) => {
-      if (!disposed) renderer.setLand(m.default);
-    })
-    .catch(() => {});
+  getLandData().then((data) => {
+    if (data && !disposed) renderer.setLand(data);
+  });
 
   let lastDraw = -Infinity;
   let rafId = requestAnimationFrame(function loop(t) {

@@ -10,6 +10,51 @@ import {
 import { askGemini, isGeminiConfigured } from "../lib/geminiClient";
 import ColorOrb from "./ui/color-orb";
 
+// Erkennt Markdown-Links [Label](Ziel) sowie nackte URLs/mailto in einer Nachricht.
+const LINK_RE = /\[([^\]]+)\]\(([^)]+)\)|(https?:\/\/[^\s)]+)|(mailto:[^\s)]+)/g;
+
+// Rendert Nachrichtentext mit klickbaren Links. In-Page-Anker (#...) rufen
+// onInPageLink auf (z. B. um das "Anfrage senden"-Formular zu öffnen).
+function renderRichText(text, onInPageLink) {
+  const nodes = [];
+  let lastIndex = 0;
+  let key = 0;
+  LINK_RE.lastIndex = 0;
+  let m;
+  while ((m = LINK_RE.exec(text)) !== null) {
+    if (m.index > lastIndex) nodes.push(text.slice(lastIndex, m.index));
+    const label = m[1] || m[3] || m[4];
+    const target = m[2] || m[3] || m[4];
+    if (target.startsWith("#")) {
+      nodes.push(
+        <button
+          key={key++}
+          type="button"
+          onClick={() => onInPageLink(target)}
+          className="font-medium text-blue-300 underline underline-offset-2 transition hover:text-blue-200"
+        >
+          {label}
+        </button>
+      );
+    } else {
+      nodes.push(
+        <a
+          key={key++}
+          href={target}
+          target="_blank"
+          rel="noreferrer"
+          className="font-medium text-blue-300 underline underline-offset-2 transition hover:text-blue-200"
+        >
+          {label}
+        </a>
+      );
+    }
+    lastIndex = m.index + m[0].length;
+  }
+  if (lastIndex < text.length) nodes.push(text.slice(lastIndex));
+  return nodes;
+}
+
 const AssistantWidget = ({ t, language = "en", skills = [], tucked = false }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -69,7 +114,8 @@ const AssistantWidget = ({ t, language = "en", skills = [], tucked = false }) =>
   // Lokaler Keyword-Fallback.
   const localAnswer = (question) => {
     const match = findBestAnswer(question, docs);
-    return match ? match.answer : `${ui.noAnswer}\n${contactText}`;
+    if (match) return match.answer;
+    return `${ui.noAnswer}\n${contactText}\n👉 [${ui.sendRequestLabel}](#send-request)`;
   };
 
   const answerQuestion = async (question) => {
@@ -125,6 +171,20 @@ const AssistantWidget = ({ t, language = "en", skills = [], tucked = false }) =>
       setIsOpen(false);
       setIsClosing(false);
     }, 280);
+  };
+
+  // Klick auf einen In-Page-Link in einer Antwort (z. B. "Anfrage senden").
+  const handleInPageLink = (target) => {
+    if (target === "#send-request") {
+      window.dispatchEvent(new CustomEvent("open-send-request"));
+      closeChat();
+      return;
+    }
+    const el = document.querySelector(target);
+    if (el) {
+      closeChat();
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   };
 
   useEffect(() => {
@@ -222,7 +282,7 @@ const AssistantWidget = ({ t, language = "en", skills = [], tucked = false }) =>
                       : "rounded-bl-md border border-white/10 bg-white/[0.07] text-white/85 shadow-slate-950/30"
                   }`}
                 >
-                  <p>{message.text}</p>
+                  <p>{renderRichText(message.text, handleInPageLink)}</p>
                 </div>
               </div>
             ))}
