@@ -56,33 +56,45 @@ export function LiquidMetalButton({
     }
 
     if (shaderRef.current) {
-      try {
-        if (shaderMount.current?.destroy) {
-          shaderMount.current.destroy();
+      const webglAvailable = (() => {
+        try {
+          const c = document.createElement("canvas");
+          return !!(c.getContext("webgl") || c.getContext("experimental-webgl"));
+        } catch {
+          return false;
         }
+      })();
 
-        shaderMount.current = new ShaderMount(
-          shaderRef.current,
-          liquidMetalFragmentShader,
-          {
-            u_repetition: repetition,
-            u_softness: 0.5,
-            u_shiftRed: 0.3,
-            u_shiftBlue: 0.3,
-            u_distortion: 0,
-            u_contour: 0,
-            u_angle: angle,
-            u_scale: scale,
-            u_shape: 1,
-            u_offsetX: offsetX,
-            u_offsetY: offsetY,
-          },
-          undefined,
-          speed,
-          frame
-        );
-      } catch (error) {
-        console.error("Failed to load liquid metal shader:", error);
+      // Ohne WebGL bleibt der schlichte Farbverlauf-Button – kein Shader, kein Fehler.
+      if (webglAvailable) {
+        try {
+          if (shaderMount.current?.destroy) {
+            shaderMount.current.destroy();
+          }
+
+          shaderMount.current = new ShaderMount(
+            shaderRef.current,
+            liquidMetalFragmentShader,
+            {
+              u_repetition: repetition,
+              u_softness: 0.5,
+              u_shiftRed: 0.3,
+              u_shiftBlue: 0.3,
+              u_distortion: 0,
+              u_contour: 0,
+              u_angle: angle,
+              u_scale: scale,
+              u_shape: 1,
+              u_offsetX: offsetX,
+              u_offsetY: offsetY,
+            },
+            undefined,
+            speed,
+            frame
+          );
+        } catch (error) {
+          console.warn("Liquid-Metal-Shader übersprungen:", error?.message || error);
+        }
       }
     }
 

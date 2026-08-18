@@ -1,12 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useSpring,
-  useTransform,
-  useMotionValueEvent,
-} from "motion/react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform } from "motion/react";
 import {
   ArrowRight,
   Code2,
@@ -17,7 +10,6 @@ import {
   Languages,
   Check,
   ChevronDown,
-  ChevronUp,
   Dumbbell,
   Trophy,
   Snowflake,
@@ -38,14 +30,12 @@ import {
 } from "lucide-react";
 import ChatWidget from "./components/ChatWidget";
 import AssistantWidget from "./components/AssistantWidget";
-import { WebGLShader } from "./components/ui/web-gl-shader";
 import { LiquidMetalButton } from "./components/ui/liquid-metal-button";
-import WireframeDottedGlobe from "./components/ui/wireframe-dotted-globe";
 
-// Auf false setzen, um wieder auf den ursprünglichen Hintergrund zurückzuwechseln
-const SHOW_GLOBE_BACKGROUND = true;
-// Auf true setzen, um den alten WebGL-Shader im Hero wieder zu aktivieren
-const SHOW_HERO_SHADER = false;
+// Schwerer WebGL-Hintergrund erst nach dem ersten Paint laden (eigener Chunk) → schnellerer Seitenaufbau
+const BlackHoleHeroSection = React.lazy(() =>
+  import("./components/ui/blackhole-hero-section")
+);
 
 // Eigenes, voll gestaltbares Sprach-Dropdown (statt nativem <select>)
 function LanguageDropdown({ options, value, onChange }) {
@@ -209,10 +199,6 @@ const getTeamHaloPeriod = (language) => {
 const hobbyIcons = [Trophy, Dumbbell, Snowflake, Footprints];
 const highlightIcons = [Briefcase, Languages, Code2];
 const socialSkillIcons = [Users, Handshake, MessageCircle, Target, Lightbulb];
-
-// Dauer der Projekte in Monaten (gleiche Reihenfolge wie experience.items)
-// für die proportionale Zeit-Timeline und den Pfeil-Flug
-const experienceDurations = [6, 12, 5, 6];
 
 const translations = {
   de: {
@@ -910,97 +896,6 @@ function ProjectCard({ exp, index, total, articleStyle, contentStyle }) {
   );
 }
 
-function ProjectParallaxSlide({ exp, index, total, progress }) {
-  const segment = 1 / total;
-  const inStart = index * segment;
-  const outEnd = (index + 1) * segment;
-  const local = useTransform(progress, [inStart, outEnd], [0, 1]);
-
-  // Desktop: Öffnen / Schliessen (GPU-günstig über scale + opacity, kein clip-path)
-  const opacity = useTransform(local, [0, 0.22, 0.78, 1], [0, 1, 1, 0]);
-  const scale = useTransform(local, [0, 0.5, 1], [0.9, 1, 0.9]);
-  const contentY = useTransform(local, [0, 0.5, 1], [36, 0, -36]);
-  const contentOpacity = useTransform(local, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
-  const zIndex = useTransform(local, (v) => (v > 0.04 && v < 0.96 ? 20 : 1));
-
-  return (
-    <motion.div
-      style={{ opacity, zIndex }}
-      className="absolute inset-0 flex items-center justify-center px-5 sm:px-8 lg:px-10"
-    >
-      <ProjectCard
-        exp={exp}
-        index={index}
-        total={total}
-        articleStyle={{ scale }}
-        contentStyle={{ y: contentY, opacity: contentOpacity }}
-      />
-    </motion.div>
-  );
-}
-
-function MobileProjectSlider({ experiences, activeSlide, total, tag, overview }) {
-  const exp = experiences[activeSlide];
-  if (!exp) return null;
-  // abwechselnd von der Seite: gerade Projekte von links, ungerade von rechts
-  const fromLeft = activeSlide % 2 === 0;
-  const enterX = fromLeft ? "-110%" : "110%";
-
-  return (
-    <div className="absolute inset-0 flex flex-col overflow-hidden md:hidden">
-      {/* Statisches Intro oben: macht klar, dass dies meine absolvierten & aktuellen Projekte sind */}
-      <div className="shrink-0 pl-10 pr-5 pt-16 text-center">
-        <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-blue-200/70">
-          {tag}
-        </p>
-        <p className="mt-1 text-sm font-semibold text-white/85">{overview}</p>
-      </div>
-
-      {/* Projekt-Box: zentriert im flexiblen Mittelbereich */}
-      <div className="flex min-h-0 flex-1 items-center justify-center pl-10 pr-5 pb-2 pt-4">
-        {/* slidet abwechselnd von der Seite */}
-        <AnimatePresence mode="popLayout" initial={false}>
-          <motion.div
-            key={activeSlide}
-            initial={{ x: enterX, opacity: 0 }}
-            animate={{ x: "0%", opacity: 1 }}
-            exit={{ x: enterX, opacity: 0 }}
-            transition={{ duration: 0.5, ease: [0.83, 0, 0.17, 1] }}
-            className="w-full max-w-3xl"
-          >
-            <ProjectCard exp={exp} index={activeSlide} total={total} />
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      {/* Datum: fester Block unten – bleibt beim Wechsel und im Stehen exakt am gleichen Ort */}
-      <div className="relative mb-20 flex h-20 shrink-0 items-center justify-center overflow-hidden pl-10 pr-5">
-        <AnimatePresence initial={false} mode="popLayout">
-          <motion.div
-            key={activeSlide}
-            initial={{ y: "115%" }}
-            animate={{ y: "0%" }}
-            exit={{ y: "-115%" }}
-            transition={{ duration: 0.55, ease: [0.83, 0, 0.17, 1] }}
-            className="absolute inset-0 flex flex-col items-center justify-center text-center"
-          >
-            {exp.period.split(/\s*[-–—]\s*/).map((part, i) => (
-              <span
-                key={part}
-                className={`block text-3xl font-semibold leading-[1.15] tracking-tight ${
-                  i === 0 ? "text-white/90" : "text-white/45"
-                }`}
-              >
-                {part}
-              </span>
-            ))}
-          </motion.div>
-        </AnimatePresence>
-      </div>
-    </div>
-  );
-}
-
 export default function MattiKoenisOnepage() {
   const [activeLanguage, setActiveLanguage] = useState("en");
   const t = translations[activeLanguage];
@@ -1047,38 +942,8 @@ export default function MattiKoenisOnepage() {
   );
   const totalSlides = localizedExperiences.length;
 
-  // Proportionale Zeit-Timeline: jeder Slide bekommt gleich viel Scroll,
-  // aber Pfeil & Timeline-Position richten sich nach der echten Projektdauer.
-  const durations = experienceDurations.slice(0, totalSlides);
-  const totalDuration = durations.reduce((sum, d) => sum + d, 0) || 1;
-  const timelineStops = [0];
-  durations.forEach((d, i) => {
-    timelineStops.push(timelineStops[i] + d / totalDuration);
-  });
-  // letzten Knoten exakt auf 1 setzen (Rundungssicherheit)
-  timelineStops[timelineStops.length - 1] = 1;
-  const evenStops = durations.map((_, i) => i / totalSlides).concat(1);
-
   const sliderRef = useRef(null);
-  const { scrollYProgress: sliderProgress } = useScroll({
-    target: sliderRef,
-    offset: ["start start", "end end"],
-  });
-  const smoothSliderProgress = useSpring(sliderProgress, {
-    stiffness: 90,
-    damping: 28,
-    mass: 0.5,
-  });
-  const sliderBarScaleX = smoothSliderProgress;
-  // gleichmäßiger Scroll → proportionale Zeitposition (0..1)
-  const timelineFill = useTransform(smoothSliderProgress, evenStops, timelineStops);
-  const timelineTop = useTransform(
-    smoothSliderProgress,
-    evenStops,
-    timelineStops.map((p) => `${(p * 100).toFixed(2)}%`)
-  );
   const [viewport, setViewport] = useState({ w: 1200, h: 800 });
-  const [activeSlide, setActiveSlide] = useState(0);
   const [tuckChat, setTuckChat] = useState(false);
   const isMobile = viewport.w > 0 && viewport.w < 768;
 
@@ -1089,67 +954,29 @@ export default function MattiKoenisOnepage() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  useMotionValueEvent(sliderProgress, "change", (value) => {
-    const next = Math.min(totalSlides - 1, Math.max(0, Math.floor(value * totalSlides)));
-    setActiveSlide(next);
-    // Handy: Send-request-Button rausgleiten lassen, solange die Projekt-Sektion im Blick ist
-    setTuckChat(isMobile && value > 0.01 && value < 0.99);
-  });
-
-  const goToSlide = (target) => {
-    const section = sliderRef.current;
-    if (!section || totalSlides === 0) return;
-    const clamped = Math.min(totalSlides - 1, Math.max(0, target));
-    const scrollable = section.offsetHeight - window.innerHeight;
-    const desiredProgress = (clamped + 0.5) / totalSlides;
-    const top = section.offsetTop + desiredProgress * scrollable;
-    window.scrollTo({ top, behavior: "smooth" });
-  };
-
-  // Desktop: nach dem Scroll-Stopp automatisch zum nächstgelegenen Projekt einrasten,
-  // damit man nicht zwischen zwei Projekten stehen bleibt.
+  // Handy: Send-request-Button einziehen, solange die Projekt-Sektion sichtbar ist
   useEffect(() => {
-    if (isMobile) return;
     const section = sliderRef.current;
-    if (!section || totalSlides === 0) return;
+    if (!section) return;
+    if (!isMobile) {
+      setTuckChat(false);
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => setTuckChat(entries[0]?.isIntersecting ?? false),
+      { threshold: 0.15 }
+    );
+    io.observe(section);
+    return () => io.disconnect();
+  }, [isMobile]);
 
-    let idleTimeout;
-    let snapTimeout;
-    let snapping = false;
-
-    const handleScroll = () => {
-      if (snapping) return;
-      window.clearTimeout(idleTimeout);
-      idleTimeout = window.setTimeout(() => {
-        const scrollable = section.offsetHeight - window.innerHeight;
-        if (scrollable <= 0) return;
-        const progress = (window.scrollY - section.offsetTop) / scrollable;
-        // nur innerhalb der gepinnten Section einrasten
-        if (progress <= 0 || progress >= 1) return;
-        const slideSize = 1 / totalSlides;
-        const nearest = Math.min(
-          totalSlides - 1,
-          Math.max(0, Math.round(progress / slideSize - 0.5))
-        );
-        const desiredProgress = (nearest + 0.5) * slideSize;
-        const targetTop = section.offsetTop + desiredProgress * scrollable;
-        if (Math.abs(targetTop - window.scrollY) < 2) return; // schon eingerastet
-        snapping = true;
-        window.scrollTo({ top: targetTop, behavior: "smooth" });
-        window.clearTimeout(snapTimeout);
-        snapTimeout = window.setTimeout(() => {
-          snapping = false;
-        }, 700);
-      }, 150);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.clearTimeout(idleTimeout);
-      window.clearTimeout(snapTimeout);
-    };
-  }, [isMobile, totalSlides]);
+  // Timeline: Fortschritt folgt exakt dem Scroll (ohne Feder = keine Verzögerung)
+  const timelineRef = useRef(null);
+  const { scrollYProgress: timelineProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start center", "end center"],
+  });
+  const markerTop = useTransform(timelineProgress, (v) => `${v * 100}%`);
 
   const groupedTechSkills = techCategoryOrder
     .map((category) => ({
@@ -1211,7 +1038,7 @@ export default function MattiKoenisOnepage() {
   }, []);
 
   return (
-    <div className={`min-h-screen overflow-x-clip ${SHOW_GLOBE_BACKGROUND ? "bg-transparent" : "bg-slate-950"} text-white [scroll-behavior:smooth]`}>
+    <div className={`min-h-screen overflow-x-clip bg-transparent text-white [scroll-behavior:smooth]`}>
       <style>{`
         .hero-code-line {
           display: block;
@@ -1280,16 +1107,15 @@ export default function MattiKoenisOnepage() {
           }
         }
       `}</style>
-      <div className="fixed inset-0 -z-10 overflow-hidden [transform:translateZ(0)]">
-        <div className="absolute inset-0 bg-[linear-gradient(135deg,#0f172a_0%,#1e1b4b_50%,#0f172a_100%)]" />
-        <div className="absolute left-1/2 top-0 h-[40rem] w-[40rem] -translate-x-1/2 rounded-full bg-blue-600/20 blur-3xl" />
-        <div className="absolute bottom-0 right-0 h-[30rem] w-[30rem] rounded-full bg-blue-700/15 blur-3xl" />
-        <div className="absolute top-1/3 -left-32 h-[28rem] w-[28rem] rounded-full bg-slate-800/15 blur-3xl" />
-        {SHOW_GLOBE_BACKGROUND && (
-          <div className="pointer-events-none absolute inset-0 opacity-70">
-            <WireframeDottedGlobe />
-          </div>
-        )}
+      {/* Schwarzes-Loch als fixed Hintergrund (rohes WebGL2/WebGL, läuft in Chrome). */}
+      <div className="fixed inset-0 -z-10 overflow-hidden bg-black [transform:translateZ(0)]">
+        <Suspense fallback={null}>
+          <BlackHoleHeroSection
+            className="pointer-events-none h-full w-full"
+            steps={240}
+            maxDpr={1.5}
+          />
+        </Suspense>
       </div>
 
       <header className="sticky top-0 z-40 relative">
@@ -1427,9 +1253,6 @@ export default function MattiKoenisOnepage() {
 
       <main id="top">
         <section className="relative overflow-hidden">
-          <div className="pointer-events-none absolute inset-0">
-            {SHOW_HERO_SHADER && <WebGLShader />}
-          </div>
           <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid w-full items-center gap-10 sm:gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,0.82fr)]">
             <div
@@ -1739,203 +1562,69 @@ export default function MattiKoenisOnepage() {
         <section
           id="experience"
           ref={sliderRef}
-          className="relative border-t border-[#e5e4e2]/30"
-          style={{ height: `${Math.max(2, totalSlides) * 100}vh` }}
+          className="mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-28 lg:px-8 border-t border-[#e5e4e2]/30"
         >
-          <div className="sticky top-0 h-screen overflow-hidden">
-            {/* Slides – Desktop: Parallax-Stapel, Mobile: seitlicher Wechsel */}
-            {isMobile ? (
-              <MobileProjectSlider
-                experiences={localizedExperiences}
-                activeSlide={activeSlide}
-                total={totalSlides}
-                tag={t.experience.tag}
-                overview={t.experience.overview}
-              />
-            ) : (
-              localizedExperiences.map((exp, index) => (
-                <ProjectParallaxSlide
-                  key={exp.title}
-                  exp={exp}
-                  index={index}
-                  total={totalSlides}
-                  progress={smoothSliderProgress}
-                />
-              ))
-            )}
+          <div className="max-w-2xl">
+            <p className="text-sm font-medium uppercase tracking-[0.28em] text-blue-200/70">
+              {t.experience.tag}
+            </p>
+            <h2 className="mt-4 text-4xl md:text-3xl font-bold md:font-semibold tracking-tight md:text-5xl text-[#e5e4e2] md:text-white font-serif md:font-sans">
+              {t.experience.title}
+            </h2>
+            <p className="mt-6 text-lg leading-8 text-white/75">
+              {t.experience.overview}
+            </p>
+          </div>
 
-            {/* Sektions-Label oben rechts */}
-            <div className="pointer-events-none absolute right-6 top-24 z-30 hidden text-right sm:block sm:right-10 lg:right-16">
-              <p className="text-xs font-medium uppercase tracking-[0.28em] text-blue-200/70 sm:text-sm">
-                {t.experience.tag}
-              </p>
-              <p className="mt-1.5 max-w-xs text-sm font-semibold text-white/85 sm:text-base">
-                {t.experience.overview}
-              </p>
-              <p className="mt-1 hidden max-w-xs text-xs leading-5 text-white/45 lg:block">
-                {t.experience.title}
-              </p>
-            </div>
+          {/* Vertikale Timeline: Pfeil folgt dem Scroll, Projekte wechseln links/rechts */}
+          <div ref={timelineRef} className="relative mt-16 sm:mt-20">
+            {/* Mittellinie (mobil links, ab md zentriert) */}
+            <div className="absolute inset-y-0 left-6 w-px bg-white/10 md:left-1/2 md:-translate-x-1/2" />
+            <motion.div
+              style={{ scaleY: timelineProgress }}
+              className="absolute inset-y-0 left-6 w-[2px] origin-top bg-white shadow-[0_0_10px_1px_rgba(255,255,255,0.55)] md:left-1/2 md:-translate-x-1/2"
+            />
 
-            {/* Grosse Dauer rechts – wechselt wie eine Anzeigetafel (rollt hoch) */}
-            <div className="pointer-events-none absolute right-8 top-1/2 z-0 hidden h-48 w-[26rem] -translate-y-1/2 items-center justify-end overflow-hidden xl:flex 2xl:right-20 2xl:h-60">
-              <AnimatePresence initial={false} mode="popLayout">
-                <motion.div
-                  key={activeSlide}
-                  initial={{ y: "115%" }}
-                  animate={{ y: "0%" }}
-                  exit={{ y: "-115%" }}
-                  transition={{ duration: 0.55, ease: [0.83, 0, 0.17, 1] }}
-                  className="absolute inset-0 flex flex-col items-end justify-center text-right"
-                >
-                  {(() => {
-                    const raw = localizedExperiences[activeSlide]?.period || "";
-                    let parts = raw.split(/\s*[-–—]\s*/);
-                    // Start-Angaben ohne Bindestrich (z. B. "Ab Aug 2026") in zwei Zeilen stapeln
-                    if (parts.length === 1) {
-                      const idx = parts[0].indexOf(" ");
-                      if (idx > 0) {
-                        parts = [parts[0].slice(0, idx), parts[0].slice(idx + 1)];
-                      }
-                    }
-                    return parts.map((part, i) => (
-                      <span
-                        key={part}
-                        className={`block font-semibold leading-[1.02] tracking-tight text-5xl 2xl:text-7xl ${
-                          i === 0 ? "text-white/90" : "mt-1 text-white/40"
-                        }`}
-                      >
-                        {part}
-                      </span>
-                    ));
-                  })()}
-                </motion.div>
-              </AnimatePresence>
-            </div>
+            {/* Klarer leuchtender Punkt als Ende des weissen Strichs */}
+            <motion.div
+              style={{ top: markerTop }}
+              aria-hidden="true"
+              className="pointer-events-none absolute left-6 z-30 -translate-x-1/2 -translate-y-1/2 md:left-1/2"
+            >
+              <span className="relative flex items-center justify-center">
+                <span className="absolute h-5 w-5 rounded-full bg-white/40 blur-md" />
+                <span className="relative h-3 w-3 rounded-full bg-white shadow-[0_0_10px_3px_rgba(255,255,255,0.85)]" />
+              </span>
+            </motion.div>
 
-            {/* Projekt-Übersicht als Zeit-Timeline (Gesamtbild) – links, proportional zur Dauer */}
-            <div className="absolute left-6 top-1/2 z-30 hidden h-[66vh] w-64 -translate-y-1/2 flex-col lg:flex xl:left-16">
-              <p className="mb-5 shrink-0 text-[11px] font-semibold uppercase tracking-[0.28em] text-blue-200/60">
-                {t.experience.overview}
-              </p>
-              <div className="flex min-h-0 flex-1 gap-4">
-                {/* Zeitachse mit Fortschritt & laufendem Punkt */}
-                <div className="relative w-px shrink-0 self-stretch bg-white/12">
-                  <motion.div
-                    style={{ scaleY: timelineFill }}
-                    className="absolute inset-0 origin-top bg-gradient-to-b from-[#f2f1ef] via-[#e5e4e2] to-[#e5e4e2]/20"
-                  />
-                  {/* statische Knoten an den Phasen-Übergängen */}
-                  {timelineStops.map((p, i) => (
-                    <span
-                      key={i}
-                      style={{ top: `${p * 100}%` }}
-                      className="absolute left-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/30 bg-slate-950"
-                    />
-                  ))}
-                  {/* laufender Indikator (Pfeil-Begleiter) */}
-                  <motion.span
-                    style={{ top: timelineTop }}
-                    className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2"
-                    aria-hidden="true"
+            {/* Projekt-Reihen – abwechselnd links / rechts */}
+            <div className="flex flex-col gap-14 sm:gap-16 md:gap-24">
+              {localizedExperiences.map((exp, index) => {
+                const onLeft = index % 2 === 0;
+                return (
+                  <div
+                    key={exp.title}
+                    className="relative md:grid md:grid-cols-2 md:items-center md:gap-x-16"
                   >
-                    <span className="block h-3 w-3 rounded-full bg-[#f2f1ef] shadow-[0_0_14px_4px_rgba(242,241,239,0.5)]" />
-                  </motion.span>
-                </div>
+                    {/* Knoten auf der Linie */}
+                    <span className="absolute left-6 top-9 z-20 h-3.5 w-3.5 -translate-x-1/2 rounded-full border border-[#e5e4e2]/50 bg-slate-950 md:left-1/2 md:top-1/2 md:-translate-y-1/2" />
 
-                {/* Phasen-Labels, Höhe proportional zur Dauer */}
-                <ol className="flex min-h-0 flex-1 flex-col">
-                  {localizedExperiences.map((exp, i) => {
-                    const isActive = i === activeSlide;
-                    return (
-                      <li
-                        key={exp.title}
-                        style={{ flexGrow: durations[i], flexBasis: 0 }}
-                        className="flex min-h-0 items-center"
-                      >
-                        <button
-                          type="button"
-                          onClick={() => goToSlide(i)}
-                          aria-current={isActive ? "true" : undefined}
-                          className="group flex items-center gap-3 text-left"
-                        >
-                          <span
-                            className={`h-px transition-all duration-300 ${
-                              isActive
-                                ? "w-9 bg-[#e5e4e2]"
-                                : "w-4 bg-white/25 group-hover:w-7 group-hover:bg-white/50"
-                            }`}
-                          />
-                          <span className="flex flex-col">
-                            <span
-                              className={`text-[11px] tracking-wide transition-colors ${
-                                isActive ? "text-blue-200/70" : "text-white/30"
-                              }`}
-                            >
-                              {exp.period}
-                            </span>
-                            <span
-                              className={`text-sm font-medium leading-tight transition-colors ${
-                                isActive ? "text-white" : "text-white/45 group-hover:text-white/75"
-                              }`}
-                            >
-                              {exp.title}
-                            </span>
-                          </span>
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ol>
-              </div>
-            </div>
-
-            {/* Paginierung unten mittig */}
-            <div className="absolute bottom-10 left-1/2 z-30 flex -translate-x-1/2 items-end gap-3 md:bottom-8">
-              <span className="text-3xl font-bold leading-none text-[#e5e4e2]">
-                {String(activeSlide + 1).padStart(2, "0")}
-              </span>
-              <span className="mb-0.5 text-sm font-medium text-white/40">
-                — {String(totalSlides).padStart(2, "0")}
-              </span>
-            </div>
-
-            {/* Navigationspfeile unten rechts – nur auf dem Handy (Desktop: Send-request-Button liegt darüber) */}
-            <div className="absolute bottom-10 right-6 z-30 flex items-center gap-2 sm:right-10 md:hidden">
-              <button
-                type="button"
-                aria-label="Vorheriges Projekt"
-                onClick={() => goToSlide(activeSlide - 1)}
-                disabled={activeSlide === 0}
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white/80 backdrop-blur-sm transition hover:border-[#e5e4e2]/50 hover:bg-white/10 hover:text-[#f2f1ef] disabled:cursor-not-allowed disabled:opacity-30"
-              >
-                <ChevronUp className="h-5 w-5" />
-              </button>
-              <button
-                type="button"
-                aria-label="Nächstes Projekt"
-                onClick={() => goToSlide(activeSlide + 1)}
-                disabled={activeSlide === totalSlides - 1}
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white/80 backdrop-blur-sm transition hover:border-[#e5e4e2]/50 hover:bg-white/10 hover:text-[#f2f1ef] disabled:cursor-not-allowed disabled:opacity-30"
-              >
-                <ChevronDown className="h-5 w-5" />
-              </button>
-            </div>
-
-            {/* Fortschrittsbalken: Desktop horizontal unten */}
-            <div className="absolute inset-x-0 bottom-0 z-30 hidden h-0.5 bg-white/10 md:block">
-              <motion.div
-                style={{ scaleX: sliderBarScaleX }}
-                className="h-full w-full origin-left bg-gradient-to-r from-[#f2f1ef] via-[#e5e4e2] to-[#d8d8d6]"
-              />
-            </div>
-
-            {/* Fortschrittsbalken: Handy vertikal links neben dem Container */}
-            <div className="absolute left-5 top-1/2 z-30 h-64 w-0.5 -translate-y-1/2 overflow-hidden rounded-full bg-white/10 md:hidden">
-              <motion.div
-                style={{ scaleY: sliderBarScaleX }}
-                className="h-full w-full origin-top bg-gradient-to-b from-[#f2f1ef] via-[#e5e4e2] to-[#d8d8d6]"
-              />
+                    <motion.div
+                      initial={{ opacity: 0, y: 40 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-80px" }}
+                      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                      className={`pl-14 md:pl-0 ${
+                        onLeft ? "md:col-start-1 md:pr-12" : "md:col-start-2 md:pl-12"
+                      }`}
+                    >
+                      <div className={onLeft ? "md:ml-auto md:max-w-xl" : "md:mr-auto md:max-w-xl"}>
+                        <ProjectCard exp={exp} index={index} total={totalSlides} />
+                      </div>
+                    </motion.div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>
