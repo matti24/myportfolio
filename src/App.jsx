@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useTransform, useSpring } from "motion/react";
 import {
   ArrowRight,
   Code2,
@@ -28,14 +28,12 @@ import {
   Minus,
   Menu,
 } from "lucide-react";
-import ChatWidget from "./components/ChatWidget";
-import AssistantWidget from "./components/AssistantWidget";
 import { LiquidMetalButton } from "./components/ui/liquid-metal-button";
+import { ParallaxComponent } from "./components/ui/parallax-scrolling";
 
-// Schwerer WebGL-Hintergrund erst nach dem ersten Paint laden (eigener Chunk) → schnellerer Seitenaufbau
-const BlackHoleHeroSection = React.lazy(() =>
-  import("./components/ui/blackhole-hero-section")
-);
+// Schwebende Widgets sind fürs erste Rendern nicht nötig → eigene Chunks, nach dem ersten Paint geladen
+const ChatWidget = React.lazy(() => import("./components/ChatWidget"));
+const AssistantWidget = React.lazy(() => import("./components/AssistantWidget"));
 
 // Eigenes, voll gestaltbares Sprach-Dropdown (statt nativem <select>)
 function LanguageDropdown({ options, value, onChange }) {
@@ -970,13 +968,31 @@ export default function MattiKoenisOnepage() {
     return () => io.disconnect();
   }, [isMobile]);
 
-  // Timeline: Fortschritt folgt exakt dem Scroll (ohne Feder = keine Verzögerung)
+  // Timeline: Scroll-Fortschritt über eine Feder glätten → flüssig statt stockig
   const timelineRef = useRef(null);
+  const [timelineHeight, setTimelineHeight] = useState(0);
   const { scrollYProgress: timelineProgress } = useScroll({
     target: timelineRef,
     offset: ["start center", "end center"],
   });
-  const markerTop = useTransform(timelineProgress, (v) => `${v * 100}%`);
+  const timelineProgressSmooth = useSpring(timelineProgress, {
+    stiffness: 150,
+    damping: 30,
+    mass: 0.3,
+    restDelta: 0.0005,
+  });
+  // Marker per translateY (Transform, GPU) statt animiertem top → kein Layout-Ruckeln
+  const markerY = useTransform(timelineProgressSmooth, [0, 1], [0, timelineHeight]);
+
+  useEffect(() => {
+    const el = timelineRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver((entries) => {
+      setTimelineHeight(entries[0].contentRect.height);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   const groupedTechSkills = techCategoryOrder
     .map((category) => ({
@@ -1107,20 +1123,11 @@ export default function MattiKoenisOnepage() {
           }
         }
       `}</style>
-      {/* Schwarzes-Loch als fixed Hintergrund (rohes WebGL2/WebGL, läuft in Chrome). */}
-      <div className="fixed inset-0 -z-10 overflow-hidden bg-black [transform:translateZ(0)]">
-        <Suspense fallback={null}>
-          <BlackHoleHeroSection
-            className="pointer-events-none h-full w-full"
-            steps={240}
-            maxDpr={1.5}
-          />
-        </Suspense>
-      </div>
-
-      <header className="sticky top-0 z-40 relative">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#e5e4e2]/55 to-transparent" />
-        <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+      <header className="fixed inset-x-0 top-0 z-40">
+        {/* Weicher Scrim statt schwarzem Balken – Schrift bleibt auf Bild und dunkler Seite lesbar */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/55 via-black/25 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#e5e4e2]/45 to-transparent" />
+        <div className="relative mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8 [text-shadow:0_1px_12px_rgba(0,0,0,0.6)]">
           <div className="flex items-center justify-between">
             <a href="#top" className="text-sm font-semibold uppercase tracking-[0.24em] bg-gradient-to-r from-white to-[#d8d8d6] bg-clip-text text-transparent hover:from-[#f2f1ef] hover:to-[#d8d8d6] transition">
               Matti Koenis
@@ -1252,6 +1259,7 @@ export default function MattiKoenisOnepage() {
       </div>
 
       <main id="top">
+        <ParallaxComponent />
         <section className="relative overflow-hidden">
           <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid w-full items-center gap-10 sm:gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,0.82fr)]">
@@ -1437,7 +1445,11 @@ export default function MattiKoenisOnepage() {
                 <img
                   src={profileImage}
                   alt="Matti Koenis portrait"
-                  className="w-full drop-shadow-2xl select-none"
+                  className="h-auto w-full drop-shadow-2xl select-none"
+                  width={408}
+                  height={612}
+                  loading="lazy"
+                  decoding="async"
                   draggable={false}
                 />
               </div>
@@ -1581,17 +1593,17 @@ export default function MattiKoenisOnepage() {
             {/* Mittellinie (mobil links, ab md zentriert) */}
             <div className="absolute inset-y-0 left-6 w-px bg-white/10 md:left-1/2 md:-translate-x-1/2" />
             <motion.div
-              style={{ scaleY: timelineProgress }}
+              style={{ scaleY: timelineProgressSmooth }}
               className="absolute inset-y-0 left-6 w-[2px] origin-top bg-white shadow-[0_0_10px_1px_rgba(255,255,255,0.55)] md:left-1/2 md:-translate-x-1/2"
             />
 
-            {/* Klarer leuchtender Punkt als Ende des weissen Strichs */}
+            {/* Leuchtender Punkt am Ende des Strichs – folgt per translateY (GPU-beschleunigt) */}
             <motion.div
-              style={{ top: markerTop }}
+              style={{ x: "-50%", y: markerY }}
               aria-hidden="true"
-              className="pointer-events-none absolute left-6 z-30 -translate-x-1/2 -translate-y-1/2 md:left-1/2"
+              className="pointer-events-none absolute left-6 top-0 z-30 md:left-1/2"
             >
-              <span className="relative flex items-center justify-center">
+              <span className="relative flex -translate-y-1/2 items-center justify-center">
                 <span className="absolute h-5 w-5 rounded-full bg-white/40 blur-md" />
                 <span className="relative h-3 w-3 rounded-full bg-white shadow-[0_0_10px_3px_rgba(255,255,255,0.85)]" />
               </span>
@@ -1777,8 +1789,10 @@ export default function MattiKoenisOnepage() {
         </div>
       </footer>
 
-      {showChatWidget && !menuOpen ? <ChatWidget t={t.chat} language={activeLanguage} openSignal={chatOpenSignal} tucked={tuckChat} /> : null}
-      {!menuOpen ? <AssistantWidget t={t} language={activeLanguage} skills={informatikSkills} tucked={tuckChat} /> : null}
+      <Suspense fallback={null}>
+        {showChatWidget && !menuOpen ? <ChatWidget t={t.chat} language={activeLanguage} openSignal={chatOpenSignal} tucked={tuckChat} /> : null}
+        {!menuOpen ? <AssistantWidget t={t} language={activeLanguage} skills={informatikSkills} tucked={tuckChat} /> : null}
+      </Suspense>
     </div>
   );
 }

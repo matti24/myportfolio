@@ -8,8 +8,12 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          shaders: ['@paper-design/shaders'],
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return
+          if (id.includes('@paper-design/shaders')) return 'shaders'
+          if (id.includes('/motion/') || id.includes('/framer-motion/')) return 'motion'
+          if (id.includes('/lucide-react/')) return 'icons'
+          if (id.includes('/react-dom/') || id.includes('/react/') || id.includes('/scheduler/')) return 'react-vendor'
         },
       },
     },

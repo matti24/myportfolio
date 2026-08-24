@@ -2,10 +2,12 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
 }
 
 body {
   margin: 0;
+  background-color: #000;
 }
 
 /* --- Animierter ColorOrb (für den Matti-Assistenten) --- */
@@ -73,4 +75,95 @@ body {
   .color-orb::before {
     animation: none;
   }
+}
+
+/* --- Parallax-Hero (Osmo, motion-basiert) --- */
+.parallax {
+  position: relative;
+  width: 100%;
+  background-color: #000;
+}
+
+.parallax__header {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.parallax__visuals {
+  position: absolute;
+  inset: 0;
+}
+
+.parallax__black-line-overflow {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 2px;
+  background-color: #000;
+  z-index: 30;
+}
+
+.parallax__layers {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.parallax__layer-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: transform;
+}
+
+.parallax__layer-img--1 {
+  z-index: 1;
+}
+.parallax__layer-img--2 {
+  z-index: 2;
+}
+.parallax__layer-img--4 {
+  z-index: 4;
+}
+
+.parallax__layer-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+}
+
+.parallax__title {
+  margin: 0;
+  padding: 0 4vw;
+  text-align: center;
+  color: #e5e4e2;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  font-size: clamp(2.25rem, 9vw, 8rem);
+}
+
+.parallax__fade {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 30%;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000 100%);
+  z-index: 20;
 }
