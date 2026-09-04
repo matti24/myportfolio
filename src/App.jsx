@@ -847,13 +847,48 @@ const translations = {
 };
 
 function ProjectCard({ exp, index, total, articleStyle, contentStyle }) {
+  const cardRef = useRef(null);
+
+  // Cursor-Position als CSS-Variablen für den Liquid-Glow (nur bei Bewegung, kein Idle-Loop)
+  const handlePointerMove = (e) => {
+    const el = cardRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    el.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+    el.style.setProperty("--my", `${e.clientY - rect.top}px`);
+  };
+
   return (
     <motion.article
+      ref={cardRef}
+      onPointerMove={handlePointerMove}
       style={articleStyle}
-      className="relative z-10 w-full max-w-2xl overflow-hidden border border-white/12 bg-slate-900/55"
+      whileHover={{ y: -4 }}
+      transition={{ type: "spring", stiffness: 260, damping: 26 }}
+      className="group relative z-10 w-full max-w-2xl overflow-hidden rounded-[1.75rem] border border-white/10 bg-gradient-to-br from-slate-800/55 via-slate-900/45 to-slate-950/60 shadow-[0_18px_55px_-22px_rgba(0,0,0,0.8)] backdrop-blur-xl"
     >
-      {/* linke Akzentkante */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-[2px] bg-gradient-to-b from-transparent via-[#e5e4e2]/70 to-transparent" />
+      {/* Liquid-Farbschlieren als weicher Grund */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-16 -top-24 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(96,165,250,0.16),transparent_65%)] blur-2xl"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -bottom-24 -right-12 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(229,228,226,0.12),transparent_65%)] blur-2xl"
+      />
+      {/* Lichtreflexion folgt dem Cursor */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        style={{
+          background:
+            "radial-gradient(360px circle at var(--mx, 50%) var(--my, 0%), rgba(147,197,253,0.20), rgba(229,228,226,0.08) 42%, transparent 72%)",
+        }}
+      />
+      {/* diagonale Glasspiegelung + obere Glanzkante + linke Akzentkante */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/[0.07] via-transparent to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/45 to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-[2px] bg-gradient-to-b from-transparent via-[#e5e4e2]/60 to-transparent" />
 
       <motion.div style={contentStyle} className="relative z-10 p-5 sm:p-9">
         {/* Kopfzeile: Index + Ort */}
@@ -878,12 +913,12 @@ function ProjectCard({ exp, index, total, articleStyle, contentStyle }) {
           {exp.description}
         </p>
 
-        {/* Skills als schlichte, eckige Chips */}
+        {/* Skills als Liquid-Glass-Pills */}
         <div className="mt-6 flex flex-wrap gap-2 sm:mt-9">
           {exp.skills.map((skill) => (
             <span
               key={skill}
-              className="border border-white/12 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-white/50 sm:px-3 sm:py-1.5 sm:text-[11px]"
+              className="rounded-full border border-white/12 bg-white/[0.05] px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.12em] text-white/60 backdrop-blur-sm transition duration-300 group-hover:border-white/20 group-hover:bg-white/[0.08] sm:text-[11px]"
             >
               {skill}
             </span>
