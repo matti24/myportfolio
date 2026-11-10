@@ -1,2 +1,4 @@
-User-agent: Googlebot-Image
-Disallow: /DSC09470-removebg-preview.png
+User-agent: *
+Allow: /
+
+Sitemap: https://www.mattikoenis.ch/sitemap.xml

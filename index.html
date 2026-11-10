@@ -1,24 +1,18 @@
 <!doctype html>
-<html lang="en">
+<html lang="de">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Performance: Verbindungen zu externen Ressourcen (Logos, APIs) frueh aufbauen – kein visueller Einfluss -->
-    <link rel="preconnect" href="https://cdn.prod.website-files.com" />
-    <link rel="preconnect" href="https://cdn.simpleicons.org" />
-    <link rel="dns-prefetch" href="https://cdn.simpleicons.org" />
-    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
-    <link rel="dns-prefetch" href="https://commons.wikimedia.org" />
-    <link rel="dns-prefetch" href="https://upload.wikimedia.org" />
-    <link rel="dns-prefetch" href="https://generativelanguage.googleapis.com" />
-    <link rel="dns-prefetch" href="https://api.emailjs.com" />
-    <title>mattikoenis.ch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="theme-color" content="#0b0b0c" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preload" href="/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <!--app-head-->
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <div id="root"><!--app-html--></div>
+    <script type="module" src="/src/entry-client.jsx"></script>
   </body>
 </html>
-
-<!-- credits to all the icons used in this project: https://www.flaticon.com/free-icons/technology -->

@@ -1,31 +1,45 @@
-# React + Vite
+# mattikoenis.ch
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Portfolio von Matti Koenis – Applikationsentwickler in Ausbildung bei Swisscom.
 
-Currently, two official plugins are available:
+Statisch vorgerenderte React-App (Vite + Tailwind CSS v4) in vier Sprachen (DE, EN, NL, SV), ausgeliefert über GitHub Pages.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Entwicklung
 
-## React Compiler
+```bash
+npm install
+npm run dev       # Dev-Server (clientseitig gerendert)
+npm run build     # Client-Build, SSR-Build und Prerendering aller Seiten nach dist/
+npm run preview   # Produktions-Build lokal ansehen: http://localhost:4173
+npm run lint
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Aufbau
 
-## Expanding the ESLint configuration
+| Bereich | Ort |
+| --- | --- |
+| Seiten (Start, Case Study, Datenschutz, 404) | `src/pages/` |
+| Komponenten (Header, Globus, Formular …) | `src/components/` |
+| Texte pro Sprache | `src/content/i18n/{de,en,nl,sv}.js` |
+| Projektdaten (Links, Stack, Bilder) | `src/content/projects.js` |
+| Routen, SEO-Head, CSP | `src/lib/routes.js`, `src/lib/head.js` |
+| Prerendering, Sitemap, 404.html | `scripts/prerender.mjs` |
+| Bilder (AVIF/WebP), Schriften, OG-Bilder | `public/images/`, `public/fonts/`, `public/og/` |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Jede Seite wird beim Build als eigenes HTML mit Titel, Beschreibung, Canonical, `hreflang`, Open Graph und JSON-LD erzeugt. Im Browser wird nur die jeweilige Sprachdatei geladen.
 
-## EmailJS Chat Mail Setup
+## Neues Projekt hinzufügen
 
-The chat widget sends name and email directly via EmailJS (no backend needed).
+1. Eintrag in `src/content/projects.js` ergänzen (Slug, Links, Stack, Bild).
+2. Texte unter `projectTexts.<slug>` in allen vier Sprachdateien ergänzen.
+3. Bilder als `public/images/<name>-<breite>.{avif,webp}` ablegen.
+4. Optional: Social-Preview `public/og/og-<slug>.png` (1200 × 630).
 
-### Local setup
+## Kontaktformular
 
-1. Install dependencies:
-   - `npm install`
-2. Create a local env file from [.env.example](.env.example):
-   - `VITE_EMAILJS_SERVICE_ID=...`
-   - `VITE_EMAILJS_TEMPLATE_ID=...`
-   - `VITE_EMAILJS_PUBLIC_KEY=...`
-3. Start the Vite dev server:
-   - `npm run dev`
+Das Formular sendet über die EmailJS-REST-API. Konfiguration über `.env` (siehe `.env.example`).
+Die EmailJS-IDs sind öffentliche Client-Kennungen. Im EmailJS-Dashboard sollte die Nutzung auf die eigene Domain beschränkt sein.
+
+## Schriften
+
+Geist und Geist Mono (SIL Open Font License, siehe `public/fonts/OFL-LICENSE.txt`), selbst gehostet.
