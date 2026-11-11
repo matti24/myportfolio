@@ -1,338 +1,472 @@
-import { useState } from "react";
-import { ArrowDown, ArrowUpRight, Plus, Minus } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowDown, ArrowUpRight, Check, Copy, Sparkles } from "lucide-react";
 import { Picture } from "../components/Picture.jsx";
 import { CONTACT } from "../content/projects.js";
 
-const STUDIO_BW = { base: "studio-bw", widths: [480, 800, 1200], width: 1200, height: 1600 };
+const STUDIO_COLOR = { base: "studio-color", widths: [480, 800, 1120], width: 1120, height: 1400 };
 
-const REGISTER_SECTIONS = [
+const GREETINGS = [
+  { word: "Grüezi", lang: "DE · Zürich" },
+  { word: "Hoi", lang: "NL · Nederlands" },
+  { word: "Hej", lang: "SV · Svenska" },
+  { word: "Hello", lang: "EN · English" },
+];
+
+const INLINE_NOTES = {
+  default: {
+    tag: "Swisscom · Zürich",
+    caption: "2. Lehrjahr Applikationsentwicklung EFZ — ab Aug 2026 Host im Web-Team Halo.",
+  },
+  swisscom: {
+    tag: "Praxis bei Swisscom",
+    caption: "Vier Rotationen von IT-Support & Codemix über Power Platform DevOps bis zur Web-Teamkoordination.",
+  },
+  languages: {
+    tag: "4 Sprachen im Alltag",
+    caption: "Deutsch (Muttersprache), Niederländisch, Englisch (9 J. + IT) und Schwedisch.",
+  },
+  balance: {
+    tag: "Interessen & Ausgleich",
+    caption: "Wirtschaft, Finance & neue Apps – und als sportlicher Gegenpol Tennis, Gym, Skifahren & Joggen.",
+  },
+};
+
+const STATIONS = [
   {
-    id: "frontend",
-    index: "01",
-    title: "Web & Frontend",
-    summary: "5 Technologien · Fokus Team Halo & Web-Apps",
-    lead: "Moderne, schnelle Benutzeroberflächen mit klarer Struktur – von internen Swisscom-Applikationen bis zu interaktiven Web-Anwendungen.",
-    items: [
-      { name: "React", where: "Praxis & Web-Apps", detail: "Komponentenarchitektur, Hooks & zustandsgesteuerte Interfaces" },
-      { name: "TypeScript", where: "Web-Entwicklung", detail: "Typsichere Datenmodelle und wartbare Codebasen" },
-      { name: "JavaScript (ES2024)", where: "Codemix & Alltag", detail: "Asynchrone Logik, Schnittstellen & Browser-APIs" },
-      { name: "CSS & Tailwind CSS", where: "Alle Frontends", detail: "Präzise Raster, Responsivität & reduzierte Bewegung" },
-      { name: "PowerApps Canvas", where: "Swisscom Alltag", detail: "Massgeschneiderte Oberflächen für Geschäftsprozesse" },
-    ],
+    id: "halo",
+    period: "Ab Aug 2026",
+    role: "Team Halo — Host",
+    org: "Swisscom · Zürich / Bern",
+    summary: "Teamlead-Rolle im Web-Development-Team: Koordination, Planung, Zusammenarbeit & moderne Weblösungen.",
+    activeSkills: ["React", "TypeScript", "JavaScript", "CSS & Tailwind", "Node.js", "Git & GitHub", "VS Code", "Teamarbeit", "Klare Kommunikation", "Selbständiges Arbeiten", "Soziale Stärke"],
   },
   {
     id: "power",
-    index: "02",
-    title: "Power Platform & Cloud",
-    summary: "3 Kernbereiche · Täglicher Einsatz bei Swisscom",
-    lead: "End-to-End-Digitalisierung und Automatisierung von Workflows im Enterprise-Umfeld nach sauberen DevOps-Prinzipien.",
-    items: [
-      { name: "Microsoft Power Platform", where: "Swisscom Kernfokus", detail: "Lösungsarchitektur, Umgebungen & Governance im Betrieb" },
-      { name: "Power Automate", where: "Swisscom DevOps", detail: "Automatisierte Abläufe, Genehmigungen & System-Integrationen" },
-      { name: "Docker", where: "DevOps & Module", detail: "Reproduzierbare Container- und Devcontainer-Umgebungen" },
-    ],
+    period: "2025 – 2026",
+    role: "Power Platform DevOps",
+    org: "Swisscom · Zürich",
+    summary: "Entwicklung, Automatisierung und Betrieb von PowerApps-, Power-BI- und SharePoint-Lösungen nach DevOps-Methodik.",
+    activeSkills: ["PowerApps Canvas", "Power Automate", "SharePoint", "MS Power Platform", "Power BI", "Docker", "Git & GitHub", "Selbständiges Arbeiten", "Lösungsorientierung", "Klare Kommunikation"],
   },
   {
-    id: "backend",
-    index: "03",
-    title: "Backend & Datenbanken",
-    summary: "6 Technologien · Services, SQL & Datenhaltung",
-    lead: "Strukturierte Datenhaltung, relationale Abfragen und saubere Schnittstellen zwischen Frontend und Systemlogik.",
-    items: [
-      { name: "SharePoint", where: "Swisscom DevOps", detail: "Datenlisten, Berechtigungskonzepte & Prozessanbindung" },
-      { name: "Node.js", where: "Full-Stack", detail: "REST-Services, Skripte & serverseitige Logik" },
-      { name: "SQL & MariaDB", where: "Ausbildung & Praxis", detail: "Relationale Schemata, Joins & Datenintegrität" },
-      { name: "Java (Quarkus)", where: "Modul 223", detail: "Objektorientierte Backend-Entwicklung & REST-Endpunkte" },
-      { name: "MongoDB", where: "Datenbank-Module", detail: "Dokumentenbasierte NoSQL-Datenmodelle" },
-    ],
+    id: "codemix",
+    period: "Feb – Jul 2025",
+    role: "Codemix Programmierprojekt",
+    org: "Swisscom · Zürich",
+    summary: "Strukturierte Einführung in Softwareentwicklung mit Fokus auf saubere Web-Grundlagen und praktische Anwendung.",
+    activeSkills: ["JavaScript", "CSS & Tailwind", "Git & GitHub", "VS Code", "Selbständiges Arbeiten", "Lösungsorientierung", "Teamarbeit"],
   },
   {
-    id: "tools",
-    index: "04",
-    title: "Werkzeuge & Analytics",
-    summary: "4 Werkzeuge · Täglicher Entwicklungs-Workflow",
-    lead: "Saubere Versionskontrolle, strukturierte Entwicklungsumgebungen und faktenbasierte Datenaufbereitung.",
-    items: [
-      { name: "Git & GitHub", where: "Täglicher Einsatz", detail: "Branch-Workflows, Code-Reviews & Automatisierung" },
-      { name: "VS Code", where: "Haupt-Editor", detail: "Web-, TypeScript- & Scripting-Umgebung" },
-      { name: "IntelliJ IDEA", where: "Ausbildung", detail: "Entwicklungsumgebung für Java- und Backend-Projekte" },
-      { name: "Power BI", where: "Swisscom DevOps", detail: "Datenmodellierung, Auswertungen & übersichtliche Reports" },
-    ],
+    id: "future",
+    period: "2024 – 2025",
+    role: "Future Work Specialist",
+    org: "Swisscom · Zürich / Bern",
+    summary: "Gestaltung zukünftiger Arbeitsmodelle sowie direkter IT-Support im Floorwalking nah an den Mitarbeitenden.",
+    activeSkills: ["SharePoint", "Soziale Stärke", "Teamarbeit", "Klare Kommunikation", "Lösungsorientierung"],
   },
   {
-    id: "social",
-    index: "05",
-    title: "Arbeitsweise & Teamstärke",
-    summary: "5 Stärken · Wie ich im Team funktioniere",
-    lead: "Technik allein reicht nicht: Ich arbeite konzentriert und eigenständig, ziehe im Team verlässlich mit und kommuniziere direkt.",
-    items: [
-      { name: "Selbständiges Arbeiten", where: "Haltung", detail: "Aufgaben strukturiert anpacken und Verantwortung bis zum Ergebnis tragen" },
-      { name: "Teamarbeit & Koordination", where: "Team Halo", detail: "Gemeinsame Ziele voranbringen – ab Aug 2026 als Host im Web-Team" },
-      { name: "Klare Kommunikation", where: "4 Sprachen", detail: "Technisches verständlich auf den Punkt bringen (DE, NL, EN, SV)" },
-      { name: "Lösungsorientierung", where: "Praxis", detail: "Pragmatisch denken und ruhige, wartbare Lösungen bauen" },
-      { name: "Soziale Stärke", where: "Alltag", detail: "Empathie, Verlässlichkeit und offener Umgang mit Stakeholdern" },
-    ],
-  },
-  {
-    id: "stations",
-    index: "06",
-    title: "Stationen bei Swisscom",
-    summary: "4 Rotationen · 2024 bis heute in Zürich & Bern",
-    lead: "Schrittweiser Aufbau in der Praxis: vom direkten Kontakt im IT-Support über Business-Engineering bis zur Teamkoordination.",
-    items: [
-      { name: "Team Halo – Host", where: "Ab Aug 2026 · ZH/BE", detail: "Teamlead-Rolle im Web-Development-Team: Koordination, Planung & moderne Weblösungen" },
-      { name: "Power Platform DevOps", where: "2025 – 2026 · Zürich", detail: "Entwicklung und Betrieb von PowerApps-, Power-BI- und SharePoint-Lösungen" },
-      { name: "Codemix Programmierprojekt", where: "Feb – Jul 2025 · Zürich", detail: "Fundament in HTML, CSS, JavaScript und strukturierter Softwareentwicklung" },
-      { name: "Future Work Specialist", where: "2024 – 2025 · ZH/BE", detail: "Gestaltung moderner Arbeitsmodelle und direkter IT-Support im Floorwalking" },
-    ],
+    id: "modules",
+    period: "Laufend",
+    role: "Berufsfachschule & Eigene Apps",
+    org: "Zürich · Praxisvertiefung",
+    summary: "Vertiefung in Backend-Architektur, relationalen/NoSQL-Datenbanken und eigenen Web-Applikationen.",
+    activeSkills: ["React", "TypeScript", "Node.js", "Java", "SQL", "MariaDB", "MongoDB", "Docker", "IntelliJ IDEA", "VS Code", "Git & GitHub"],
   },
 ];
 
+const SKILL_CLUSTERS = [
+  {
+    label: "Frontend",
+    items: ["React", "TypeScript", "JavaScript", "CSS & Tailwind", "PowerApps Canvas"],
+  },
+  {
+    label: "Backend & Automation",
+    items: ["Node.js", "Power Automate", "Java"],
+  },
+  {
+    label: "Datenbanken",
+    items: ["SharePoint", "SQL", "MongoDB", "MariaDB"],
+  },
+  {
+    label: "Cloud & Tools",
+    items: ["MS Power Platform", "Docker", "VS Code", "Git & GitHub", "IntelliJ IDEA", "Power BI"],
+  },
+  {
+    label: "Arbeitsweise & Soziales",
+    items: ["Soziale Stärke", "Teamarbeit", "Klare Kommunikation", "Selbständiges Arbeiten", "Lösungsorientierung"],
+  },
+];
+
+function ZurichClock() {
+  const [time, setTime] = useState("ZRH · CET");
+
+  useEffect(() => {
+    const update = () => {
+      try {
+        const formatted = new Intl.DateTimeFormat("de-CH", {
+          timeZone: "Europe/Zurich",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        }).format(new Date());
+        setTime(`ZRH ${formatted}`);
+      } catch {
+        setTime("ZRH · CH");
+      }
+    };
+    update();
+    const id = setInterval(update, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  return <span className="font-mono text-[11px] tabular-nums text-[#737373]">{time}</span>;
+}
+
 export function DirectionOne() {
-  const [openId, setOpenId] = useState("frontend");
+  const [greetIdx, setGreetIdx] = useState(0);
+  const [hoverTopic, setHoverTopic] = useState("default");
+  const [selectedStation, setSelectedStation] = useState(null);
+  const [copied, setCopied] = useState(false);
+
+  const note = INLINE_NOTES[hoverTopic] || INLINE_NOTES.default;
+  const activeStationObj = STATIONS.find((s) => s.id === selectedStation) || null;
+  const highlightedSkills = activeStationObj ? new Set(activeStationObj.activeSkills) : null;
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(CONTACT.email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2200);
+    } catch {
+      window.location.href = `mailto:${CONTACT.email}`;
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-white text-[#0A0A0A] selection:bg-[#E02400] selection:text-white">
-      {/* Architektonische Kopfleiste: Kante zu Kante, 0px Radius */}
-      <header className="sticky top-0 z-30 border-b border-[#141414] bg-white/95 backdrop-blur-xs">
-        <div className="mx-auto grid max-w-[92rem] grid-cols-2 items-center divide-x divide-[#141414] lg:grid-cols-12">
-          <a
-            href="#d1-top"
-            className="flex items-center gap-3 px-4 py-3.5 font-mono text-xs font-semibold tracking-[0.1em] uppercase sm:px-6 lg:col-span-3"
-          >
-            <span aria-hidden="true" className="h-2.5 w-2.5 bg-[#E02400]" />
-            <span>MATTI KOENIS</span>
-          </a>
+    <div className="min-h-screen bg-[#FCFCFC] text-[#111111] selection:bg-[#0044FF] selection:text-white">
+      {/* Ultraleichte Status-Kopfzeile nach Vorbild moderner Design-Engineer-Portfolios */}
+      <header className="mx-auto flex max-w-[74rem] items-center justify-between px-5 pt-7 pb-4 sm:px-10">
+        <a href="#da-top" className="group inline-flex items-center gap-2.5 text-sm font-medium tracking-tight text-[#111111]">
+          <span
+            aria-hidden="true"
+            className="h-2 w-2 rounded-full bg-[#0044FF] transition-transform duration-300 group-hover:scale-125"
+          />
+          <span>Matti Koenis</span>
+          <span className="hidden text-[#737373] sm:inline">· Applikationsentwickler</span>
+        </a>
 
-          <div className="hidden truncate px-5 py-3.5 font-mono text-[11px] tracking-[0.08em] whitespace-nowrap text-[#525252] uppercase xl:col-span-3 xl:block">
-            47°22′N 08°32′E — ZÜRICH
-          </div>
-
-          <div className="hidden truncate px-5 py-3.5 font-mono text-[11px] tracking-[0.08em] whitespace-nowrap text-[#525252] uppercase lg:col-span-4 lg:block xl:col-span-3">
-            SWISSCOM · EFZ IN AUSBILDUNG
-          </div>
-
-          <nav
-            aria-label="Entwurf 1 Navigation"
-            className="flex items-center justify-end gap-4 px-4 py-3.5 font-mono text-xs tracking-[0.06em] whitespace-nowrap uppercase sm:px-6 lg:col-span-5 lg:justify-end xl:col-span-3 xl:justify-between"
-          >
-            <a href="#d1-top" className="hover:text-[#E02400]">
-              00 Einstieg
+        <div className="flex items-center gap-5">
+          <ZurichClock />
+          <nav aria-label="Richtung A Navigation" className="hidden items-center gap-5 text-[13px] text-[#666666] md:flex">
+            <a href="#da-top" className="transition-colors hover:text-[#111111]">
+              Profil
             </a>
-            <a href="#d1-register" className="hover:text-[#E02400]">
-              01 Register
+            <a href="#da-craft" className="transition-colors hover:text-[#111111]">
+              Erfahrung &amp; Skills
             </a>
-            <a href={`mailto:${CONTACT.email}`} className="hidden font-semibold text-[#E02400] sm:inline">
-              Kontakt ↗
-            </a>
+            <button
+              type="button"
+              onClick={handleCopy}
+              className="group relative inline-flex h-7 items-center overflow-hidden rounded-full border border-black/10 bg-white px-3 font-mono text-[11px] font-medium text-[#111111] shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition hover:border-[#0044FF]/40"
+            >
+              <span
+                className={`inline-flex items-center gap-1.5 transition-transform duration-300 ${
+                  copied ? "-translate-y-7 opacity-0" : "translate-y-0 opacity-100"
+                }`}
+              >
+                <Copy aria-hidden="true" className="h-3 w-3 text-[#737373]" />
+                {CONTACT.email}
+              </span>
+              <span
+                aria-live="polite"
+                className={`absolute inset-0 inline-flex items-center justify-center gap-1 text-[#0044FF] transition-transform duration-300 ${
+                  copied ? "translate-y-0 opacity-100" : "translate-y-7 opacity-0"
+                }`}
+              >
+                <Check aria-hidden="true" className="h-3 w-3" />
+                Kopiert
+              </span>
+            </button>
           </nav>
         </div>
       </header>
 
-      {/* ABSCHNITT 1: PLAKAT-EINSTIEG */}
-      <section id="d1-top" aria-labelledby="d1-hero-heading" className="border-b border-[#141414]">
-        <div className="mx-auto max-w-[92rem]">
-          {/* Monumentaler Namensblock mit asymmetrischem Versatz */}
-          <div className="border-b border-[#141414] px-4 pt-8 pb-7 sm:px-8 sm:pt-12 sm:pb-10 lg:px-10">
-            <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
-              <p className="font-mono text-xs font-medium tracking-[0.12em] text-[#E02400] uppercase">
-                [ 00 ] PERSÖNLICHES PROFIL — APPLIKATIONSENTWICKLER
-              </p>
-              <p className="font-mono text-xs tracking-[0.08em] text-[#525252] uppercase">
-                DE · NL · EN · SV &nbsp;/&nbsp; AB AUG 2026: TEAM HALO HOST
-              </p>
-            </div>
+      {/* ABSCHNITT 1: RUHIGER, PERSÖNLICHER DESIGN-ENGINEER-EINSTIEG */}
+      <section id="da-top" aria-labelledby="da-hero-heading" className="mx-auto max-w-[74rem] px-5 pt-10 pb-20 sm:px-10 sm:pt-16 sm:pb-28">
+        <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-12">
+          {/* Linke 7 Spalten: Konzentrierte Typografie mit interaktiven Inline-Bezügen */}
+          <div className="lg:col-span-7">
+            <button
+              type="button"
+              onClick={() => setGreetIdx((i) => (i + 1) % GREETINGS.length)}
+              title="Klicken für nächste Sprache"
+              className="group inline-flex items-center gap-2.5 rounded-full border border-black/[0.08] bg-white px-3 py-1 text-xs text-[#595959] shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition hover:border-[#0044FF]/35 hover:text-[#111111]"
+            >
+              <span className="font-medium text-[#0044FF]">{GREETINGS[greetIdx].word}</span>
+              <span aria-hidden="true" className="text-black/20">/</span>
+              <span className="font-mono text-[11px]">{GREETINGS[greetIdx].lang}</span>
+            </button>
 
             <h1
-              id="d1-hero-heading"
-              className="mt-5 font-display text-[clamp(3.6rem,12.2vw,10.8rem)] leading-[0.86] font-bold tracking-[-0.055em] uppercase"
+              id="da-hero-heading"
+              className="mt-6 text-[clamp(2.1rem,1.35rem+2.6vw,3.45rem)] leading-[1.08] font-medium tracking-[-0.038em] text-[#111111]"
             >
-              <span className="block">MATTI</span>
-              <span className="mt-1 flex items-center gap-4 sm:gap-7 lg:pl-[14%]">
-                <span aria-hidden="true" className="h-[0.09em] w-[0.85em] shrink-0 bg-[#E02400]" />
-                <span>KOENIS</span>
-              </span>
+              Ich bin Matti Koenis — ich baue saubere, verlässliche Applikationen mit Sinn für Struktur und Detail.
             </h1>
+
+            <p className="mt-6 max-w-[54ch] text-[1.0625rem] leading-[1.72] text-[#525252]">
+              Derzeit in der Ausbildung zum Applikationsentwickler bei{" "}
+              <button
+                type="button"
+                onMouseEnter={() => setHoverTopic("swisscom")}
+                onFocus={() => setHoverTopic("swisscom")}
+                onClick={() => setHoverTopic("swisscom")}
+                className="inline border-b border-[#0044FF]/45 font-medium text-[#111111] transition-colors hover:border-[#0044FF] hover:text-[#0044FF]"
+              >
+                Swisscom in Zürich
+              </button>{" "}
+              (ab August 2026 als Host im Web-Team Halo). Aufgewachsen mit{" "}
+              <button
+                type="button"
+                onMouseEnter={() => setHoverTopic("languages")}
+                onFocus={() => setHoverTopic("languages")}
+                onClick={() => setHoverTopic("languages")}
+                className="inline border-b border-black/25 font-medium text-[#111111] transition-colors hover:border-[#0044FF] hover:text-[#0044FF]"
+              >
+                vier Sprachen
+              </button>
+              , neugierig auf{" "}
+              <button
+                type="button"
+                onMouseEnter={() => setHoverTopic("balance")}
+                onFocus={() => setHoverTopic("balance")}
+                onClick={() => setHoverTopic("balance")}
+                className="inline border-b border-black/25 font-medium text-[#111111] transition-colors hover:border-[#0044FF] hover:text-[#0044FF]"
+              >
+                Wirtschaft, Strategie &amp; Sport
+              </button>{" "}
+              – und bereit für den nächsten Schritt nach der Lehre.
+            </p>
+
+            <div className="mt-9 flex flex-wrap items-center gap-4">
+              <a
+                href="#da-craft"
+                className="inline-flex min-h-10 items-center gap-2 rounded-full bg-[#111111] px-5 text-[13.5px] font-medium text-white transition hover:bg-[#0044FF]"
+              >
+                <span>Erfahrung &amp; Skills erkunden</span>
+                <ArrowDown aria-hidden="true" className="h-3.5 w-3.5" />
+              </a>
+              <a
+                href={CONTACT.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-10 items-center gap-1.5 px-2 text-[13.5px] font-medium text-[#525252] transition hover:text-[#111111]"
+              >
+                <span>LinkedIn</span>
+                <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
+              </a>
+              <a
+                href={CONTACT.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-10 items-center gap-1.5 px-2 text-[13.5px] font-medium text-[#525252] transition hover:text-[#111111]"
+              >
+                <span>GitHub</span>
+                <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
+              </a>
+            </div>
           </div>
 
-          {/* Untere 7:5 Architektur-Teilung ohne Karten oder Abstände */}
-          <div className="grid lg:grid-cols-12 lg:divide-x lg:divide-[#141414]">
-            {/* Linke Spalte: Persönliche Positionierung + 4-Spalten-Rasterstreifen */}
-            <div className="flex flex-col justify-between lg:col-span-7">
-              <div className="px-4 py-10 sm:px-8 sm:py-14 lg:p-12">
-                <p className="max-w-[30ch] font-display text-[clamp(1.45rem,1.1rem+1.25vw,2.3rem)] leading-[1.18] font-medium tracking-[-0.03em]">
-                  Präzision im Code, Ruhe in der Struktur und Verlässlichkeit im Team.
-                </p>
-
-                <p className="mt-6 max-w-[54ch] text-base leading-[1.65] text-[#3F3F3F] sm:text-[1.0625rem]">
-                  Ich bin in der Ausbildung zum Applikationsentwickler bei{" "}
-                  <strong className="font-semibold text-[#0A0A0A]">Swisscom in Zürich</strong>. Im Alltag verbinde ich
-                  moderne Web-Entwicklung mit Lösungen auf der Microsoft Power Platform. Mich interessieren Technik,
-                  Wirtschaft und Finanzmärkte – den Ausgleich zum Bildschirm hole ich mir beim Tennis, im Gym, auf der
-                  Skipiste und beim Joggen.
-                </p>
-
-                <div className="mt-9 flex flex-wrap items-center gap-5">
-                  <a
-                    href="#d1-register"
-                    className="inline-flex min-h-12 items-center gap-3 bg-[#0A0A0A] px-6 font-mono text-xs font-semibold tracking-[0.12em] text-white uppercase transition-colors hover:bg-[#E02400]"
-                  >
-                    <span>Skills & Stationen öffnen</span>
-                    <ArrowDown aria-hidden="true" className="h-3.5 w-3.5" />
-                  </a>
-                  <a
-                    href={`mailto:${CONTACT.email}`}
-                    className="inline-flex min-h-12 items-center gap-2 border border-[#141414] px-5 font-mono text-xs font-medium tracking-[0.08em] uppercase transition-colors hover:border-[#E02400] hover:text-[#E02400]"
-                  >
-                    <span>{CONTACT.email}</span>
-                    <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
-                  </a>
+          {/* Rechte 5 Spalten: Ruhig inszeniertes Original-Studioporträt mit dynamischer Kontext-Legende */}
+          <div className="lg:col-span-5">
+            <figure className="mx-auto max-w-[23rem] lg:ml-auto">
+              <div className="overflow-hidden rounded-[10px] bg-[#1E232B] ring-1 ring-black/10 shadow-[0_24px_48px_-24px_rgba(0,0,0,0.18)]">
+                <div className="aspect-[4/4.8] w-full overflow-hidden">
+                  <Picture
+                    image={STUDIO_COLOR}
+                    alt="Porträt von Matti Koenis"
+                    eager
+                    sizes="(min-width: 1024px) 23rem, 90vw"
+                    className="h-full w-full object-cover object-top transition-transform duration-700 ease-out hover:scale-[1.015]"
+                  />
                 </div>
               </div>
 
-              {/* Scharfkantige 4-Zellen-Spezifikation am Fuss der linken Spalte */}
-              <dl className="grid grid-cols-2 divide-x divide-y divide-[#141414] border-t border-[#141414] sm:grid-cols-4 sm:divide-y-0">
-                <div className="p-4 sm:p-5">
-                  <dt className="font-mono text-[10px] tracking-[0.1em] text-[#595959] uppercase">FOKUS</dt>
-                  <dd className="mt-2 font-display text-base font-semibold tracking-tight">Web & Power Apps</dd>
+              <figcaption
+                aria-live="polite"
+                className="mt-3.5 flex items-start justify-between gap-4 border-t border-black/[0.08] pt-3 text-xs"
+              >
+                <div>
+                  <span className="font-mono text-[10.5px] font-medium tracking-[0.06em] text-[#0044FF] uppercase">
+                    {note.tag}
+                  </span>
+                  <p className="mt-0.5 leading-relaxed text-[#525252]">{note.caption}</p>
                 </div>
-                <div className="p-4 sm:p-5">
-                  <dt className="font-mono text-[10px] tracking-[0.1em] text-[#595959] uppercase">ARBEITSSTIL</dt>
-                  <dd className="mt-2 font-display text-base font-semibold tracking-tight">Eigenständig & Team</dd>
-                </div>
-                <div className="p-4 sm:p-5">
-                  <dt className="font-mono text-[10px] tracking-[0.1em] text-[#595959] uppercase">INTERESSEN</dt>
-                  <dd className="mt-2 font-display text-base font-semibold tracking-tight">Finance & Strategie</dd>
-                </div>
-                <div className="p-4 sm:p-5">
-                  <dt className="font-mono text-[10px] tracking-[0.1em] text-[#595959] uppercase">SPORT</dt>
-                  <dd className="mt-2 font-display text-base font-semibold tracking-tight">Tennis · Gym · Ski</dd>
-                </div>
-              </dl>
-            </div>
-
-            {/* Rechte Spalte: Echtes Schwarz-Weiss-Studioporträt bündig im Raster */}
-            <div className="flex flex-col justify-between border-t border-[#141414] bg-[#181818] lg:col-span-5 lg:border-t-0">
-              <div className="relative aspect-[4/4.6] w-full overflow-hidden bg-[#181818] lg:aspect-auto lg:min-h-[32rem] lg:flex-1">
-                <Picture
-                  image={STUDIO_BW}
-                  alt="Schwarz-Weiss-Studioporträt von Matti Koenis"
-                  eager
-                  sizes="(min-width: 1024px) 38vw, 100vw"
-                  className="h-full w-full object-cover object-top lg:absolute lg:inset-0"
-                />
-              </div>
-              <div className="flex items-center justify-between gap-4 border-t border-[#141414] bg-white px-4 py-3 font-mono text-[11px] tracking-[0.08em] uppercase sm:px-6">
-                <span>ABB. 01 — MATTI KOENIS, ZÜRICH</span>
-                <span className="flex items-center gap-2 font-semibold text-[#0A0A0A]">
-                  <span aria-hidden="true" className="h-2 w-2 bg-[#E02400]" />
-                  BEREIT NACH DER LEHRE
-                </span>
-              </div>
-            </div>
+                <Sparkles aria-hidden="true" className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#0044FF]/70" />
+              </figcaption>
+            </figure>
           </div>
         </div>
+
+        {/* Offene 4-Spalten-Faktenlinie ohne Boxen oder Kärtchen */}
+        <dl className="mt-16 grid grid-cols-2 gap-x-8 gap-y-8 border-t border-black/[0.08] pt-8 sm:grid-cols-4">
+          <div>
+            <dt className="font-mono text-[11px] text-[#737373]">01 · Fokus</dt>
+            <dd className="mt-1.5 text-sm font-medium text-[#111111]">Moderne Web-Apps &amp; Power Platform</dd>
+          </div>
+          <div>
+            <dt className="font-mono text-[11px] text-[#737373]">02 · Arbeitsstil</dt>
+            <dd className="mt-1.5 text-sm font-medium text-[#111111]">Konzentriert, eigenständig &amp; teamstark</dd>
+          </div>
+          <div>
+            <dt className="font-mono text-[11px] text-[#737373]">03 · Sprachen</dt>
+            <dd className="mt-1.5 text-sm font-medium text-[#111111]">Deutsch, Niederländisch, Englisch, Schwedisch</dd>
+          </div>
+          <div>
+            <dt className="font-mono text-[11px] text-[#737373]">04 · Ausgleich</dt>
+            <dd className="mt-1.5 text-sm font-medium text-[#111111]">Tennis, Fitness, Skifahren &amp; Joggen</dd>
+          </div>
+        </dl>
       </section>
 
-      {/* ABSCHNITT 2: SCHWEIZER WERKREGISTER (KOMPETENZEN & PRAXIS OHNE KARTEN) */}
-      <section id="d1-register" aria-labelledby="d1-register-heading" className="border-b border-[#141414] pb-24">
-        <div className="mx-auto grid max-w-[92rem] lg:grid-cols-12 lg:divide-x lg:divide-[#141414]">
-          {/* Linke Leitspalte */}
-          <div className="border-b border-[#141414] px-4 py-12 sm:px-8 lg:col-span-4 lg:border-b-0 lg:p-10">
-            <div className="lg:sticky lg:top-20">
-              <p className="font-mono text-xs font-semibold tracking-[0.12em] text-[#E02400] uppercase">
-                [ 01 ] WERKREGISTER
+      {/* ABSCHNITT 2: SIBLING-DIMMING ERFAHRUNGS-SPUR & VERBUNDENER SKILL-INDEX */}
+      <section
+        id="da-craft"
+        aria-labelledby="da-craft-heading"
+        className="border-t border-black/[0.08] bg-white pt-20 pb-32 sm:pt-24 sm:pb-36"
+      >
+        <div className="mx-auto max-w-[74rem] px-5 sm:px-10">
+          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+            <div>
+              <p className="font-mono text-[11px] font-medium tracking-[0.08em] text-[#0044FF] uppercase">
+                Erfahrung &amp; Kompetenzen
               </p>
               <h2
-                id="d1-register-heading"
-                className="mt-4 font-display text-[clamp(2rem,1.4rem+2vw,3.1rem)] leading-[0.98] font-bold tracking-[-0.04em] uppercase"
+                id="da-craft-heading"
+                className="mt-2 text-[clamp(1.65rem,1.25rem+1.6vw,2.4rem)] leading-[1.12] font-medium tracking-[-0.03em]"
               >
-                Kompetenzen, Haltung & Praxis.
+                Wo ich gelernt habe — und womit ich baue.
               </h2>
-              <p className="mt-5 text-sm leading-[1.65] text-[#4A4A4A]">
-                Kein Prozentbalken-Baukasten, sondern ein klares Verzeichnis meiner 18 technischen Werkzeuge, meiner
-                Arbeitsweise und meiner vier Stationen bei Swisscom.
-              </p>
+            </div>
 
-              <div className="mt-10 border-t border-[#141414] pt-6">
-                <p className="font-mono text-[11px] font-semibold tracking-[0.1em] uppercase">
-                  WOFÜR ICH STEHE
-                </p>
-                <p className="mt-2 text-sm leading-[1.6] text-[#3F3F3F]">
-                  Saubere Arbeitsweise, klare Kommunikation und moderne Applikationen – offen für den nächsten Schritt
-                  nach der Lehre.
+            {selectedStation ? (
+              <button
+                type="button"
+                onClick={() => setSelectedStation(null)}
+                className="self-start font-mono text-xs text-[#0044FF] underline underline-offset-4 sm:self-auto"
+              >
+                Alle 23 Skills einblenden
+              </button>
+            ) : (
+              <p className="font-mono text-xs text-[#737373]">
+                Station anklicken oder überfahren zum Filtern
+              </p>
+            )}
+          </div>
+
+          <div className="mt-12 grid gap-14 lg:grid-cols-12 lg:gap-12">
+            {/* Links (6 Spalten): Fokus-Liste mit Sibling-Dimming */}
+            <div className="lg:col-span-6">
+              <h3 className="font-mono text-[11px] tracking-[0.08em] text-[#737373] uppercase">
+                Praxisstationen bei Swisscom &amp; Ausbildung
+              </h3>
+
+              <ul className="group/list mt-4 divide-y divide-black/[0.07] border-y border-black/[0.07]">
+                {STATIONS.map((st) => {
+                  const isPinned = selectedStation === st.id;
+                  return (
+                    <li
+                      key={st.id}
+                      className={`transition-opacity duration-300 ${
+                        selectedStation && !isPinned
+                          ? "opacity-40 hover:opacity-90"
+                          : "group-hover/list:opacity-45 hover:!opacity-100"
+                      }`}
+                    >
+                      <button
+                        type="button"
+                        aria-pressed={isPinned}
+                        onClick={() => setSelectedStation(isPinned ? null : st.id)}
+                        onMouseEnter={() => setSelectedStation(st.id)}
+                        className="w-full py-5 text-left"
+                      >
+                        <div className="flex items-baseline justify-between gap-4">
+                          <span className="flex items-center gap-2.5 text-[15.5px] font-medium tracking-tight text-[#111111]">
+                            <span
+                              aria-hidden="true"
+                              className={`h-1.5 w-1.5 rounded-full transition-colors ${
+                                isPinned ? "bg-[#0044FF]" : "bg-black/20"
+                              }`}
+                            />
+                            {st.role}
+                          </span>
+                          <span className="shrink-0 font-mono text-xs tabular-nums text-[#737373]">{st.period}</span>
+                        </div>
+                        <p className="mt-1.5 pl-4 text-[13.5px] leading-relaxed text-[#595959]">{st.summary}</p>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+
+            {/* Rechts (6 Spalten): Ruhiger, offener 18+5 Skill-Index ohne Kärtchen */}
+            <div
+              className="lg:col-span-6"
+              onMouseLeave={() => {
+                /* Auswahl bleibt bestehen bis man umschaltet oder zurücksetzt */
+              }}
+            >
+              <div className="flex items-baseline justify-between">
+                <h3 className="font-mono text-[11px] tracking-[0.08em] text-[#737373] uppercase">
+                  Werkzeugkasten &amp; Arbeitsweise (18 + 5)
+                </h3>
+                {activeStationObj ? (
+                  <span className="font-mono text-[11px] font-medium text-[#0044FF]">
+                    Aktiv in: {activeStationObj.role}
+                  </span>
+                ) : null}
+              </div>
+
+              <div className="mt-4 space-y-6 border-t border-black/[0.07] pt-5">
+                {SKILL_CLUSTERS.map((cluster) => (
+                  <div key={cluster.label} className="grid gap-2 sm:grid-cols-12 sm:items-baseline">
+                    <h4 className="font-mono text-[11px] text-[#737373] sm:col-span-4">{cluster.label}</h4>
+                    <ul className="flex flex-wrap gap-x-4 gap-y-2 sm:col-span-8">
+                      {cluster.items.map((skill) => {
+                        const isMatch = !highlightedSkills || highlightedSkills.has(skill);
+                        return (
+                          <li
+                            key={skill}
+                            className={`inline-flex items-center gap-1.5 text-[14px] transition-all duration-300 ${
+                              isMatch
+                                ? highlightedSkills
+                                  ? "font-medium text-[#0044FF]"
+                                  : "text-[#171717]"
+                                : "text-black/22"
+                            }`}
+                          >
+                            {highlightedSkills && isMatch ? (
+                              <span aria-hidden="true" className="h-1 w-1 rounded-full bg-[#0044FF]" />
+                            ) : null}
+                            <span>{skill}</span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+
+              {/* Ruhiges Abschluss-Statement („Bereit für den nächsten Schritt nach der Lehre“) */}
+              <div className="mt-10 border-t border-black/[0.07] pt-6">
+                <p className="text-[13.5px] leading-[1.7] text-[#525252]">
+                  <strong className="font-medium text-[#111111]">Wofür ich stehe:</strong> Klare Kommunikation,
+                  Verlässlichkeit und moderne Applikationen mit sauberem Auftritt – ich suche nach der Lehre ein Umfeld,
+                  in dem ich Verantwortung übernehmen und mich gezielt weiterentwickeln kann.
                 </p>
               </div>
             </div>
-          </div>
-
-          {/* Rechte Spalte: Interaktive Register-Bänder */}
-          <div className="divide-y divide-[#141414] lg:col-span-8">
-            {REGISTER_SECTIONS.map((sec) => {
-              const isOpen = openId === sec.id;
-              return (
-                <div
-                  key={sec.id}
-                  className={`transition-colors ${isOpen ? "border-l-4 border-l-[#E02400] bg-[#FAFAFA]" : "bg-white"}`}
-                >
-                  <h3>
-                    <button
-                      type="button"
-                      aria-expanded={isOpen}
-                      aria-controls={`d1-panel-${sec.id}`}
-                      onClick={() => setOpenId(isOpen ? "" : sec.id)}
-                      className="group flex w-full items-baseline justify-between gap-4 px-4 py-6 text-left transition-colors hover:bg-[#F5F5F4] sm:px-8 sm:py-7"
-                    >
-                      <span className="flex flex-wrap items-baseline gap-x-5 gap-y-1">
-                        <span
-                          className={`font-mono text-xs font-bold tracking-[0.1em] ${
-                            isOpen ? "text-[#E02400]" : "text-[#595959]"
-                          }`}
-                        >
-                          {sec.index}
-                        </span>
-                        <span className="font-display text-[clamp(1.35rem,1.05rem+1.1vw,2.1rem)] font-bold tracking-[-0.03em] uppercase">
-                          {sec.title}
-                        </span>
-                      </span>
-                      <span className="flex shrink-0 items-center gap-4">
-                        <span className="hidden font-mono text-xs text-[#595959] md:inline">{sec.summary}</span>
-                        <span className="flex h-8 w-8 items-center justify-center border border-[#141414] bg-white text-[#0A0A0A] group-hover:border-[#E02400] group-hover:text-[#E02400]">
-                          {isOpen ? (
-                            <Minus aria-hidden="true" className="h-3.5 w-3.5" />
-                          ) : (
-                            <Plus aria-hidden="true" className="h-3.5 w-3.5" />
-                          )}
-                        </span>
-                      </span>
-                    </button>
-                  </h3>
-
-                  <div
-                    id={`d1-panel-${sec.id}`}
-                    hidden={!isOpen}
-                    className="border-t border-[#DEDEDE] bg-white px-4 py-7 sm:px-8"
-                  >
-                    <p className="max-w-[60ch] text-sm leading-relaxed text-[#4A4A4A]">{sec.lead}</p>
-                    <ul className="mt-6 grid divide-y divide-[#E5E5E5] border-y border-[#141414] sm:grid-cols-2 sm:divide-x">
-                      {sec.items.map((item) => (
-                        <li key={item.name} className="flex flex-col justify-between gap-2 p-4 sm:p-5">
-                          <div className="flex items-baseline justify-between gap-3">
-                            <span className="font-display text-base font-bold tracking-tight text-[#0A0A0A]">
-                              {item.name}
-                            </span>
-                            <span className="font-mono text-[11px] font-medium tracking-[0.06em] text-[#E02400] uppercase">
-                              {item.where}
-                            </span>
-                          </div>
-                          <p className="text-sm leading-snug text-[#525252]">{item.detail}</p>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              );
-            })}
           </div>
         </div>
       </section>

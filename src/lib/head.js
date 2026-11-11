@@ -80,9 +80,9 @@ export function buildHead(route) {
     description = t.meta.privacyDescription;
   } else if (route.page === "concept") {
     const names = {
-      "1": "Entwurf 01: Zürcher Plakat & Register",
-      "2": "Entwurf 02: Editorial Monograph",
-      "3": "Entwurf 03: Vernetzte Profil-Matrix",
+      "1": "Richtung A: Precision Desk (Empfehlung)",
+      "2": "Richtung B: Swiss Kinetic Editorial",
+      "3": "Richtung C: Zürich Spec / Dossier",
     };
     title = `${names[route.slug] || names["1"]} | Matti Koenis`;
   } else if (route.page === "notFound") {

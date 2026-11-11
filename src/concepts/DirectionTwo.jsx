@@ -1,310 +1,347 @@
-import { useState } from "react";
-import { ArrowDown, ArrowRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowDownRight, ArrowUpRight, Plus, Minus } from "lucide-react";
 import { Picture } from "../components/Picture.jsx";
 import { CONTACT } from "../content/projects.js";
 
-const STUDIO_COLOR = { base: "studio-color", widths: [480, 800, 1120], width: 1120, height: 1400 };
+const STUDIO_BW = { base: "studio-bw", widths: [480, 800, 1200], width: 1200, height: 1600 };
 
-const STATIONS = [
+const CHAPTER_ROWS = [
   {
-    numeral: "01",
-    era: "Ab Aug ’26",
+    id: "halo",
+    num: "01",
     title: "Team Halo — Host",
-    place: "Swisscom · Zürich & Bern",
-    current: true,
-    story:
-      "Übernahme einer Teamlead-Rolle im Web-Development-Team mit Verantwortung für Koordination, gemeinsame Planung, Zusammenarbeit und moderne Weblösungen.",
-    craft: "Web Development · Frontend · Teamführung · Koordination",
+    meta: "Swisscom · Ab Aug 2026",
+    kicker: "Teamlead-Rolle im Web Development",
+    previewStack: "Web Development · Frontend · Teamführung · Koordination",
+    description:
+      "Verantwortung für Koordination, Zusammenarbeit und moderne Weblösungen im Entwicklungsteam in Zürich und Bern.",
+    items: ["React", "TypeScript", "JavaScript", "CSS", "Teamführung", "Koordination", "Klare Kommunikation"],
   },
   {
-    numeral: "02",
-    era: "2025 – ’26",
+    id: "power",
+    num: "02",
     title: "Power Platform DevOps",
-    place: "Swisscom · Zürich",
-    story:
-      "Entwicklung, Betrieb und Weiterentwicklung praxisnaher Geschäftslösungen mit PowerApps, Power BI, Power Automate und SharePoint nach DevOps-Methoden.",
-    craft: "PowerApps · Power BI · Power Automate · SharePoint · DevOps",
+    meta: "Swisscom · 2025 – 2026",
+    kicker: "Business-Applikationen & Automation",
+    previewStack: "PowerApps · Power Automate · SharePoint · Power BI",
+    description:
+      "Entwicklung, Betrieb und Weiterentwicklung produktiver Lösungen auf der Microsoft Power Platform nach DevOps-Prinzipien.",
+    items: ["Microsoft Power Platform", "PowerApps Canvas", "Power Automate", "SharePoint", "Power BI", "DevOps"],
   },
   {
-    numeral: "03",
-    era: "Frühjahr ’25",
-    title: "Codemix Programmierprojekt",
-    place: "Swisscom · Zürich",
-    story:
-      "Strukturierter Einstieg in die Softwareentwicklung mit Fokus auf saubere Web-Grundlagen, verständlichen Code und direkte praktische Umsetzung.",
-    craft: "HTML · CSS · JavaScript · Software-Grundlagen",
+    id: "engineering",
+    num: "03",
+    title: "Full-Stack & Datenbanken",
+    meta: "18 Informatik-Skills",
+    kicker: "Codemix, Berufsfachschule & eigene Apps",
+    previewStack: "React · Node.js · Java · SQL · Docker · Git",
+    description:
+      "Breites technisches Fundament über Frontend, Backend, relationale sowie dokumentenbasierte Datenbanken und Entwicklungswerkzeuge.",
+    items: ["React", "TypeScript", "JavaScript", "Node.js", "Java", "SQL", "MariaDB", "MongoDB", "Docker", "Git", "VS Code", "IntelliJ IDEA"],
   },
   {
-    numeral: "04",
-    era: "2024 – ’25",
-    title: "Future Work Specialist",
-    place: "Swisscom · Zürich & Bern",
-    story:
-      "Mitarbeit an zukünftigen Arbeitsmodellen sowie direkter IT-Support im Floorwalking – nah an den Menschen und ihren täglichen Anforderungen.",
-    craft: "IT-Support · Direkte Kommunikation · Teamarbeit",
+    id: "mindset",
+    num: "04",
+    title: "Arbeitsweise & Haltung",
+    meta: "5 Soziale Stärken",
+    kicker: "Bereit für den Schritt nach der Lehre",
+    previewStack: "Selbständig · Teamstark · Lösungsorientiert",
+    description:
+      "Konzentriert in der Einzelarbeit, verlässlich im Team und klar in der Kommunikation – vom ersten IT-Support im Floorwalking (Future Work) bis zur Projektkoordination.",
+    items: ["Soziale Stärke", "Teamarbeit", "Klare Kommunikation", "Selbständiges Arbeiten", "Lösungsorientierung"],
   },
 ];
 
-const CRAFT_INDEX = [
-  { name: "React & TypeScript", role: "Moderne Web-Oberflächen", group: "web" },
-  { name: "JavaScript & CSS", role: "Fundament & Interaktion", group: "web" },
-  { name: "PowerApps Canvas", role: "Business-Applikationen", group: "swisscom" },
-  { name: "Power Automate", role: "Workflow-Automatisierung", group: "swisscom" },
-  { name: "Microsoft Power Platform", role: "Architektur & Betrieb", group: "swisscom" },
-  { name: "SharePoint & Power BI", role: "Datenhaltung & Reports", group: "swisscom" },
-  { name: "Node.js & Java", role: "Backend-Logik & Services", group: "web" },
-  { name: "SQL, MariaDB & MongoDB", role: "Relationale & NoSQL-Daten", group: "web" },
-  { name: "Docker, Git & VS Code", role: "DevOps & tägliches Setup", group: "web" },
-  { name: "IntelliJ IDEA", role: "Java- & Modul-Entwicklung", group: "web" },
-  { name: "Selbständiges Arbeiten", role: "Fokus & Eigenverantwortung", group: "human" },
-  { name: "Teamarbeit & Empathie", role: "Verlässlich im Zusammenspiel", group: "human" },
-  { name: "Klare Kommunikation", role: "Verständlich in 4 Sprachen", group: "human" },
-  { name: "Lösungsorientierung", role: "Pragmatisch & strukturiert", group: "human" },
-];
+function MagneticCta({ href, children }) {
+  const ref = useRef(null);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
 
-export function DirectionTwo() {
-  const [filter, setFilter] = useState("all");
-  const visibleCraft = filter === "all" ? CRAFT_INDEX : CRAFT_INDEX.filter((item) => item.group === filter);
+  const onMove = (e) => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const dx = (e.clientX - (r.left + r.width / 2)) * 0.24;
+    const dy = (e.clientY - (r.top + r.height / 2)) * 0.24;
+    setOffset({ x: Math.max(-14, Math.min(14, dx)), y: Math.max(-14, Math.min(14, dy)) });
+  };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F4] text-[#161513] selection:bg-[#14533D] selection:text-[#FAF8F4]">
-      {/* Ruhiger, luftiger Magazin-Kopf ohne Boxen */}
-      <header className="mx-auto max-w-[82rem] px-5 pt-7 pb-6 sm:px-10 lg:px-12">
-        <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-[#DFD9CE] pb-5">
-          <a href="#d2-top" className="flex items-baseline gap-2.5">
-            <span className="text-base font-semibold tracking-tight text-[#161513]">Matti Koenis</span>
-            <span className="font-serif text-xl text-[#5E5A53] italic">— Zürich</span>
-          </a>
+    <a
+      ref={ref}
+      href={href}
+      onPointerMove={onMove}
+      onPointerLeave={() => setOffset({ x: 0, y: 0 })}
+      style={{ transform: `translate3d(${offset.x}px, ${offset.y}px, 0)` }}
+      className="inline-flex h-28 w-28 shrink-0 flex-col items-center justify-center rounded-full bg-[#C8260E] text-center font-mono text-[11px] font-semibold tracking-[0.08em] text-white uppercase shadow-[0_18px_36px_-14px_rgba(223,48,22,0.55)] transition-[transform,background-color] duration-200 ease-out hover:bg-[#141413] sm:h-32 sm:w-32"
+    >
+      {children}
+    </a>
+  );
+}
 
-          <nav aria-label="Entwurf 2 Navigation" className="flex flex-wrap items-baseline gap-6 text-sm text-[#5E5A53]">
-            <a href="#d2-top" className="transition-colors hover:text-[#161513]">
-              <span className="mr-1 font-serif text-base text-[#14533D] italic">I.</span>Porträt
-            </a>
-            <a href="#d2-journey" className="transition-colors hover:text-[#161513]">
-              <span className="mr-1 font-serif text-base text-[#14533D] italic">II.</span>Weg &amp; Handwerk
-            </a>
-            <a
-              href={`mailto:${CONTACT.email}`}
-              className="border-b border-[#14533D] pb-0.5 font-medium text-[#14533D] transition-colors hover:text-[#161513]"
-            >
-              Schreiben
-            </a>
-          </nav>
-        </div>
+export function DirectionTwo() {
+  const [expanded, setExpanded] = useState("halo");
+  const [hoveredRow, setHoveredRow] = useState(null);
+  const floatRef = useRef(null);
+  const targetPos = useRef({ x: 0, y: 0 });
+  const currentPos = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    if (!hoveredRow) return undefined;
+    let rafId = 0;
+    const tick = () => {
+      currentPos.current.x += (targetPos.current.x - currentPos.current.x) * 0.18;
+      currentPos.current.y += (targetPos.current.y - currentPos.current.y) * 0.18;
+      if (floatRef.current) {
+        floatRef.current.style.transform = `translate3d(${currentPos.current.x}px, ${currentPos.current.y}px, 0)`;
+      }
+      rafId = requestAnimationFrame(tick);
+    };
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, [hoveredRow]);
+
+  const hoveredData = CHAPTER_ROWS.find((r) => r.id === hoveredRow) || null;
+
+  return (
+    <div className="min-h-screen bg-[#F8F7F4] text-[#141413] selection:bg-[#C8260E] selection:text-white">
+      {/* Charakterstarker, offener Editorial-Header */}
+      <header className="mx-auto flex max-w-[88rem] items-center justify-between px-5 pt-7 pb-5 sm:px-10 lg:px-14">
+        <a href="#db-top" className="font-display text-sm font-bold tracking-[-0.02em] uppercase">
+          Matti Koenis <span className="font-serif text-lg font-normal text-[#63605A] lowercase italic">— zürich</span>
+        </a>
+
+        <nav aria-label="Richtung B Navigation" className="flex items-center gap-6 text-xs font-medium tracking-[0.06em] uppercase">
+          <a href="#db-top" className="text-[#63605A] transition-colors hover:text-[#141413]">
+            Person
+          </a>
+          <a href="#db-index" className="text-[#63605A] transition-colors hover:text-[#141413]">
+            Skills &amp; Weg
+          </a>
+          <a
+            href={`mailto:${CONTACT.email}`}
+            className="inline-flex items-center gap-1 font-semibold text-[#C8260E] transition-colors hover:text-[#141413]"
+          >
+            <span>Kontakt</span>
+            <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
+          </a>
+        </nav>
       </header>
 
-      {/* ABSCHNITT 1: REDAKTIONELLER EINSTIEG (ASYMMETRISCHES PORTRÄT) */}
-      <section id="d2-top" aria-labelledby="d2-hero-heading" className="mx-auto max-w-[82rem] px-5 pt-6 pb-20 sm:px-10 sm:pt-10 sm:pb-28 lg:px-12">
-        <p className="font-mono text-[11px] tracking-[0.14em] text-[#14533D] uppercase">
-          Applikationsentwickler in Ausbildung · Swisscom · Region Zürich
-        </p>
-
-        <h1
-          id="d2-hero-heading"
-          className="mt-5 max-w-[21ch] text-[clamp(2.25rem,1.35rem+3.4vw,4.55rem)] leading-[1.05] font-medium tracking-[-0.035em] text-[#161513]"
-        >
-          Ich bin Matti — ich entwickle{" "}
-          <em className="font-serif text-[1.12em] font-normal text-[#14533D] italic">klare Applikationen</em>, arbeite
-          konzentriert im{" "}
-          <em className="font-serif text-[1.12em] font-normal italic">Team</em> und denke gerne über den Code hinaus.
-        </h1>
-
-        <div className="mt-12 grid gap-12 lg:mt-16 lg:grid-cols-12 lg:items-start lg:gap-10">
-          {/* Spalte 1–4: Persönliche Erzählung */}
-          <div className="lg:col-span-4 lg:pt-6">
-            <p className="text-base leading-[1.72] text-[#3D3A35]">
-              Bei Swisscom lerne ich Softwareentwicklung von der Pike auf: im aktuellen Alltag auf der Microsoft Power
-              Platform und ab August 2026 als <strong className="font-medium text-[#161513]">Host im Team Halo</strong>{" "}
-              mit Verantwortung für Web-Entwicklung und Teamkoordination.
+      {/* ABSCHNITT 1: KINETISCHER EDITORIAL-HERO MIT S/W-STUDIOPORTRÄT & MAGNETIC CTA */}
+      <section id="db-top" aria-labelledby="db-hero-heading" className="mx-auto max-w-[88rem] px-5 pt-6 pb-20 sm:px-10 sm:pt-10 sm:pb-28 lg:px-14">
+        <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-8">
+            <p className="font-mono text-xs tracking-[0.12em] text-[#C8260E] uppercase">
+              Applikationsentwickler in Ausbildung · Swisscom
             </p>
-            <p className="mt-5 text-base leading-[1.72] text-[#3D3A35]">
-              Privat begeistern mich Wirtschaft, Strategie und neue digitale Produkte. Und weil gute Ideen einen freien
-              Kopf brauchen, findet man mich nach Feierabend auf dem Tennisplatz, im Gym, auf den Ski oder beim Joggen.
-            </p>
-
-            <div className="mt-9 flex flex-wrap items-center gap-6">
-              <a
-                href={`mailto:${CONTACT.email}`}
-                className="group inline-flex min-h-11 items-center gap-2.5 bg-[#14533D] px-6 py-3 text-sm font-medium text-[#FAF8F4] transition-colors hover:bg-[#0E3D2C]"
-              >
-                <span>Gespräch starten</span>
-                <ArrowRight aria-hidden="true" className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </a>
-              <a
-                href="#d2-journey"
-                className="inline-flex items-center gap-2 text-sm font-medium text-[#5E5A53] transition-colors hover:text-[#161513]"
-              >
-                <span>Stationen &amp; Handwerk</span>
-                <ArrowDown aria-hidden="true" className="h-4 w-4 text-[#14533D]" />
-              </a>
-            </div>
+            <h1
+              id="db-hero-heading"
+              className="mt-4 font-display text-[clamp(3rem,1.4rem+6.4vw,7.2rem)] leading-[0.92] font-bold tracking-[-0.05em] text-[#141413]"
+            >
+              Präzision im{" "}
+              <em className="font-serif text-[1.06em] font-normal text-[#C8260E] italic">Code.</em>
+              <br />
+              Charakter im Auftritt.
+            </h1>
           </div>
 
-          {/* Spalte 5–9: Gerahmtes Farbiges Studioporträt mit Passepartout */}
-          <figure className="lg:col-span-5">
-            <div className="border border-[#D8D1C4] bg-white p-2.5 shadow-[0_24px_54px_-32px_rgba(22,21,19,0.28)] sm:p-3.5">
-              <div className="aspect-[4/5] overflow-hidden bg-[#262B31]">
+          <div className="flex items-end justify-between gap-6 lg:col-span-4 lg:justify-end">
+            <MagneticCta href="#db-index">
+              <span>Profil &amp;</span>
+              <span>Skills</span>
+              <ArrowDownRight aria-hidden="true" className="mt-1 h-4 w-4" />
+            </MagneticCta>
+          </div>
+        </div>
+
+        {/* Asymmetrische Bild- & Persönlichkeits-Bühne */}
+        <div className="mt-12 grid gap-10 border-t border-[#141413]/15 pt-10 lg:grid-cols-12 lg:gap-12">
+          {/* Links: Schwarz-Weiss-Studioporträt in starker vertikaler Proportion */}
+          <div className="lg:col-span-5">
+            <div className="overflow-hidden bg-[#171717]">
+              <div className="aspect-[4/4.7] w-full overflow-hidden">
                 <Picture
-                  image={STUDIO_COLOR}
-                  alt="Farbiges Studioporträt von Matti Koenis"
+                  image={STUDIO_BW}
+                  alt="Schwarz-Weiss-Porträt von Matti Koenis"
                   eager
-                  sizes="(min-width: 1024px) 34vw, (min-width: 640px) 26rem, 92vw"
-                  className="h-full w-full object-cover object-top"
+                  sizes="(min-width: 1024px) 36vw, 94vw"
+                  className="h-full w-full object-cover object-top transition-transform duration-700 ease-out hover:scale-[1.02]"
                 />
               </div>
             </div>
-            <figcaption className="mt-3.5 flex items-baseline justify-between gap-4 px-0.5 text-xs text-[#5E5A53]">
-              <span className="font-serif text-base text-[#161513] italic">Matti Koenis, Aufnahme in Zürich</span>
-              <span className="font-mono text-[10.5px] tracking-[0.08em] uppercase">JG. IN AUSBILDUNG · EFZ</span>
-            </figcaption>
-          </figure>
+            <p className="mt-3 flex items-center justify-between font-mono text-[11px] text-[#63605A] uppercase">
+              <span>Matti Koenis · Region Zürich</span>
+              <span>Ab Aug ’26: Team Halo Host</span>
+            </p>
+          </div>
 
-          {/* Spalte 10–12: Redaktionelle Randnotizen statt Kacheln */}
-          <dl className="divide-y divide-[#DFD9CE] border-y border-[#DFD9CE] lg:col-span-3 lg:mt-6">
-            <div className="py-5">
-              <dt className="font-mono text-[10.5px] tracking-[0.12em] text-[#5E5A53] uppercase">Sprachen</dt>
-              <dd className="mt-1.5 font-serif text-2xl text-[#161513]">Deutsch, Niederländisch, Englisch &amp; Schwedisch</dd>
+          {/* Rechts: Persönliche Vorstellung + Sprachen + Interessen ohne Kärtchen */}
+          <div className="flex flex-col justify-between lg:col-span-7">
+            <div>
+              <p className="max-w-[34ch] font-display text-[clamp(1.4rem,1.1rem+1.1vw,2.1rem)] leading-[1.22] font-medium tracking-[-0.03em]">
+                Ich bin Matti — konzentriert in der Entwicklung, eigenständig in der Verantwortung und stark im
+                Zusammenspiel im Team.
+              </p>
+              <p className="mt-5 max-w-[56ch] text-base leading-[1.7] text-[#4D4A44]">
+                Bei Swisscom entwickle ich mich quer durch verschiedene Praxisbereiche weiter – von direktem IT-Support
+                und Web-Grundlagen über Power-Platform-Lösungen bis zur Koordination eines Web-Teams. Neben Computern
+                und neuen Applikationen faszinieren mich Wirtschaft und Finanzmärkte.
+              </p>
             </div>
-            <div className="py-5">
-              <dt className="font-mono text-[10.5px] tracking-[0.12em] text-[#5E5A53] uppercase">Arbeitsstil</dt>
-              <dd className="mt-1.5 font-serif text-2xl text-[#161513]">Konzentriert, eigenständig &amp; teamstark</dd>
+
+            <div className="mt-10 grid gap-8 border-t border-[#141413]/15 pt-8 sm:grid-cols-2">
+              <div>
+                <h2 className="font-mono text-[11px] font-semibold tracking-[0.12em] text-[#C8260E] uppercase">
+                  Vier Sprachen
+                </h2>
+                <ul className="mt-3 space-y-1.5 text-sm">
+                  <li className="flex justify-between border-b border-[#141413]/10 pb-1.5">
+                    <span className="font-medium">Deutsch</span>
+                    <span className="font-serif text-base text-[#63605A] italic">Muttersprache</span>
+                  </li>
+                  <li className="flex justify-between border-b border-[#141413]/10 pb-1.5">
+                    <span className="font-medium">Niederländisch</span>
+                    <span className="font-serif text-base text-[#63605A] italic">Fliessend</span>
+                  </li>
+                  <li className="flex justify-between border-b border-[#141413]/10 pb-1.5">
+                    <span className="font-medium">Englisch</span>
+                    <span className="font-serif text-base text-[#63605A] italic">IT &amp; Alltag (9 J.)</span>
+                  </li>
+                  <li className="flex justify-between pb-1">
+                    <span className="font-medium">Schwedisch</span>
+                    <span className="font-serif text-base text-[#63605A] italic">Gute Konversation</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <h2 className="font-mono text-[11px] font-semibold tracking-[0.12em] text-[#C8260E] uppercase">
+                  Ausgleich &amp; Energie
+                </h2>
+                <p className="mt-3 font-serif text-2xl leading-snug text-[#141413] italic">
+                  Tennis · Fitness · Skifahren · Joggen
+                </p>
+                <p className="mt-3 text-sm leading-relaxed text-[#4D4A44]">
+                  Sportlicher Ehrgeiz und Bewegung an der frischen Luft sorgen für den klaren Kopf, den gute Software
+                  braucht.
+                </p>
+              </div>
             </div>
-            <div className="py-5">
-              <dt className="font-mono text-[10.5px] tracking-[0.12em] text-[#5E5A53] uppercase">Ausgleich</dt>
-              <dd className="mt-1.5 font-serif text-2xl text-[#161513]">Tennis, Fitness, Ski &amp; Laufen</dd>
-            </div>
-            <div className="py-5">
-              <dt className="font-mono text-[10.5px] tracking-[0.12em] text-[#14533D] uppercase">Perspektive</dt>
-              <dd className="mt-1.5 text-sm leading-relaxed text-[#3D3A35]">
-                Bereit für den nächsten Schritt und neue Herausforderungen nach der Lehre.
-              </dd>
-            </div>
-          </dl>
+          </div>
         </div>
       </section>
 
-      {/* DOPPELLINIEN-KAPITELTRENNER */}
-      <div className="border-y border-[#DFD9CE] bg-[#F4F0E8]/70">
-        <div className="mx-auto flex max-w-[82rem] items-center justify-between px-5 py-2.5 font-mono text-[11px] tracking-[0.12em] text-[#5E5A53] uppercase sm:px-10 lg:px-12">
-          <span>Kapitel II — Erfahrung &amp; Handwerk</span>
-          <span>Swisscom · 2024 – Heute</span>
-        </div>
-      </div>
-
-      {/* ABSCHNITT 2: MAGAZIN-SPREAD (SWISSCOM-WEG + WERKZEUG-INDEX) */}
-      <section id="d2-journey" aria-labelledby="d2-journey-heading" className="mx-auto max-w-[82rem] px-5 pt-20 pb-32 sm:px-10 sm:pt-28 sm:pb-36 lg:px-12">
-        <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
-          {/* Linke Sticky-Spalte: Leitgedanke & Haltung */}
-          <div className="lg:col-span-4">
-            <div className="lg:sticky lg:top-10">
-              <span aria-hidden="true" className="font-serif text-5xl text-[#14533D] italic">
-                II.
-              </span>
+      {/* ABSCHNITT 2: INTERAKTIVE GROSS-TYPOGRAFIE-LISTE MIT CURSOR-VORSCHAU */}
+      <section
+        id="db-index"
+        aria-labelledby="db-index-heading"
+        onPointerMove={(e) => {
+          targetPos.current = { x: e.clientX + 24, y: e.clientY - 70 };
+        }}
+        className="relative border-t border-[#141413] bg-white pt-20 pb-36 sm:pt-28"
+      >
+        <div className="mx-auto max-w-[88rem] px-5 sm:px-10 lg:px-14">
+          <div className="flex flex-col justify-between gap-4 pb-10 sm:flex-row sm:items-end">
+            <div>
+              <p className="font-mono text-xs tracking-[0.12em] text-[#C8260E] uppercase">
+                01 — Kompetenzen &amp; Stationen
+              </p>
               <h2
-                id="d2-journey-heading"
-                className="mt-3 text-[clamp(1.9rem,1.35rem+1.9vw,2.85rem)] leading-[1.08] font-medium tracking-[-0.03em]"
+                id="db-index-heading"
+                className="mt-2 font-display text-[clamp(1.9rem,1.3rem+2.2vw,3.2rem)] leading-none font-bold tracking-[-0.04em]"
               >
-                Mein Weg in der Ausbildung — und{" "}
-                <em className="font-serif text-[1.12em] font-normal italic">wofür ich stehe.</em>
+                Was ich mitbringe &amp; wo es gewachsen ist.
               </h2>
-
-              <div className="mt-8 space-y-6 border-l-2 border-[#14533D] pl-5">
-                <div>
-                  <h3 className="font-mono text-[11px] font-semibold tracking-[0.12em] text-[#14533D] uppercase">
-                    Was ich mitbringe
-                  </h3>
-                  <p className="mt-1.5 text-sm leading-[1.68] text-[#3D3A35]">
-                    Eine saubere Arbeitsweise, Ruhe unter Anspruch, Selbständigkeit und echten Teamgeist – verbunden mit
-                    dem Willen, jeden Tag dazuzulernen.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-mono text-[11px] font-semibold tracking-[0.12em] text-[#14533D] uppercase">
-                    Wofür ich stehe
-                  </h3>
-                  <p className="mt-1.5 text-sm leading-[1.68] text-[#3D3A35]">
-                    Klare Kommunikation, Verlässlichkeit und moderne Applikationen mit einem durchdachten, gepflegten
-                    Auftritt.
-                  </p>
-                </div>
-              </div>
             </div>
+            <p className="font-mono text-xs text-[#63605A]">Zeile überfahren oder anklicken</p>
           </div>
 
-          {/* Rechte Spalte: Offene Stationen + Buch-Index der Skills */}
-          <div className="lg:col-span-8">
-            <ol className="divide-y divide-[#DFD9CE] border-t border-[#DFD9CE]">
-              {STATIONS.map((st) => (
-                <li key={st.title} className="grid gap-4 py-8 sm:grid-cols-12 sm:gap-6 sm:py-10">
-                  <div className="sm:col-span-4">
-                    <p className="font-serif text-3xl leading-none text-[#161513] italic">{st.era}</p>
-                    <p className="mt-2 font-mono text-[11px] tracking-[0.08em] text-[#5E5A53] uppercase">{st.place}</p>
-                    {st.current ? (
-                      <p className="mt-2 inline-block border-b border-[#14533D] font-mono text-[10.5px] font-semibold tracking-[0.1em] text-[#14533D] uppercase">
-                        Aktuelle / Nächste Station
-                      </p>
-                    ) : null}
+          <div
+            className="divide-y divide-[#141413]/15 border-y border-[#141413]"
+            onMouseLeave={() => setHoveredRow(null)}
+          >
+            {CHAPTER_ROWS.map((row) => {
+              const isOpen = expanded === row.id;
+              return (
+                <div key={row.id}>
+                  <h3>
+                    <button
+                      type="button"
+                      aria-expanded={isOpen}
+                      onMouseEnter={() => setHoveredRow(row.id)}
+                      onClick={() => setExpanded(isOpen ? "" : row.id)}
+                      className="group flex w-full items-baseline justify-between gap-4 py-7 text-left sm:py-9"
+                    >
+                      <span className="flex items-baseline gap-5 sm:gap-8">
+                        <span className="font-mono text-xs font-semibold text-[#C8260E]">{row.num}</span>
+                        <span className="font-display text-[clamp(1.55rem,1.1rem+2.2vw,3.1rem)] leading-none font-bold tracking-[-0.04em] transition-transform duration-300 ease-out group-hover:translate-x-3">
+                          {row.title}
+                        </span>
+                      </span>
+
+                      <span className="flex shrink-0 items-center gap-5">
+                        <span className="hidden font-serif text-xl text-[#63605A] italic md:inline">{row.meta}</span>
+                        <span className="flex h-9 w-9 items-center justify-center rounded-full border border-[#141413]/20 transition group-hover:border-[#C8260E] group-hover:bg-[#C8260E] group-hover:text-white">
+                          {isOpen ? (
+                            <Minus aria-hidden="true" className="h-4 w-4" />
+                          ) : (
+                            <Plus aria-hidden="true" className="h-4 w-4" />
+                          )}
+                        </span>
+                      </span>
+                    </button>
+                  </h3>
+
+                  {/* Butterweiche 0fr -> 1fr CSS-Grid-Öffnung */}
+                  <div
+                    className={`grid transition-[grid-template-rows] duration-300 ease-out ${
+                      isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="grid gap-6 pb-9 pl-9 sm:pl-14 lg:grid-cols-12">
+                        <p className="text-base leading-relaxed text-[#4D4A44] lg:col-span-6">{row.description}</p>
+                        <ul className="flex flex-wrap gap-2 lg:col-span-6 lg:justify-end">
+                          {row.items.map((skill) => (
+                            <li
+                              key={skill}
+                              className="border border-[#141413]/20 bg-[#F8F7F4] px-3 py-1 font-mono text-xs text-[#141413]"
+                            >
+                              {skill}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
                   </div>
-                  <div className="sm:col-span-8">
-                    <h3 className="text-xl font-semibold tracking-tight text-[#161513] sm:text-2xl">{st.title}</h3>
-                    <p className="mt-2.5 text-base leading-[1.68] text-[#3D3A35]">{st.story}</p>
-                    <p className="mt-4 font-mono text-xs text-[#5E5A53]">{st.craft}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-
-            {/* Redaktioneller Werkzeug- & Kompetenz-Index mit Punktlinie statt Karten */}
-            <div className="mt-14 border-t-2 border-[#161513] pt-10">
-              <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-baseline">
-                <div>
-                  <h3 className="font-serif text-3xl text-[#161513] italic">Werkzeugkasten &amp; Zusammenarbeit</h3>
-                  <p className="mt-1 text-sm text-[#5E5A53]">Alle 18 Informatik-Skills und persönlichen Stärken im Überblick</p>
                 </div>
-
-                <div role="group" aria-label="Kompetenzen filtern" className="flex flex-wrap gap-5 text-xs font-medium">
-                  {[
-                    ["all", "Gesamt"],
-                    ["swisscom", "Swisscom Fokus"],
-                    ["web", "Web & Backend"],
-                    ["human", "Arbeitsweise"],
-                  ].map(([key, label]) => {
-                    const active = filter === key;
-                    return (
-                      <button
-                        key={key}
-                        type="button"
-                        aria-pressed={active}
-                        onClick={() => setFilter(key)}
-                        className={`pb-1 font-mono tracking-[0.06em] uppercase transition-colors ${
-                          active
-                            ? "border-b-2 border-[#14533D] font-semibold text-[#14533D]"
-                            : "text-[#5E5A53] hover:text-[#161513]"
-                        }`}
-                      >
-                        {label}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <ul className="mt-8 grid gap-x-10 gap-y-3.5 sm:grid-cols-2">
-                {visibleCraft.map((item) => (
-                  <li key={item.name} className="flex items-baseline gap-2 text-sm">
-                    <span className="shrink-0 font-medium text-[#161513]">{item.name}</span>
-                    <span
-                      aria-hidden="true"
-                      className="grow border-b border-dotted border-[#C9C1B4] translate-y-[-3px]"
-                    />
-                    <span className="shrink-0 font-serif text-base text-[#5E5A53] italic">{item.role}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+              );
+            })}
           </div>
+        </div>
+
+        {/* Schwebendes Cursor-Preview-Fenster (nur auf grossen Zeigegeräten sichtbar) */}
+        <div
+          ref={floatRef}
+          aria-hidden="true"
+          className={`pointer-events-none fixed top-0 left-0 z-40 hidden w-72 border border-[#141413] bg-[#141413] p-4 text-white shadow-2xl transition-opacity duration-200 lg:block ${
+            hoveredData ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          {hoveredData ? (
+            <>
+              <p className="font-mono text-[10px] tracking-[0.1em] text-[#FF6A52] uppercase">{hoveredData.meta}</p>
+              <p className="mt-1 font-serif text-xl italic">{hoveredData.kicker}</p>
+              <p className="mt-2 border-t border-white/15 pt-2 font-mono text-[11px] leading-relaxed text-white/80">
+                {hoveredData.previewStack}
+              </p>
+            </>
+          ) : null}
         </div>
       </section>
     </div>
   );
 }
+

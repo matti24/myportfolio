@@ -7,24 +7,24 @@ import { DirectionThree } from "../concepts/DirectionThree.jsx";
 const DIRECTIONS = [
   {
     id: "1",
-    short: "01 · Plakat & Register",
-    title: "Zürcher Plakat",
-    note: "Scharfkantig (0px), 1px-Architekturraster, S/W-Studioporträt & Zinnoberrot",
-    accent: "#E02400",
+    short: "A · Precision Desk ★",
+    title: "Design Engineer / Precision Desk",
+    note: "Empfehlung: Ruhig, haptisch, ZRH-Uhr, Inline-Kontext & Sibling-Dimming",
+    accent: "#0044FF",
   },
   {
     id: "2",
-    short: "02 · Editorial Porträt",
-    title: "Editorial Monograph",
-    note: "Warmes Naturpapier, Instrument Serif + Grotesk, Magazin-Spread & Court-Grün",
-    accent: "#14533D",
+    short: "B · Kinetic Editorial",
+    title: "Swiss Kinetic Editorial",
+    note: "Expressiv, S/W-Porträt, Magnetic-CTA & schwebende Cursor-Vorschau",
+    accent: "#DF3016",
   },
   {
     id: "3",
-    short: "03 · Live-Matrix",
-    title: "Personal Spec / Matrix",
-    note: "Reinweiss mit Schnittmarken, 3-Facetten-Intro & vernetzte Erfahrungs-Skill-Matrix",
-    accent: "#0038FF",
+    short: "C · Zürich Spec",
+    title: "Architectural Field Sheet",
+    note: "Kompakt/Ausführlich-Schalter [B], Tastaturkürzel & 23er-Spezifikationstabelle",
+    accent: "#0B6B4F",
   },
 ];
 
@@ -58,7 +58,7 @@ export function ConceptsShowcase({ initialDirection = "1" }) {
     <div id="top">
       <a
         href="#concept-main"
-        className="sr-only z-50 bg-[#0A0A0A] px-5 py-3 font-mono text-xs font-semibold text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+        className="sr-only z-50 bg-[#111111] px-5 py-3 font-mono text-xs font-semibold text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
       >
         Zum Entwurf springen
       </a>
@@ -69,10 +69,9 @@ export function ConceptsShowcase({ initialDirection = "1" }) {
         {active === "3" ? <DirectionThree /> : null}
       </main>
 
-      {/* Dezentes schwebendes Auswahl-Dock am unteren Bildschirmrand zur Beurteilung der 3 Richtungen */}
       <aside
         aria-label="Designrichtung wechseln"
-        className="fixed right-4 bottom-4 left-4 z-50 mx-auto flex max-w-fit items-center justify-center pointer-events-none"
+        className="pointer-events-none fixed right-4 bottom-4 left-4 z-50 mx-auto flex max-w-fit items-center justify-center"
       >
         {dockMinimized ? (
           <button
@@ -81,7 +80,7 @@ export function ConceptsShowcase({ initialDirection = "1" }) {
             className="pointer-events-auto inline-flex min-h-10 items-center gap-2 rounded-full border border-black/15 bg-[#111215]/95 px-4 py-2 font-mono text-xs font-medium text-white shadow-xl backdrop-blur-md transition hover:bg-black"
           >
             <Layers aria-hidden="true" className="h-3.5 w-3.5" />
-            <span>Entwurf 0{active}/03 wechseln</span>
+            <span>Richtung wechseln ({active}/3)</span>
           </button>
         ) : (
           <div className="pointer-events-auto flex flex-col gap-1.5 rounded-2xl border border-white/12 bg-[#111215]/95 p-2 text-white shadow-2xl backdrop-blur-md sm:flex-row sm:items-center sm:rounded-full sm:px-2.5 sm:py-1.5">
@@ -109,7 +108,7 @@ export function ConceptsShowcase({ initialDirection = "1" }) {
               })}
             </div>
 
-            <span className="hidden border-l border-white/15 pl-3 pr-1 text-[11px] text-white/70 xl:inline">
+            <span className="hidden border-l border-white/15 pr-1 pl-3 text-[11px] text-white/75 xl:inline">
               {currentMeta.note}
             </span>
 
