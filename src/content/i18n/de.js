@@ -42,7 +42,7 @@ const de = {
       lead: "Bei Swisscom lerne ich in wechselnden Teams, wie gute Software entsteht – vom IT-Support über die Microsoft Power Platform bis zur Web-Entwicklung.",
       photoAlt: "Schwarz-Weiss-Porträt von Matti Koenis",
       facts: [
-        { term: "Sprachen", text: "Deutsch, Niederländisch und Schwedisch – dazu Englisch auf Niveau B2, aktuell auf dem Weg zu C1." },
+        { term: "Sprachen", text: "Deutsch, Niederländisch und Schwedisch – dazu Englisch aus zehn Jahren Schule, Niveau B2, aktuell auf dem Weg zu C1." },
         { term: "Interessen", text: "Wirtschaft, Finanzen und Strategie, Computer und neue Applikationen." },
         { term: "Ausgleich", text: "Tennis, Fitness, Skifahren und Joggen." },
         { term: "Arbeitsstil", text: "Konzentriert, selbständig und teamstark." },
