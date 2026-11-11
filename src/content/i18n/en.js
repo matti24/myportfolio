@@ -228,14 +228,14 @@ const en = {
     },
     "ai-compare": {
       tagline: "An independent database and comparison platform for AI models – every fact with a source.",
-      summary: "Prices, context windows, capabilities and benchmarks of more than 280 models from 35 providers, every figure sourced.",
-      coverAlt: "Typographic project graphic for AI Compare with the key figures 280+ models, 35 providers and a source for every fact.",
+      summary: "Prices, context windows, capabilities and benchmarks of around 300 models from 35 providers, every figure sourced.",
+      coverAlt: "Screenshot of the AI Compare home page with a search field, the “Compare Models” and “Explore Models” buttons and a note that 300 models from 35 providers are tracked.",
       role: "Personal project: concept, data model, design and development",
       sections: [
         {
           heading: "Overview",
           paragraphs: [
-            "AI Compare makes AI models comparable: pricing, context windows, modalities, capabilities, benchmarks and API access. According to the project documentation, the catalogue covers more than 280 models from 35 providers (data as of 1 October 2026).",
+            "AI Compare makes AI models comparable: pricing, context windows, modalities, capabilities, benchmarks and API access. The live version tracks around 300 models from 35 providers with 317 cited sources (as of 11 November 2026).",
           ],
         },
         {
@@ -272,7 +272,7 @@ const en = {
           ],
         },
       ],
-      result: "The complete code is available on GitHub. The live version is currently unavailable.",
+      result: "AI Compare is publicly available at ai-compare-two.vercel.app; the complete code is on GitHub.",
     },
   },
   caseStudy: {

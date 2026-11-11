@@ -227,14 +227,14 @@ const nl = {
     },
     "ai-compare": {
       tagline: "Een onafhankelijke database en vergelijkingsplatform voor AI-modellen – elk feit met bron.",
-      summary: "Prijzen, contextvensters, mogelijkheden en benchmarks van meer dan 280 modellen van 35 aanbieders, elk getal met bron.",
-      coverAlt: "Typografische projectafbeelding van AI Compare met de kerncijfers 280+ modellen, 35 aanbieders en een bron per feit.",
+      summary: "Prijzen, contextvensters, mogelijkheden en benchmarks van zo’n 300 modellen van 35 aanbieders, elk getal met bron.",
+      coverAlt: "Screenshot van de startpagina van AI Compare met zoekveld, de knoppen ‘Compare Models’ en ‘Explore Models’ en de vermelding van 300 modellen van 35 aanbieders.",
       role: "Eigen project: concept, datamodel, ontwerp en ontwikkeling",
       sections: [
         {
           heading: "Overzicht",
           paragraphs: [
-            "AI Compare maakt AI-modellen vergelijkbaar: prijzen, contextvensters, modaliteiten, mogelijkheden, benchmarks en API-toegang. Volgens de projectdocumentatie bevat de catalogus meer dan 280 modellen van 35 aanbieders (stand van 1 oktober 2026).",
+            "AI Compare maakt AI-modellen vergelijkbaar: prijzen, contextvensters, modaliteiten, mogelijkheden, benchmarks en API-toegang. De liveversie volgt zo’n 300 modellen van 35 aanbieders met 317 geciteerde bronnen (stand 11 november 2026).",
           ],
         },
         {
@@ -271,7 +271,7 @@ const nl = {
           ],
         },
       ],
-      result: "De volledige code staat op GitHub. De liveversie is momenteel niet beschikbaar.",
+      result: "AI Compare is openbaar bereikbaar op ai-compare-two.vercel.app; de volledige code staat op GitHub.",
     },
   },
   caseStudy: {

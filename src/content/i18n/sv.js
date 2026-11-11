@@ -227,14 +227,14 @@ const sv = {
     },
     "ai-compare": {
       tagline: "En oberoende databas och jämförelseplattform för AI-modeller – varje uppgift med källa.",
-      summary: "Priser, kontextfönster, förmågor och benchmarks för fler än 280 modeller från 35 leverantörer, varje siffra med källa.",
-      coverAlt: "Typografisk projektbild för AI Compare med nyckeltalen 280+ modeller, 35 leverantörer och en källa per uppgift.",
+      summary: "Priser, kontextfönster, förmågor och benchmarks för omkring 300 modeller från 35 leverantörer, varje siffra med källa.",
+      coverAlt: "Skärmbild av startsidan för AI Compare med sökfält, knapparna ”Compare Models” och ”Explore Models” samt uppgiften om 300 modeller från 35 leverantörer.",
       role: "Eget projekt: koncept, datamodell, design och utveckling",
       sections: [
         {
           heading: "Översikt",
           paragraphs: [
-            "AI Compare gör AI-modeller jämförbara: priser, kontextfönster, modaliteter, förmågor, benchmarks och API-åtkomst. Enligt projektdokumentationen omfattar katalogen fler än 280 modeller från 35 leverantörer (data per 1 oktober 2026).",
+            "AI Compare gör AI-modeller jämförbara: priser, kontextfönster, modaliteter, förmågor, benchmarks och API-åtkomst. Liveversionen följer omkring 300 modeller från 35 leverantörer med 317 citerade källor (per 11 november 2026).",
           ],
         },
         {
@@ -271,7 +271,7 @@ const sv = {
           ],
         },
       ],
-      result: "Hela koden finns på GitHub. Liveversionen är inte tillgänglig just nu.",
+      result: "AI Compare är öppet tillgänglig på ai-compare-two.vercel.app; hela koden finns på GitHub.",
     },
   },
   caseStudy: {

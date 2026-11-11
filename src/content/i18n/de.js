@@ -233,14 +233,14 @@ const de = {
     "ai-compare": {
       tagline: "Eine unabhängige Datenbank und Vergleichsplattform für KI-Modelle – jede Angabe mit Quelle.",
       summary:
-        "Preise, Kontextfenster, Fähigkeiten und Benchmarks von über 280 Modellen aus 35 Anbietern, jede Zahl belegt.",
-      coverAlt: "Typografische Projektgrafik von AI Compare mit den Eckdaten 280+ Modelle, 35 Anbieter und Quelle pro Fakt.",
+        "Preise, Kontextfenster, Fähigkeiten und Benchmarks von rund 300 Modellen aus 35 Anbietern, jede Zahl belegt.",
+      coverAlt: "Screenshot der Startseite von AI Compare mit Suchfeld, den Schaltflächen „Compare Models“ und „Explore Models“ sowie der Angabe zu 300 Modellen von 35 Anbietern.",
       role: "Eigenes Projekt: Konzept, Datenmodell, Design und Entwicklung",
       sections: [
         {
           heading: "Überblick",
           paragraphs: [
-            "AI Compare macht KI-Modelle vergleichbar: Preise, Kontextfenster, Modalitäten, Fähigkeiten, Benchmarks und API-Zugang. Laut Projektdokumentation umfasst der Katalog über 280 Modelle aus 35 Anbietern (Datenstand 1. Oktober 2026).",
+            "AI Compare macht KI-Modelle vergleichbar: Preise, Kontextfenster, Modalitäten, Fähigkeiten, Benchmarks und API-Zugang. Die Live-Version verfolgt rund 300 Modelle von 35 Anbietern mit 317 zitierten Quellen (Stand 11. November 2026).",
           ],
         },
         {
@@ -278,7 +278,7 @@ const de = {
         },
       ],
       result:
-        "Der vollständige Code ist auf GitHub einsehbar. Die Live-Version ist momentan nicht verfügbar.",
+        "AI Compare ist öffentlich unter ai-compare-two.vercel.app erreichbar; der vollständige Code liegt auf GitHub.",
     },
   },
   caseStudy: {

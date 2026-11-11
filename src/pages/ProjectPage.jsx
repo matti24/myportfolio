@@ -54,7 +54,7 @@ export function ProjectPage({ t, lang, slug }) {
               <dd className="mt-1 flex flex-col items-start gap-1">
                 {project.live ? (
                   <a href={project.live} {...external} className="group inline-flex items-center gap-1 hover:text-blue">
-                    {t.projects.live}: {project.liveLabel}
+                    {t.projects.live}
                     <ArrowUpRight aria-hidden="true" className="arrow arrow-up h-4 w-4" />
                   </a>
                 ) : (
