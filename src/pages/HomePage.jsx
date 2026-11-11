@@ -26,8 +26,8 @@ function Hero({ t, lang }) {
         </span>
       </h1>
 
-      <div className="mt-12 grid gap-y-12 border-t border-rule pt-8 lg:mt-16 lg:grid-cols-12 lg:gap-x-6">
-        <nav aria-label={h.titlesLabel} className="fade-up lg:col-span-3" style={{ "--d": "220ms" }}>
+      <div className="mt-12 grid gap-y-12 border-t border-rule pt-8 lg:mt-16 lg:grid-cols-12 lg:gap-x-6 lg:gap-y-10">
+        <nav aria-label={h.titlesLabel} className="fade-up lg:col-span-4" style={{ "--d": "220ms" }}>
           <ul>
             {JOB_TITLES.map((job) => {
               const current = job.lang === lang;
@@ -50,7 +50,7 @@ function Hero({ t, lang }) {
           </ul>
         </nav>
 
-        <div className="fade-up lg:col-span-6 lg:col-start-4" style={{ "--d": "300ms" }}>
+        <div className="fade-up lg:col-span-8 xl:col-span-5" style={{ "--d": "300ms" }}>
           <p className="t-l max-w-[30ch]">{h.intro}</p>
           <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 font-medium">
             <a href="#path" className="group ulink inline-flex items-center gap-2">
@@ -63,7 +63,7 @@ function Hero({ t, lang }) {
           </div>
         </div>
 
-        <ul className="t-s fade-up space-y-3 lg:col-span-3 lg:col-start-10" style={{ "--d": "380ms" }}>
+        <ul className="t-s fade-up space-y-3 lg:col-span-8 lg:col-start-5 xl:col-span-3 xl:col-start-10" style={{ "--d": "380ms" }}>
           <li className="flex items-center gap-2.5">
             <span aria-hidden="true" className="status-dot" />
             {h.status}
