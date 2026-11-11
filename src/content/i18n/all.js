@@ -6,4 +6,4 @@ import sv from "./sv.js";
 // Nur serverseitig (Prerendering) – der Client lädt per loadDictionary() nur die benötigte Sprache.
 export const dictionaries = { de, en, nl, sv };
 
-export const getDictionary = (lang) => dictionaries[lang] || de;
+export const getDictionary = (lang) => dictionaries[lang] || en;

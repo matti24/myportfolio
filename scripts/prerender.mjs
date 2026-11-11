@@ -23,7 +23,7 @@ const dictionaryPreload = (lang) => {
 const fill = (route) => {
   const { html, head } = render(route);
   return template
-    .replace('<html lang="de">', `<html lang="${route.lang}">`)
+    .replace('<html lang="en">', `<html lang="${route.lang}">`)
     .replace("<!--app-head-->", `${head}\n    ${dictionaryPreload(route.lang)}`)
     .replace('<div id="root">', `<div id="root" data-page="${route.page}">`)
     .replace("<!--app-html-->", html);

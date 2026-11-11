@@ -38,16 +38,6 @@ export const projectSlugs = projects.map((p) => p.slug);
 
 export const getProject = (slug) => projects.find((p) => p.slug === slug);
 
-export const otherWork = [
-  {
-    key: "punchclock",
-    name: "Punch Clock",
-    years: "2026",
-    repo: "https://github.com/matti24/m223-punchclock-matti",
-    stack: ["Java", "Quarkus", "PostgreSQL", "Docker"],
-  },
-];
-
 export const CONTACT = {
   email: "matti@koenis.ch",
   linkedin: "https://www.linkedin.com/in/matti-koenis-4b6462334/",

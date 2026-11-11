@@ -1,6 +1,6 @@
 export const SITE_URL = "https://www.mattikoenis.ch";
-export const LANGS = ["de", "en", "nl", "sv"];
-export const DEFAULT_LANG = "de";
+export const LANGS = ["en", "de", "nl", "sv"];
+export const DEFAULT_LANG = "en";
 
 const SEGMENTS = {
   project: { de: "projekte", en: "projects", nl: "projecten", sv: "projekt" },

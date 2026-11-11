@@ -1,10 +1,10 @@
 // Sprachunabhängige Profildaten. Quelle: ursprüngliche Website (Stationen, Skills) und GitHub-Repositories.
 
 export const JOB_TITLES = [
+  { lang: "en", code: "EN", title: "Application developer" },
   { lang: "de", code: "DE", title: "Applikationsentwickler" },
   { lang: "nl", code: "NL", title: "Applicatieontwikkelaar" },
   { lang: "sv", code: "SV", title: "Applikationsutvecklare" },
-  { lang: "en", code: "EN", title: "Application developer" },
 ];
 
 export const STATION_ORDER = ["futurework", "codemix", "powerplatform", "halo", "school"];

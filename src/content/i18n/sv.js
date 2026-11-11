@@ -35,8 +35,6 @@ const sv = {
       current: "Host i Team Halo sedan augusti 2026",
       ctaPath: "Se min väg",
       titlesLabel: "Mitt yrke på mina fyra språk",
-      portraitAlt: "Porträtt av Matti Koenis i blå tröja",
-      portraitCaption: "Matti Koenis, Zürich",
     },
     about: {
       title: "Om mig",
@@ -126,13 +124,6 @@ const sv = {
     live: "Live-demo",
     code: "GitHub",
     liveUnavailable: "Lokalt / Repository",
-    otherTitle: "Ytterligare utbildningsprojekt",
-    other: {
-      punchclock: {
-        title: "Punch Clock",
-        text: "Övningsprojekt i modul 223: tidrapportering med Quarkus, PostgreSQL och en Docker-devcontainer, inklusive en nulägesanalys med UML-diagram.",
-      },
-    },
   },
   projectTexts: {
     tdown: {

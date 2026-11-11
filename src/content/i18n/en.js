@@ -35,8 +35,6 @@ const en = {
       current: "Host in Team Halo since August 2026",
       ctaPath: "See my path",
       titlesLabel: "My profession in my four languages",
-      portraitAlt: "Portrait of Matti Koenis in a blue sweater",
-      portraitCaption: "Matti Koenis, Zurich",
     },
     about: {
       title: "About",
@@ -127,13 +125,6 @@ const en = {
     live: "Live demo",
     code: "GitHub",
     liveUnavailable: "Local / Repository",
-    otherTitle: "Additional training project",
-    other: {
-      punchclock: {
-        title: "Punch Clock",
-        text: "Practice project for module 223: time tracking with Quarkus, PostgreSQL and a Docker dev container, including an as-is analysis with UML diagrams.",
-      },
-    },
   },
   projectTexts: {
     tdown: {

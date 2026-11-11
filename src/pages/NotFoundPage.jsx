@@ -1,9 +1,9 @@
 import { pathFor } from "../lib/routes.js";
 
-const EN = {
-  title: "This page doesn’t exist.",
-  text: "The address may have changed.",
-  back: "Go to home page",
+const DE = {
+  title: "Diese Seite gibt es nicht.",
+  text: "Vielleicht hat sich die Adresse geändert.",
+  back: "Zur deutschen Startseite",
 };
 
 // Bewusst zweisprachig: GitHub Pages liefert für jede unbekannte Adresse dieselbe 404.html aus.
@@ -14,15 +14,15 @@ export function NotFoundPage({ t }) {
       <div className="lg:col-span-9">
         <h1 className="t-xl max-w-[16ch]">{t.notFound.title}</h1>
         <p className="t-l mt-6 max-w-[34ch] text-grey">{t.notFound.text}</p>
-        <p lang="en" className="mt-4 text-grey">
-          {EN.title} {EN.text}
+        <p lang="de" className="mt-4 text-grey">
+          {DE.title} {DE.text}
         </p>
         <div className="mt-10 flex flex-wrap gap-x-8 gap-y-4 font-medium">
-          <a href={pathFor("de")} className="ulink">
+          <a href={pathFor("en")} className="ulink">
             {t.notFound.back}
           </a>
-          <a href={pathFor("en")} hrefLang="en" lang="en" className="ulink text-grey hover:text-ink">
-            {EN.back}
+          <a href={pathFor("de")} hrefLang="de" lang="de" className="ulink text-grey hover:text-ink">
+            {DE.back}
           </a>
         </div>
       </div>

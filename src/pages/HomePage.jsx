@@ -9,42 +9,25 @@ import { CONTACT } from "../content/projects.js";
 import { JOB_TITLES, SKILL_GROUPS } from "../content/profile.js";
 import { pathFor } from "../lib/routes.js";
 
-const PORTRAIT = { base: "studio-color", widths: [480, 800, 1120], width: 1120, height: 1400 };
 const PORTRAIT_BW = { base: "studio-bw", widths: [480, 800, 1200], width: 1200, height: 1600 };
 
 function Hero({ t, lang }) {
   const h = t.home.hero;
   return (
-    <section aria-labelledby="hero-name" className="wrap pt-6 pb-24 sm:pt-10 lg:pb-32">
-      <div className="grid lg:grid-cols-12 lg:gap-x-6">
-        <h1 id="hero-name" className="t-name lg:col-span-8 lg:row-start-1">
-          <span className="line">
-            <span className="line-in">Matti</span>
+    <section aria-labelledby="hero-name" className="wrap pt-10 pb-24 sm:pt-16 lg:pb-36">
+      <h1 id="hero-name" className="t-name lg:flex lg:gap-[0.22em]">
+        <span className="line">
+          <span className="line-in">Matti</span>
+        </span>
+        <span className="line">
+          <span className="line-in" style={{ "--d": "90ms" }}>
+            Koenis
           </span>
-          <span className="line">
-            <span className="line-in" style={{ "--d": "90ms" }}>
-              Koenis
-            </span>
-          </span>
-        </h1>
+        </span>
+      </h1>
 
-        <figure className="-mx-5 mt-8 sm:mx-0 lg:col-span-4 lg:col-start-9 lg:row-span-3 lg:row-start-1 lg:mt-4">
-          <div className="photo-reveal aspect-[4/5] overflow-hidden bg-[#2b3036]">
-            <Picture
-              image={PORTRAIT}
-              alt={h.portraitAlt}
-              eager
-              sizes="(min-width: 1472px) 432px, (min-width: 1024px) 30vw, (min-width: 640px) 90vw, 100vw"
-              className="h-full w-full object-cover"
-            />
-          </div>
-          <figcaption className="t-s mt-3 flex flex-wrap justify-between gap-x-4 px-5 sm:px-0">
-            <span>{h.portraitCaption}</span>
-            <span className="text-grey">{h.current}</span>
-          </figcaption>
-        </figure>
-
-        <nav aria-label={h.titlesLabel} className="fade-up mt-12 lg:col-span-3 lg:row-start-2 lg:mt-16" style={{ "--d": "260ms" }}>
+      <div className="mt-12 grid gap-y-12 border-t border-rule pt-8 lg:mt-16 lg:grid-cols-12 lg:gap-x-6">
+        <nav aria-label={h.titlesLabel} className="fade-up lg:col-span-3" style={{ "--d": "220ms" }}>
           <ul>
             {JOB_TITLES.map((job) => {
               const current = job.lang === lang;
@@ -67,12 +50,8 @@ function Hero({ t, lang }) {
           </ul>
         </nav>
 
-        <div className="fade-up mt-10 lg:col-span-5 lg:col-start-4 lg:row-start-2 lg:mt-16" style={{ "--d": "340ms" }}>
+        <div className="fade-up lg:col-span-6 lg:col-start-4" style={{ "--d": "300ms" }}>
           <p className="t-l max-w-[30ch]">{h.intro}</p>
-          <p className="t-s mt-6 flex items-center gap-2.5 text-grey">
-            <span aria-hidden="true" className="status-dot" />
-            {h.status}
-          </p>
           <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 font-medium">
             <a href="#path" className="group ulink inline-flex items-center gap-2">
               {h.ctaPath}
@@ -83,11 +62,18 @@ function Hero({ t, lang }) {
             </a>
           </div>
         </div>
+
+        <ul className="t-s fade-up space-y-3 lg:col-span-3 lg:col-start-10" style={{ "--d": "380ms" }}>
+          <li className="flex items-center gap-2.5">
+            <span aria-hidden="true" className="status-dot" />
+            {h.status}
+          </li>
+          <li className="text-grey">{h.current}</li>
+        </ul>
       </div>
     </section>
   );
 }
-
 function About({ t }) {
   const a = t.home.about;
   return (

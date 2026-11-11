@@ -8,6 +8,6 @@ const loaders = {
 };
 
 export async function loadDictionary(lang) {
-  const mod = await (loaders[lang] || loaders.de)();
+  const mod = await (loaders[lang] || loaders.en)();
   return mod.default;
 }

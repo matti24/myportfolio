@@ -126,6 +126,12 @@
     letter-spacing: -0.055em;
     font-weight: 500;
   }
+  /* Desktop: Vor- und Nachname auf einer Zeile über die ganze Breite */
+  @media (min-width: 1024px) {
+    .t-name {
+      font-size: min(18.4vw, 17.5rem);
+    }
+  }
   .t-title {
     font-size: clamp(3rem, 1.6rem + 6vw, 7.5rem);
     line-height: 0.9;

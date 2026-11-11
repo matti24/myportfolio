@@ -8,7 +8,7 @@ import { getDictionary } from "./content/i18n/all.js";
 export { SITE_URL, alternatesFor } from "./lib/routes.js";
 
 export const routes = allRoutes(projectSlugs);
-export const notFoundRoute = { lang: "de", page: "notFound", path: "/404/" };
+export const notFoundRoute = { lang: "en", page: "notFound", path: "/404/" };
 
 export function render(route) {
   const t = getDictionary(route.lang);

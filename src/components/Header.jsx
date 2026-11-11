@@ -3,7 +3,7 @@ import { alternatesFor, pathFor } from "../lib/routes.js";
 import { LANG_NAMES } from "../content/i18n/index.js";
 import { JOB_TITLES } from "../content/profile.js";
 
-const ORDER = ["de", "nl", "sv", "en"];
+const ORDER = ["en", "de", "nl", "sv"];
 const SECTIONS = ["about", "path", "skills", "projects", "contact"];
 
 const sectionHref = (route, id) => (route.page === "home" ? `#${id}` : `${pathFor(route.lang)}#${id}`);

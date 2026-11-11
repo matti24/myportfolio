@@ -25,7 +25,7 @@ function person(t) {
     "@id": `${SITE_URL}/#person`,
     name: "Matti Koenis",
     url: `${SITE_URL}/`,
-    image: `${SITE_URL}/images/studio-color-800.webp`,
+    image: `${SITE_URL}/images/studio-bw-800.webp`,
     jobTitle: t.meta.jobTitle,
     worksFor: { "@type": "Organization", name: "Swisscom" },
     address: { "@type": "PostalAddress", addressLocality: "Zürich", addressCountry: "CH" },
