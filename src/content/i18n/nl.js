@@ -42,7 +42,7 @@ const nl = {
       lead: "Bij Swisscom wissel ik tussen verschillende teams en leer ik hoe goede software ontstaat – van IT-support en het Microsoft Power Platform tot webontwikkeling.",
       photoAlt: "Zwart-witportret van Matti Koenis",
       facts: [
-        { term: "Talen", text: "Duits, Nederlands en Zweeds – plus Engels uit negen jaar school." },
+        { term: "Talen", text: "Duits, Nederlands en Zweeds – plus Engels op B2-niveau, momenteel op weg naar C1." },
         { term: "Interesses", text: "Economie, financiën en strategie, computers en nieuwe applicaties." },
         { term: "Ontspanning", text: "Tennis, fitness, skiën en hardlopen." },
         { term: "Werkstijl", text: "Geconcentreerd, zelfstandig en teamsterk." },

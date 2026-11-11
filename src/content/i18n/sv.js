@@ -42,7 +42,7 @@ const sv = {
       lead: "På Swisscom roterar jag mellan olika team och lär mig hur bra mjukvara blir till – från IT-support och Microsoft Power Platform till webbutveckling.",
       photoAlt: "Svartvitt porträtt av Matti Koenis",
       facts: [
-        { term: "Språk", text: "Tyska, nederländska och svenska – plus engelska från nio år i skolan." },
+        { term: "Språk", text: "Tyska, nederländska och svenska – plus engelska på nivå B2, just nu på väg mot C1." },
         { term: "Intressen", text: "Ekonomi, finans och strategi, datorer och nya applikationer." },
         { term: "Balans", text: "Tennis, fitness, skidåkning och löpning." },
         { term: "Arbetsstil", text: "Fokuserad, självständig och teamstark." },
