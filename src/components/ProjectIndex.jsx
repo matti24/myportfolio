@@ -32,7 +32,7 @@ export function ProjectIndex({ t, lang }) {
                 className="group grid grid-cols-[1fr_auto] items-baseline gap-x-6 py-6"
               >
                 <span className="t-l inline-flex items-center gap-2 font-medium transition-colors group-hover:text-blue">
-                  {r.name}
+                  <span style={{ viewTransitionName: `title-${r.key}` }}>{r.name}</span>
                   <ArrowRight aria-hidden="true" className="arrow h-5 w-5 opacity-0 transition-opacity group-hover:opacity-100" />
                 </span>
                 <span className="t-s tabular-nums text-grey">{r.years}</span>
@@ -40,7 +40,7 @@ export function ProjectIndex({ t, lang }) {
                 <span className="t-s col-span-2 mt-3">{r.stack}</span>
               </a>
               <div className="pb-8 lg:hidden">
-                <ProjectCover project={r.project} text={t.projectTexts[r.key]} lang={lang} sizes="(min-width: 640px) 80vw, 100vw" />
+                <ProjectCover project={r.project} text={t.projectTexts[r.key]} lang={lang} sizes="(min-width: 640px) 80vw, 100vw" transition={false} />
               </div>
             </li>
           ))}
@@ -50,7 +50,7 @@ export function ProjectIndex({ t, lang }) {
           <div className="sticky top-28 aspect-[16/10]">
             {projects.map((p) => (
               <div key={p.slug} className="preview" data-on={preview === p.slug ? "true" : "false"}>
-                <ProjectCover project={p} text={t.projectTexts[p.slug]} lang={lang} sizes="30vw" className="h-full w-full" />
+                <ProjectCover project={p} text={t.projectTexts[p.slug]} lang={lang} sizes="30vw" className="h-full w-full" transition={preview === p.slug} />
               </div>
             ))}
           </div>

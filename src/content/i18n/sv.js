@@ -104,6 +104,9 @@ const sv = {
       heading: "Allt i korthet.",
       lead: "Verktygen jag arbetar med – medvetet utan procentstaplar. Var jag lärde mig dem står under min väg.",
       groups: { frontend: "Frontend", backend: "Backend", database: "Databaser", cloud: "Cloud & DevOps", tools: "Tools" },
+      inspectHint: "Hovra över eller tryck på en kompetens för att se var jag lärde mig den.",
+      learnedIn: "Tillkom under",
+      toStation: "Till stationen",
       socialTitle: "Sociala kompetenser",
       social: [
         { name: "Social styrka", description: "Empati och starka mellanmänskliga färdigheter" },

@@ -47,6 +47,31 @@ export const VOCABULARY = [
 
 export const wordLabel = (word, lang) => (typeof word.label === "string" ? word.label : word.label[lang] || word.label.de);
 
+// Station, in der eine Fähigkeit zuerst dazukam (entspricht dem Wortschatz im Werdegang)
+export const SKILL_STATION = {
+  HTML: "codemix",
+  CSS: "codemix",
+  JavaScript: "codemix",
+  "Power Apps Canvas": "powerplatform",
+  "Power Automate": "powerplatform",
+  SharePoint: "powerplatform",
+  "Microsoft Power Platform": "powerplatform",
+  DevOps: "powerplatform",
+  "Power BI": "powerplatform",
+  React: "school",
+  TypeScript: "school",
+  "Node.js": "school",
+  Java: "school",
+  Python: "school",
+  SQL: "school",
+  MariaDB: "school",
+  MongoDB: "school",
+  Docker: "school",
+  Git: "school",
+  "VS Code": "school",
+  "IntelliJ IDEA": "school",
+};
+
 export const SKILL_GROUPS = [
   { key: "frontend", items: ["React", "TypeScript", "JavaScript", "HTML", "CSS", "Power Apps Canvas"] },
   { key: "backend", items: ["Node.js", "Java", "Python", "Power Automate"] },

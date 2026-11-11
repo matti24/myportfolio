@@ -337,7 +337,7 @@
   transform: none;
 }
 
-/* Einstieg: Namenszeilen steigen aus einer Maske auf, das Foto öffnet sich von unten */
+/* Name aus Buchstaben: jeder Buchstabe steigt aus der Maske der Zeile auf */
 /* Maske nur unten: Seiten und Oberkante bleiben offen, damit Buchstaben-Überhänge nicht abgeschnitten werden */
 .line {
   display: block;
@@ -345,19 +345,14 @@
   margin-bottom: -0.06em;
   clip-path: inset(-0.5em -0.25em 0 -0.25em);
 }
-.line-in {
-  display: block;
+.kl {
+  display: inline-block;
+  text-align: center;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .line-in {
-    animation: rise 1s var(--ease-out) both;
-    animation-delay: var(--d, 0ms);
-  }
-  .photo-reveal {
-    animation: unveil 1.2s var(--ease-out) 0.15s both;
-  }
-  .photo-reveal img {
-    animation: settle 1.6s var(--ease-out) 0.15s both;
+  .kinetic-intro .kl {
+    animation: rise 1.1s var(--ease-out) both;
+    animation-delay: calc(var(--i) * 38ms + 80ms);
   }
   .fade-up {
     animation: fade-up 0.9s var(--ease-out) both;
@@ -370,14 +365,6 @@
   }
   to {
     transform: none;
-  }
-}
-@keyframes unveil {
-  from {
-    clip-path: inset(100% 0 0 0);
-  }
-  to {
-    clip-path: inset(0 0 0 0);
   }
 }
 @keyframes settle {
@@ -399,9 +386,147 @@
   }
 }
 
+/* Abschnittsöffner: Linie zeichnet sich, Titel gleitet ein, Leitsatz färbt sich Wort für Wort */
+.sec {
+  view-timeline-name: --sec;
+}
+.sec-rule {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: var(--color-rule);
+  transform-origin: left;
+}
+.scrub {
+  view-timeline-name: --scrub;
+}
+
+/* Kompetenzen: gewählte Fähigkeit blau, die übrigen treten zurück */
+.sk {
+  cursor: pointer;
+  border-radius: 2px;
+  text-align: left;
+  transition: color 0.3s ease;
+}
+.sk:hover,
+.sk[data-on] {
+  color: var(--color-blue);
+}
+.skills[data-active] .sk:not([data-on]) {
+  color: var(--color-grey);
+}
+.origin-bar {
+  height: 3px;
+  background: var(--color-rule);
+  transform-origin: left;
+  transition: background-color 0.3s ease;
+}
+.origin-bar[data-on] {
+  background: var(--color-blue);
+}
+
+/* E-Mail: Zeichen rollen nacheinander nach oben weg und von unten nach */
+.roll {
+  display: inline-flex;
+}
+.roll-c {
+  display: inline-flex;
+  flex-direction: column;
+  height: 1.1em;
+  line-height: 1.1;
+  overflow: hidden;
+}
+.roll-c > span {
+  display: block;
+}
+
+/* Finale: der Inhalt schiebt sich wie ein Vorhang weg und gibt den Namen im Footer frei */
+.site-main {
+  position: relative;
+  z-index: 1;
+  background: var(--color-paper);
+  box-shadow: 0 30px 40px -30px rgb(0 0 0 / 0.12);
+}
+.site-footer {
+  background: #f4f4f2;
+}
+@media (min-height: 640px) {
+  .site-footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .roll-c > span {
+    transition: transform 0.6s var(--ease-out);
+    transition-delay: calc(var(--i) * 18ms);
+  }
+  .roll-link:hover .roll-c > span,
+  .roll-link:focus-visible .roll-c > span {
+    transform: translateY(-100%);
+  }
+  .origin-bar[data-on] {
+    animation: grow-x 0.6s var(--ease-out);
+  }
+}
+@keyframes grow-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes ink {
+  from {
+    color: var(--color-faint);
+  }
+  to {
+    color: var(--color-ink);
+  }
+}
+/* Abschnittstitel gleitet ein, bleibt aber jederzeit lesbar (kein Ausblenden auf Transparenz) */
+@keyframes title-in {
+  from {
+    transform: translateX(-18px);
+    color: var(--color-grey);
+  }
+  to {
+    transform: none;
+    color: var(--color-ink);
+  }
+}
+
 /* Scroll-gekoppelt in reinem CSS; ohne Unterstützung ist alles sofort sichtbar */
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
+    .sec-rule {
+      animation: draw linear both;
+      animation-timeline: --sec;
+      animation-range: cover 0% cover 45vh;
+    }
+    .sec-title {
+      animation: title-in linear both;
+      animation-timeline: --sec;
+      animation-range: cover 5vh cover 35vh;
+    }
+    .sw {
+      animation: ink linear both;
+      animation-timeline: --scrub;
+      animation-range:
+        cover calc(8% + var(--i) / var(--n) * 30%)
+        cover calc(18% + var(--i) / var(--n) * 30%);
+    }
     .reveal {
       animation: fade-up linear both;
       animation-timeline: view();
@@ -476,6 +601,11 @@ dialog.menu-sheet::backdrop {
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation-duration: 0.3s;
+}
+/* Projekttitel und Bild gleiten von der Liste in die Detailseite */
+::view-transition-group(*) {
+  animation-duration: 0.6s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*),

@@ -56,6 +56,7 @@ export function VocabularyPath({ t, lang }) {
             return (
               <li
                 key={id}
+                id={`station-${id}`}
                 ref={mark(i)}
                 data-step={i}
                 data-state={state}

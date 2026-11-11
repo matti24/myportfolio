@@ -1,6 +1,7 @@
 import { ArrowUp, ArrowUpRight } from "lucide-react";
 import { CONTACT } from "../content/projects.js";
 import { pathFor } from "../lib/routes.js";
+import { KineticName } from "./KineticName.jsx";
 
 export function Footer({ t, route }) {
   const year = typeof __BUILD_YEAR__ !== "undefined" ? __BUILD_YEAR__ : 2026;
@@ -11,8 +12,8 @@ export function Footer({ t, route }) {
   ];
 
   return (
-    <footer className="wrap border-t border-rule">
-      <div className="grid gap-8 py-10 t-s md:grid-cols-12 md:gap-6">
+    <footer className="site-footer">
+      <div className="wrap grid gap-8 pt-12 pb-10 t-s md:grid-cols-12 md:gap-6">
         <div className="md:col-span-3">
           <p className="font-medium">Matti Koenis</p>
           <p className="text-grey">{t.footer.role}</p>
@@ -42,6 +43,9 @@ export function Footer({ t, route }) {
           </a>
           <span className="text-grey">© {year}</span>
         </div>
+      </div>
+      <div className="wrap pb-6 sm:pb-10">
+        <KineticName as="p" decorative text="Matti Koenis" className="t-name lg:flex lg:gap-[0.22em]" />
       </div>
     </footer>
   );

@@ -105,6 +105,9 @@ const de = {
       heading: "Alles auf einen Blick.",
       lead: "Die Werkzeuge, mit denen ich arbeite – bewusst ohne Prozentbalken. Wo ich sie gelernt habe, steht im Werdegang.",
       groups: { frontend: "Frontend", backend: "Backend", database: "Datenbanken", cloud: "Cloud & DevOps", tools: "Tools" },
+      inspectHint: "Fahr über eine Kompetenz oder tippe sie an – dann siehst du, wo ich sie gelernt habe.",
+      learnedIn: "Dazugekommen bei",
+      toStation: "Zur Station",
       socialTitle: "Soziale Kompetenzen",
       social: [
         { name: "Soziale Stärke", description: "Empathie und zwischenmenschliche Fähigkeiten" },

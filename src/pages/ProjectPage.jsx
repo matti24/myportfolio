@@ -33,8 +33,8 @@ export function ProjectPage({ t, lang, slug }) {
         <p className="t-s tabular-nums text-grey lg:col-span-3 lg:pt-4">{project.years}</p>
         <div className="lg:col-span-9">
           <h1 className="t-title">
-            <span className="line">
-              <span className="line-in">{project.name}</span>
+            <span className="inline-block" style={{ viewTransitionName: `title-${project.slug}` }}>
+              {project.name}
             </span>
           </h1>
           <p className="t-l fade-up mt-6 max-w-[32ch] text-grey" style={{ "--d": "120ms" }}>
@@ -70,7 +70,7 @@ export function ProjectPage({ t, lang, slug }) {
         </div>
       </header>
 
-      <div className="photo-reveal">
+      <div className="fade-up" style={{ "--d": "120ms" }}>
         <ProjectCover project={project} text={text} lang={lang} eager sizes="(min-width: 1472px) 1376px, 100vw" />
       </div>
 

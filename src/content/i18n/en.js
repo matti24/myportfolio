@@ -105,6 +105,9 @@ const en = {
       heading: "Everything at a glance.",
       lead: "The tools I work with – deliberately without percentage bars. Where I learned them is shown in my path.",
       groups: { frontend: "Frontend", backend: "Backend", database: "Databases", cloud: "Cloud & DevOps", tools: "Tools" },
+      inspectHint: "Hover or tap a skill to see where I picked it up.",
+      learnedIn: "Picked up at",
+      toStation: "Go to station",
       socialTitle: "Social competencies",
       social: [
         { name: "Social awareness", description: "Empathy and strong interpersonal skills" },

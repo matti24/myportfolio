@@ -3,10 +3,13 @@ import { Picture } from "../components/Picture.jsx";
 import { Section, Intro } from "../components/Section.jsx";
 import { VocabularyPath } from "../components/VocabularyPath.jsx";
 import { ProjectIndex } from "../components/ProjectIndex.jsx";
+import { SkillIndex } from "../components/SkillIndex.jsx";
+import { KineticName } from "../components/KineticName.jsx";
+import { RollText } from "../components/RollText.jsx";
 import { ContactForm } from "../components/ContactForm.jsx";
 import { CopyEmail } from "../components/CopyEmail.jsx";
 import { CONTACT } from "../content/projects.js";
-import { JOB_TITLES, SKILL_GROUPS } from "../content/profile.js";
+import { JOB_TITLES } from "../content/profile.js";
 import { pathFor } from "../lib/routes.js";
 
 const PORTRAIT_BW = { base: "studio-bw", widths: [480, 800, 1200], width: 1200, height: 1600 };
@@ -15,16 +18,7 @@ function Hero({ t, lang }) {
   const h = t.home.hero;
   return (
     <section aria-labelledby="hero-name" className="wrap pt-10 pb-24 sm:pt-16 lg:pb-36">
-      <h1 id="hero-name" className="t-name lg:flex lg:gap-[0.22em]">
-        <span className="line">
-          <span className="line-in">Matti</span>
-        </span>
-        <span className="line">
-          <span className="line-in" style={{ "--d": "90ms" }}>
-            Koenis
-          </span>
-        </span>
-      </h1>
+      <KineticName id="hero-name" text="Matti Koenis" intro className="t-name lg:flex lg:gap-[0.22em]" />
 
       <div className="mt-12 grid gap-y-12 border-t border-rule pt-8 lg:mt-16 lg:grid-cols-12 lg:gap-x-6 lg:gap-y-10">
         <nav aria-label={h.titlesLabel} className="fade-up lg:col-span-4" style={{ "--d": "220ms" }}>
@@ -115,32 +109,6 @@ function About({ t }) {
   );
 }
 
-function Skills({ t }) {
-  const s = t.home.skills;
-  return (
-    <Section id="skills" title={s.title}>
-      <Intro heading={s.heading} lead={s.lead} />
-      <dl className="mt-14 border-t border-ink">
-        {SKILL_GROUPS.map((g) => (
-          <div key={g.key} className="reveal group grid gap-1 border-b border-rule py-5 md:grid-cols-9 md:gap-6">
-            <dt className="text-grey transition-colors group-hover:text-blue md:col-span-3 md:pt-1">{s.groups[g.key]}</dt>
-            <dd className="t-m md:col-span-6">{g.items.join(", ")}</dd>
-          </div>
-        ))}
-      </dl>
-      <h3 className="mt-20 font-medium">{s.socialTitle}</h3>
-      <dl className="mt-5 border-t border-ink">
-        {s.social.map((x) => (
-          <div key={x.name} className="reveal grid gap-1 border-b border-rule py-5 md:grid-cols-9 md:gap-6">
-            <dt className="t-m md:col-span-3">{x.name}</dt>
-            <dd className="text-grey md:col-span-6 md:pt-1">{x.description}</dd>
-          </div>
-        ))}
-      </dl>
-    </Section>
-  );
-}
-
 function Contact({ t, lang }) {
   const c = t.contact;
   const rows = [
@@ -152,8 +120,8 @@ function Contact({ t, lang }) {
     <Section id="contact" title={c.label}>
       <Intro heading={c.title} lead={c.intro} />
       <div className="mt-14 flex flex-wrap items-center gap-x-8 gap-y-4">
-        <a href={`mailto:${CONTACT.email}`} className="ulink t-xl break-all transition-colors hover:text-blue">
-          {CONTACT.email}
+        <a href={`mailto:${CONTACT.email}`} className="roll-link ulink t-xl transition-colors hover:text-blue">
+          <RollText text={CONTACT.email} />
         </a>
         <CopyEmail email={CONTACT.email} copyLabel={c.copy} copiedLabel={c.copied} />
       </div>
@@ -187,7 +155,7 @@ export function HomePage({ t, lang }) {
       <Hero t={t} lang={lang} />
       <About t={t} />
       <VocabularyPath t={t} lang={lang} />
-      <Skills t={t} />
+      <SkillIndex t={t} />
       <ProjectIndex t={t} lang={lang} />
       <Contact t={t} lang={lang} />
     </>

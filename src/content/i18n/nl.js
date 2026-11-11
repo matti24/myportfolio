@@ -104,6 +104,9 @@ const nl = {
       heading: "Alles in één oogopslag.",
       lead: "De tools waarmee ik werk – bewust zonder percentagebalken. Waar ik ze heb geleerd, staat bij mijn traject.",
       groups: { frontend: "Frontend", backend: "Backend", database: "Databases", cloud: "Cloud & DevOps", tools: "Tools" },
+      inspectHint: "Beweeg over een vaardigheid of tik erop om te zien waar ik die heb geleerd.",
+      learnedIn: "Erbij gekomen bij",
+      toStation: "Naar deze stap",
       socialTitle: "Sociale competenties",
       social: [
         { name: "Sociale kracht", description: "Empathie en sterke interpersoonlijke vaardigheden" },

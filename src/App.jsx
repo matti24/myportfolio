@@ -21,7 +21,7 @@ export default function App({ route, t }) {
         {t.nav.skip}
       </a>
       <Header t={t} route={route} />
-      <main id="main" tabIndex={-1} className="outline-none">
+      <main id="main" tabIndex={-1} className="site-main outline-none">
         {page}
       </main>
       <Footer t={t} route={route} />
