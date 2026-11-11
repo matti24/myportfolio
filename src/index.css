@@ -338,11 +338,12 @@
 }
 
 /* Einstieg: Namenszeilen steigen aus einer Maske auf, das Foto öffnet sich von unten */
+/* Maske nur unten: Seiten und Oberkante bleiben offen, damit Buchstaben-Überhänge nicht abgeschnitten werden */
 .line {
   display: block;
-  overflow: hidden;
   padding-bottom: 0.06em;
   margin-bottom: -0.06em;
+  clip-path: inset(-0.5em -0.25em 0 -0.25em);
 }
 .line-in {
   display: block;
