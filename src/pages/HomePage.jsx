@@ -1,185 +1,441 @@
-import { ArrowDown, ArrowRight, ArrowUpRight } from "lucide-react";
-import { HeroGlobe } from "../components/HeroGlobe.jsx";
+import { useState } from "react";
+import {
+  ArrowDown,
+  ArrowRight,
+  ArrowUpRight,
+  Briefcase,
+  CheckCircle2,
+  Code2,
+  Dumbbell,
+  Footprints,
+  Handshake,
+  Languages,
+  Layers,
+  Lightbulb,
+  Mail,
+  MapPin,
+  MessageCircle,
+  Snowflake,
+  Sparkles,
+  Target,
+  Trophy,
+  Users,
+} from "lucide-react";
 import { SectionHeader } from "../components/SectionHeader.jsx";
 import { ProjectCover } from "../components/ProjectCover.jsx";
 import { Picture } from "../components/Picture.jsx";
 import { ContactForm } from "../components/ContactForm.jsx";
 import { CopyEmail } from "../components/CopyEmail.jsx";
-import { CONTACT, getProject, otherWork, projects } from "../content/projects.js";
+import { CONTACT, otherWork, projects } from "../content/projects.js";
 import { pathFor } from "../lib/routes.js";
 
 const PORTRAIT = { base: "portrait", widths: [480, 800, 1120], width: 1120, height: 1400 };
-
 const external = { target: "_blank", rel: "noopener noreferrer" };
 
-function ExternalLinks({ project, t, className = "" }) {
-  return (
-    <div className={`flex flex-wrap items-center gap-x-5 gap-y-2 text-sm ${className}`}>
-      {project.live ? (
-        <a href={project.live} {...external} className="link-underline inline-flex items-center gap-1 text-fg">
-          {t.projects.live}
-          <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
-        </a>
-      ) : (
-        <span className="text-subtle">{t.projects.liveUnavailable}</span>
-      )}
-      <a href={project.repo} {...external} className="link-underline inline-flex items-center gap-1 text-muted hover:text-fg">
-        {t.projects.code}
-        <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
-      </a>
-    </div>
-  );
-}
+const HIGHLIGHT_ICONS = {
+  briefcase: Briefcase,
+  languages: Languages,
+  code: Code2,
+};
+
+const HOBBY_ICONS = {
+  trophy: Trophy,
+  dumbbell: Dumbbell,
+  snowflake: Snowflake,
+  footprints: Footprints,
+};
+
+const SOCIAL_ICONS = {
+  users: Users,
+  handshake: Handshake,
+  message: MessageCircle,
+  target: Target,
+  lightbulb: Lightbulb,
+};
 
 function Hero({ t }) {
   return (
-    <section aria-labelledby="hero-title" className="relative overflow-hidden">
-      <div className="container-x grid min-h-[calc(100svh-4rem)] items-center gap-10 py-14 lg:grid-cols-12 lg:gap-8 lg:py-20">
-        <div className="lg:col-span-7">
-          <p className="label intro-rise flex items-center gap-3" style={{ "--i": 0 }}>
-            <span className="h-px w-8 bg-accent" aria-hidden="true" />
-            {t.hero.eyebrow}
-          </p>
-          <h1 id="hero-title" className="display intro-rise mt-7 max-w-[17ch]" style={{ "--i": 1 }}>
-            {t.hero.title}
-          </h1>
-          <p className="lead intro-rise mt-7 max-w-[52ch]" style={{ "--i": 2 }}>
-            {t.hero.lead}
-          </p>
-          <div className="intro-rise mt-10 flex flex-wrap items-center gap-3" style={{ "--i": 3 }}>
-            <a href="#projects" className="btn btn-primary">
-              {t.hero.ctaProjects}
-              <ArrowDown aria-hidden="true" className="h-4 w-4" />
-            </a>
-            <a href="#contact" className="btn btn-ghost">
-              {t.hero.ctaContact}
-              <ArrowRight aria-hidden="true" className="arrow h-4 w-4" />
-            </a>
+    <section aria-labelledby="hero-title" className="relative overflow-hidden border-b border-line">
+      <div aria-hidden="true" className="hero-grid-bg pointer-events-none absolute inset-0" />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-32 right-[8%] h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,rgba(0,71,255,0.09),transparent_68%)] blur-2xl"
+      />
+
+      <div className="container-x relative pt-10 pb-16 sm:pt-14 sm:pb-24 lg:pt-18 lg:pb-28">
+        <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
+          {/* Left column: Personal Introduction */}
+          <div className="lg:col-span-7">
+            <div className="intro-rise inline-flex flex-wrap items-center gap-2.5 rounded-full border border-line bg-ink-2/90 px-3.5 py-1.5" style={{ "--i": 0 }}>
+              <span className="h-2 w-2 rounded-full bg-accent" aria-hidden="true" />
+              <span className="font-mono text-xs font-medium tracking-wide text-fg">{t.hero.badge}</span>
+            </div>
+
+            <p className="intro-rise mt-6 font-mono text-xs uppercase tracking-[0.14em] text-subtle" style={{ "--i": 1 }}>
+              {t.hero.greeting}
+            </p>
+            <h1 id="hero-title" className="display intro-rise mt-2 tracking-[-0.048em]" style={{ "--i": 1 }}>
+              {t.hero.name}
+            </h1>
+            <p className="intro-rise mt-4 max-w-[26ch] text-[clamp(1.35rem,1.05rem+1.2vw,2rem)] font-medium leading-[1.2] tracking-[-0.025em] text-accent" style={{ "--i": 2 }}>
+              {t.hero.claim}
+            </p>
+            <p className="lead intro-rise mt-5 max-w-[54ch]" style={{ "--i": 2 }}>
+              {t.hero.lead}
+            </p>
+
+            <div className="intro-rise mt-9 flex flex-wrap items-center gap-3" style={{ "--i": 3 }}>
+              <a href="#about" className="btn btn-primary">
+                {t.hero.ctaAbout}
+                <ArrowDown aria-hidden="true" className="h-4 w-4" />
+              </a>
+              <a href="#skills" className="btn btn-ghost">
+                {t.hero.ctaSkills}
+                <Layers aria-hidden="true" className="h-4 w-4 text-accent" />
+              </a>
+              <a href="#contact" className="btn btn-ghost">
+                {t.hero.ctaContact}
+                <ArrowRight aria-hidden="true" className="arrow h-4 w-4" />
+              </a>
+            </div>
+
+            <div className="intro-rise mt-9 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted" style={{ "--i": 4 }}>
+              <span className="inline-flex items-center gap-2.5 font-medium text-fg">
+                <span className="live-dot" aria-hidden="true" />
+                {t.hero.status}
+              </span>
+              <span className="inline-flex items-center gap-1.5 text-subtle">
+                <MapPin aria-hidden="true" className="h-3.5 w-3.5 text-accent" />
+                {t.hero.location}
+              </span>
+            </div>
           </div>
-          <p className="intro-rise mt-10 flex items-center gap-3 text-sm text-muted" style={{ "--i": 4 }}>
-            <span className="live-dot" aria-hidden="true" />
-            {t.hero.status}
-          </p>
+
+          {/* Right column: Editorial Portrait Card with Character */}
+          <div className="intro-rise lg:col-span-5" style={{ "--i": 2 }}>
+            <div className="mx-auto max-w-md lg:ml-auto">
+              <div className="bento-card group relative overflow-hidden bg-gradient-to-b from-ink-2 via-white to-ink-2 p-3 sm:p-4">
+                {/* Top technical bar inside card */}
+                <div className="mb-3 flex items-center justify-between px-2 pt-1">
+                  <span className="inline-flex items-center gap-2 font-mono text-[0.7rem] font-semibold uppercase tracking-wider text-fg">
+                    <span className="h-2 w-2 rounded-xs bg-accent" aria-hidden="true" />
+                    Swisscom · Zürich
+                  </span>
+                  <span className="font-mono text-[0.7rem] text-subtle">DE · NL · EN · SV</span>
+                </div>
+
+                {/* Portrait container */}
+                <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-line bg-gradient-to-b from-[#eef2f8] via-[#f5f7fa] to-[#e9edf5]">
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_22%,rgba(0,71,255,0.12),transparent_62%)]"
+                  />
+                  <Picture
+                    image={PORTRAIT}
+                    alt={t.about.portraitAlt}
+                    eager
+                    sizes="(min-width: 1024px) 26rem, (min-width: 640px) 24rem, 92vw"
+                    className="relative z-10 h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                  />
+
+                  {/* Bottom floating badge inside portrait */}
+                  <div className="absolute inset-x-3 bottom-3 z-20 flex items-center justify-between gap-3 rounded-xl border border-line/90 bg-white/92 px-3.5 py-2.5 shadow-sm backdrop-blur-md">
+                    <div>
+                      <p className="text-xs font-semibold text-fg">Matti Koenis</p>
+                      <p className="font-mono text-[0.68rem] text-muted">{t.hero.roleTag}</p>
+                    </div>
+                    <span className="chip chip-accent">EFZ</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="intro-rise lg:col-span-5" style={{ "--i": 2 }}>
-          <HeroGlobe label={t.hero.globeLabel} hint={t.hero.globeHint} />
+
+        {/* 3 Personal Focus Pillars (from original Hero: Fokus, Arbeitsstil, Interessen) */}
+        <dl className="intro-rise mt-14 grid gap-4 sm:grid-cols-3 lg:mt-18" style={{ "--i": 4 }}>
+          {t.hero.cards.map((card, idx) => (
+            <div key={card.label} className="bento-card bento-card-interactive p-5 sm:p-6">
+              <dt className="flex items-center justify-between">
+                <span className="label text-accent">{card.label}</span>
+                <span aria-hidden="true" className="font-mono text-xs text-subtle">0{idx + 1}</span>
+              </dt>
+              <dd className="mt-3 text-lg font-semibold tracking-tight text-fg sm:text-xl">{card.value}</dd>
+              <dd className="mt-1.5 text-sm text-muted">{card.detail}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+  );
+}
+
+function About({ t }) {
+  return (
+    <section id="about" aria-labelledby="about-title" className="py-20 sm:py-28">
+      <div className="container-x">
+        <SectionHeader id="about-title" index="01" label={t.about.label} title={t.about.title} intro={t.about.intro} />
+
+        {/* Story + 3 Personal Highlights */}
+        <div className="mt-14 grid gap-8 lg:grid-cols-12 lg:gap-10">
+          <div className="bento-card flex flex-col justify-between p-6 sm:p-9 lg:col-span-6">
+            <div>
+              <span className="chip chip-accent">{t.about.portraitCaption}</span>
+              <div className="mt-6 space-y-4 text-base leading-relaxed text-muted sm:text-lg">
+                {t.about.paragraphs.map((p) => (
+                  <p key={p.slice(0, 24)} className="text-fg/90">
+                    {p}
+                  </p>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-8 grid grid-cols-2 gap-4 border-t border-line pt-6 sm:grid-cols-3">
+              <div>
+                <p className="font-mono text-2xl font-semibold tracking-tight text-fg">Swisscom</p>
+                <p className="mt-0.5 text-xs text-muted">Ausbildungsbetrieb</p>
+              </div>
+              <div>
+                <p className="font-mono text-2xl font-semibold tracking-tight text-accent">4</p>
+                <p className="mt-0.5 text-xs text-muted">{t.about.languagesTitle}</p>
+              </div>
+              <div className="col-span-2 sm:col-span-1">
+                <p className="font-mono text-2xl font-semibold tracking-tight text-fg">Zürich</p>
+                <p className="mt-0.5 text-xs text-muted">Arbeitsort</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid gap-4 lg:col-span-6">
+            {t.about.highlights.map((item) => {
+              const Icon = HIGHLIGHT_ICONS[item.icon] || Sparkles;
+              return (
+                <div key={item.title} className="bento-card bento-card-interactive flex gap-4 p-6">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-accent-soft text-accent">
+                    <Icon aria-hidden="true" className="h-5 w-5" />
+                  </span>
+                  <div>
+                    <h3 className="text-lg font-semibold tracking-tight text-fg">{item.title}</h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-muted">{item.text}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Languages & Hobbies / Interests Bento */}
+        <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:gap-10">
+          {/* Languages */}
+          <div className="bento-card p-6 sm:p-8 lg:col-span-6">
+            <div className="flex items-baseline justify-between gap-4">
+              <div>
+                <h3 className="h3">{t.about.languagesTitle}</h3>
+                <p className="mt-1 text-sm text-muted">{t.about.languagesSubtitle}</p>
+              </div>
+              <Languages aria-hidden="true" className="h-5 w-5 text-accent" />
+            </div>
+
+            <ul className="mt-6 grid gap-4">
+              {t.about.languageItems.map((lang) => (
+                <li key={lang.code} className="rounded-xl border border-line bg-ink-2/60 p-3.5">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <span className="inline-flex h-7 w-9 items-center justify-center rounded-md border border-line bg-white font-mono text-xs font-bold text-fg">
+                        {lang.code}
+                      </span>
+                      <span className="font-semibold text-fg">{lang.name}</span>
+                    </div>
+                    <span className="font-mono text-xs text-muted">{lang.level}</span>
+                  </div>
+                  <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-line" aria-hidden="true">
+                    <div className="h-full rounded-full bg-accent" style={{ width: `${lang.pct}%` }} />
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Interests & Hobbies */}
+          <div className="bento-card p-6 sm:p-8 lg:col-span-6">
+            <div className="flex items-baseline justify-between gap-4">
+              <div>
+                <h3 className="h3">{t.about.hobbiesTitle}</h3>
+                <p className="mt-1 text-sm text-muted">{t.about.hobbiesSubtitle}</p>
+              </div>
+              <Trophy aria-hidden="true" className="h-5 w-5 text-accent" />
+            </div>
+
+            <ul className="mt-6 grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+              {t.about.hobbies.map((hobby) => {
+                const Icon = HOBBY_ICONS[hobby.icon] || Trophy;
+                return (
+                  <li
+                    key={hobby.name}
+                    className="group flex flex-col justify-between rounded-xl border border-line bg-ink-2/55 p-4 transition hover:border-accent/35 hover:bg-white hover:shadow-xs"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-white text-fg transition group-hover:border-accent/30 group-hover:bg-accent-soft group-hover:text-accent">
+                        <Icon aria-hidden="true" className="h-5 w-5" />
+                      </span>
+                      <span className="h-1.5 w-1.5 rounded-full bg-line-strong transition group-hover:bg-accent" aria-hidden="true" />
+                    </div>
+                    <div className="mt-4">
+                      <p className="font-semibold text-fg">{hobby.name}</p>
+                      <p className="mt-1 text-xs leading-relaxed text-muted">{hobby.detail}</p>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-function Facts({ t }) {
-  return (
-    <div className="border-y border-line">
-      <dl className="container-x grid divide-y divide-line sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-        {t.facts.map((fact) => (
-          <div key={fact.label} className="flex flex-row-reverse items-baseline justify-end gap-5 py-6 sm:flex-col-reverse sm:items-start sm:gap-2 sm:px-8 sm:py-10 sm:first:pl-0">
-            <dt className="text-sm text-muted">{fact.label}</dt>
-            <dd className="text-5xl font-medium tracking-[-0.05em] sm:text-6xl">{fact.value}</dd>
-          </div>
-        ))}
-      </dl>
-    </div>
-  );
-}
+function Skills({ t }) {
+  const [activeCategory, setActiveCategory] = useState("all");
+  const categories = Object.entries(t.skills.categories);
+  const visibleTech =
+    activeCategory === "all" ? t.skills.techItems : t.skills.techItems.filter((item) => item.category === activeCategory);
 
-function FeaturedProject({ project, t, lang }) {
-  const text = t.projectTexts[project.slug];
-  const href = pathFor(lang, "project", project.slug);
   return (
-    <article className="group reveal grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-10">
-      <a href={href} className="block lg:col-span-8" tabIndex={-1} aria-hidden="true">
-        <ProjectCover project={project} text={text} lang={lang} sizes="(min-width: 1024px) 62vw, 100vw" />
-      </a>
-      <div className="lg:col-span-4">
-        <p className="label">
-          <span className="text-accent">01</span> · {t.projects.featured} · {project.years}
-        </p>
-        <h3 className="mt-4 text-[clamp(2.25rem,1.6rem+2.4vw,3.5rem)] font-medium leading-none tracking-[-0.04em]">
-          <a href={href} className="focus-visible:outline-offset-8">
-            {project.name}
-          </a>
-        </h3>
-        <p className="mt-5 text-lg leading-relaxed text-muted">{text.tagline}</p>
-        <ul className="mt-6 flex flex-wrap gap-2" aria-label={t.caseStudy.stack}>
-          {project.stack.slice(0, 5).map((s) => (
-            <li key={s} className="chip">
-              {s}
-            </li>
-          ))}
-        </ul>
-        <a href={href} className="btn btn-primary mt-8">
-          {t.projects.viewCase}
-          <ArrowRight aria-hidden="true" className="arrow h-4 w-4" />
-        </a>
-        <ExternalLinks project={project} t={t} className="mt-6" />
-      </div>
-    </article>
-  );
-}
-
-function ProjectTile({ project, index, t, lang }) {
-  const text = t.projectTexts[project.slug];
-  const href = pathFor(lang, "project", project.slug);
-  return (
-    <article className="group reveal flex flex-col">
-      <a href={href} tabIndex={-1} aria-hidden="true" className="block">
-        <ProjectCover project={project} text={text} lang={lang} sizes="(min-width: 768px) 45vw, 100vw" />
-      </a>
-      <p className="label mt-6">
-        <span className="text-accent">{String(index).padStart(2, "0")}</span> · {project.years}
-      </p>
-      <h3 className="h3 mt-3">
-        <a href={href} className="inline-flex items-center gap-2">
-          {project.name}
-          <ArrowRight aria-hidden="true" className="arrow h-5 w-5 text-subtle" />
-        </a>
-      </h3>
-      <p className="mt-3 max-w-[48ch] text-muted">{text.summary}</p>
-      <ul className="mt-5 flex flex-wrap gap-2" aria-label={t.caseStudy.stack}>
-        {project.stack.slice(0, 4).map((s) => (
-          <li key={s} className="chip">
-            {s}
-          </li>
-        ))}
-      </ul>
-      <ExternalLinks project={project} t={t} className="mt-6" />
-    </article>
-  );
-}
-
-function Projects({ t, lang }) {
-  const [featured, ...rest] = projects;
-  return (
-    <section id="projects" aria-labelledby="projects-title" className="py-24 sm:py-32">
+    <section id="skills" aria-labelledby="skills-title" className="surface-subtle border-y border-line py-20 sm:py-28">
       <div className="container-x">
-        <SectionHeader id="projects-title" index="01" label={t.projects.label} title={t.projects.title} intro={t.projects.intro} />
-        <div className="mt-16 sm:mt-20">
-          <FeaturedProject project={featured} t={t} lang={lang} />
-        </div>
-        <div className="mt-20 grid gap-16 md:grid-cols-2 md:gap-10 lg:gap-14">
-          {rest.map((project, i) => (
-            <ProjectTile key={project.slug} project={project} index={i + 2} t={t} lang={lang} />
-          ))}
-        </div>
+        <SectionHeader id="skills-title" index="02" label={t.skills.label} title={t.skills.title} intro={t.skills.intro} />
 
-        <div className="mt-24">
-          <h3 className="label">{t.projects.otherTitle}</h3>
-          <ul className="mt-6 border-t border-line">
-            {otherWork.map((work) => (
-              <li key={work.key} className="border-b border-line">
-                <a href={work.repo} {...external} className="group grid gap-3 py-6 sm:grid-cols-12 sm:items-baseline sm:gap-8">
-                  <span className="text-xl font-medium tracking-tight sm:col-span-3">{t.projects.other[work.key].title}</span>
-                  <span className="text-muted sm:col-span-6">{t.projects.other[work.key].text}</span>
-                  <span className="flex items-center justify-between gap-4 sm:col-span-3 sm:justify-end">
-                    <span className="label">{work.stack.slice(0, 2).join(" · ")}</span>
-                    <ArrowUpRight aria-hidden="true" className="arrow h-4 w-4 text-subtle group-hover:text-fg" />
-                  </span>
-                </a>
+        {/* Technical Skills with Interactive Category Filter */}
+        <div className="mt-14">
+          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+            <div>
+              <h3 className="h3">{t.skills.techTitle}</h3>
+              <p className="mt-1 text-sm text-muted">{t.skills.techSubtitle}</p>
+            </div>
+
+            <div role="tablist" aria-label={t.skills.techTitle} className="flex flex-wrap gap-1.5">
+              <button
+                type="button"
+                role="tab"
+                aria-selected={activeCategory === "all"}
+                onClick={() => setActiveCategory("all")}
+                className={`rounded-full px-3.5 py-1.5 font-mono text-xs font-medium transition ${
+                  activeCategory === "all"
+                    ? "bg-fg text-white shadow-xs"
+                    : "border border-line bg-white text-muted hover:border-line-strong hover:text-fg"
+                }`}
+              >
+                {t.skills.filterAll} ({t.skills.techItems.length})
+              </button>
+              {categories.map(([key, label]) => {
+                const count = t.skills.techItems.filter((i) => i.category === key).length;
+                const active = activeCategory === key;
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    role="tab"
+                    aria-selected={active}
+                    onClick={() => setActiveCategory(key)}
+                    className={`rounded-full px-3.5 py-1.5 font-mono text-xs font-medium transition ${
+                      active
+                        ? "bg-accent text-white shadow-xs"
+                        : "border border-line bg-white text-muted hover:border-line-strong hover:text-fg"
+                    }`}
+                  >
+                    {label} ({count})
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <ul className="mt-7 grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
+            {visibleTech.map((skill) => (
+              <li
+                key={skill.name}
+                className="bento-card bento-card-interactive flex flex-col justify-between p-5"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-mono text-[0.68rem] uppercase tracking-wider text-accent">
+                      {t.skills.categories[skill.category]}
+                    </span>
+                    <span className="chip">{skill.where}</span>
+                  </div>
+                  <h4 className="mt-3 text-lg font-semibold tracking-tight text-fg">{skill.name}</h4>
+                  <p className="mt-1 text-sm text-muted">{skill.context}</p>
+                </div>
               </li>
             ))}
           </ul>
+        </div>
+
+        {/* Social Competencies & Working Style + Positioning ("Bereit für den nächsten Schritt nach der Lehre") */}
+        <div className="mt-16 grid gap-8 lg:grid-cols-12 lg:gap-10">
+          {/* Social Skills */}
+          <div className="lg:col-span-7">
+            <h3 className="h3">{t.skills.socialTitle}</h3>
+            <p className="mt-1 text-sm text-muted">{t.skills.socialSubtitle}</p>
+
+            <ul className="mt-6 grid gap-3.5 sm:grid-cols-2">
+              {t.skills.socialItems.map((item, idx) => {
+                const Icon = SOCIAL_ICONS[item.icon] || CheckCircle2;
+                return (
+                  <li
+                    key={item.name}
+                    className={`bento-card bento-card-interactive p-5 ${idx === 0 ? "sm:col-span-2" : ""}`}
+                  >
+                    <div className="flex items-start gap-3.5">
+                      <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-accent/20 bg-accent-soft text-accent">
+                        <Icon aria-hidden="true" className="h-4 w-4" />
+                      </span>
+                      <div>
+                        <h4 className="font-semibold text-fg">{item.name}</h4>
+                        <p className="mt-1 text-sm leading-relaxed text-muted">{item.description}</p>
+                      </div>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+          {/* Positioning Card: Bereit für den nächsten Schritt nach der Lehre */}
+          <div className="lg:col-span-5">
+            <div className="bento-card flex h-full flex-col justify-between border-accent/25 bg-gradient-to-br from-white via-white to-accent-soft/60 p-6 sm:p-8">
+              <div>
+                <span className="chip chip-accent">{t.skills.positioning.tag}</span>
+                <h3 className="mt-4 text-2xl font-semibold leading-tight tracking-tight text-fg">
+                  {t.skills.positioning.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted">{t.skills.positioning.description}</p>
+
+                <div className="mt-6 space-y-4 border-t border-line pt-5">
+                  <div>
+                    <h4 className="font-mono text-xs font-semibold uppercase tracking-wider text-accent">
+                      {t.skills.positioning.bringTitle}
+                    </h4>
+                    <p className="mt-1.5 text-sm leading-relaxed text-fg/90">{t.skills.positioning.bringText}</p>
+                  </div>
+                  <div>
+                    <h4 className="font-mono text-xs font-semibold uppercase tracking-wider text-accent">
+                      {t.skills.positioning.standTitle}
+                    </h4>
+                    <p className="mt-1.5 text-sm leading-relaxed text-fg/90">{t.skills.positioning.standText}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-7 pt-2">
+                <a href="#contact" className="btn btn-accent w-full justify-center">
+                  {t.hero.ctaContact}
+                  <ArrowRight aria-hidden="true" className="arrow h-4 w-4" />
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -188,36 +444,42 @@ function Projects({ t, lang }) {
 
 function Experience({ t }) {
   return (
-    <section id="experience" aria-labelledby="experience-title" className="border-t border-line py-24 sm:py-32">
+    <section id="experience" aria-labelledby="experience-title" className="py-20 sm:py-28">
       <div className="container-x">
-        <SectionHeader id="experience-title" index="02" label={t.experience.label} title={t.experience.title} intro={t.experience.intro} />
-        <div className="timeline-scope relative mt-16 lg:ml-[25%]">
-          <div aria-hidden="true" className="absolute top-2 bottom-2 left-[5px] w-px bg-line">
+        <SectionHeader id="experience-title" index="03" label={t.experience.label} title={t.experience.title} intro={t.experience.intro} />
+
+        <div className="timeline-scope relative mt-14 lg:ml-[16%]">
+          <div aria-hidden="true" className="absolute top-3 bottom-3 left-[7px] w-0.5 bg-line">
             <div className="timeline-progress h-full w-full origin-top bg-accent" />
           </div>
-          <ol className="grid gap-14">
+
+          <ol className="grid gap-8">
             {t.experience.items.map((item, i) => (
-              <li key={item.title} className="reveal relative grid gap-3 pl-10 md:grid-cols-12 md:gap-8">
+              <li key={item.title} className="reveal relative pl-9 sm:pl-12">
                 <span
                   aria-hidden="true"
-                  className={`absolute top-2 left-0 h-[11px] w-[11px] border ${i === 0 ? "border-accent bg-accent" : "border-line-strong bg-ink"}`}
+                  className={`absolute top-6 left-0 h-4 w-4 rounded-full border-2 ${
+                    i === 0 ? "border-accent bg-accent ring-4 ring-accent/15" : "border-line-strong bg-white"
+                  }`}
                 />
-                <div className="md:col-span-4">
-                  <p className="font-mono text-sm text-muted">{item.period}</p>
-                  {i === 0 ? <p className="label mt-2 text-accent">{t.experience.current}</p> : null}
-                </div>
-                <div className="md:col-span-8">
-                  <h3 className="h3">{item.title}</h3>
-                  <p className="label mt-2">{item.place}</p>
-                  <p className="mt-4 max-w-[58ch] text-muted">{item.text}</p>
-                  <ul className="mt-5 flex flex-wrap gap-2">
+                <article className="bento-card bento-card-interactive p-6 sm:p-7">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="font-mono text-xs font-semibold text-accent">{item.period}</span>
+                    <div className="flex items-center gap-2">
+                      {i === 0 ? <span className="chip chip-accent">{t.experience.current}</span> : null}
+                      <span className="font-mono text-xs text-subtle">{item.place}</span>
+                    </div>
+                  </div>
+                  <h3 className="h3 mt-2.5">{item.title}</h3>
+                  <p className="mt-2.5 max-w-[64ch] text-sm leading-relaxed text-muted sm:text-base">{item.text}</p>
+                  <ul className="mt-4 flex flex-wrap gap-2">
                     {item.tags.map((tag) => (
                       <li key={tag} className="chip">
                         {tag}
                       </li>
                     ))}
                   </ul>
-                </div>
+                </article>
               </li>
             ))}
           </ol>
@@ -227,92 +489,93 @@ function Experience({ t }) {
   );
 }
 
-function evidenceLink(key, lang, t) {
-  const project = getProject(key);
-  if (project) return { href: pathFor(lang, "project", key), label: project.name };
-  if (key === "punchclock") return { href: otherWork[0].repo, label: t.skills.evidenceNames.punchclock, external: true };
-  return { href: "#experience", label: t.skills.evidenceNames[key] };
-}
-
-function About({ t, lang }) {
+function SupplementaryProjects({ t, lang }) {
   return (
-    <section id="about" aria-labelledby="about-title" className="border-t border-line py-24 sm:py-32">
+    <section id="projects" aria-labelledby="projects-title" className="border-t border-line bg-ink-2/65 py-20 sm:py-28">
       <div className="container-x">
-        <SectionHeader id="about-title" index="03" label={t.about.label} title={t.about.title} />
-        <div className="mt-16 grid gap-12 lg:grid-cols-12 lg:gap-8">
-          <div className="reveal lg:col-span-4 lg:col-start-1">
-            <div className="media-frame aspect-[4/5] max-w-sm">
-              <Picture image={PORTRAIT} alt={t.about.portraitAlt} sizes="(min-width: 1024px) 28vw, (min-width: 640px) 24rem, 90vw" />
-            </div>
-          </div>
-          <div className="lg:col-span-7 lg:col-start-6">
-            <div className="grid gap-5 text-lg leading-relaxed text-fg/90">
-              {t.about.paragraphs.map((p) => (
-                <p key={p.slice(0, 24)} className="reveal">
-                  {p}
-                </p>
-              ))}
-            </div>
-            <dl className="mt-12 grid gap-8 border-t border-line pt-8 sm:grid-cols-2">
-              <div>
-                <dt className="label">{t.about.languagesTitle}</dt>
-                <dd className="mt-3">
-                  <ul className="flex flex-wrap gap-2">
-                    {t.about.languages.map((l) => (
-                      <li key={l} className="chip text-fg">
-                        {l}
+        <SectionHeader id="projects-title" index="04" label={t.projects.label} title={t.projects.title} intro={t.projects.intro} />
+
+        <div className="mt-14 grid gap-6 md:grid-cols-3">
+          {projects.map((project, idx) => {
+            const text = t.projectTexts[project.slug];
+            const href = pathFor(lang, "project", project.slug);
+            return (
+              <article key={project.slug} className="bento-card bento-card-interactive group flex flex-col justify-between p-4 sm:p-5">
+                <div>
+                  <a href={href} tabIndex={-1} aria-hidden="true" className="block">
+                    <ProjectCover
+                      project={project}
+                      text={text}
+                      lang={lang}
+                      sizes="(min-width: 1024px) 28vw, (min-width: 768px) 32vw, 94vw"
+                      className="aspect-[16/10]"
+                    />
+                  </a>
+                  <div className="mt-4 flex items-center justify-between font-mono text-xs text-subtle">
+                    <span className="font-semibold text-accent">0{idx + 1}</span>
+                    <span>{project.years}</span>
+                  </div>
+                  <h3 className="mt-1.5 text-xl font-semibold tracking-tight text-fg">
+                    <a href={href} className="inline-flex items-center gap-1.5 hover:text-accent">
+                      {project.name}
+                      <ArrowRight aria-hidden="true" className="arrow h-4 w-4 text-subtle" />
+                    </a>
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted">{text.tagline}</p>
+                </div>
+
+                <div className="mt-5 border-t border-line pt-4">
+                  <ul className="flex flex-wrap gap-1.5" aria-label={t.caseStudy.stack}>
+                    {project.stack.slice(0, 3).map((s) => (
+                      <li key={s} className="chip">
+                        {s}
                       </li>
                     ))}
                   </ul>
-                </dd>
-              </div>
-              <div>
-                <dt className="label">{t.about.interestsTitle}</dt>
-                <dd className="mt-3 text-muted">{t.about.interests}</dd>
-              </div>
-            </dl>
-          </div>
+                  <div className="mt-4 flex items-center justify-between text-xs font-medium">
+                    <a href={href} className="link-underline inline-flex items-center gap-1 text-accent">
+                      {t.projects.viewCase}
+                      <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
+                    </a>
+                    <div className="flex items-center gap-3">
+                      {project.live ? (
+                        <a href={project.live} {...external} className="link-underline inline-flex items-center gap-0.5 text-fg">
+                          {t.projects.live}
+                          <ArrowUpRight aria-hidden="true" className="h-3 w-3" />
+                        </a>
+                      ) : null}
+                      <a href={project.repo} {...external} className="link-underline inline-flex items-center gap-0.5 text-muted hover:text-fg">
+                        {t.projects.code}
+                        <ArrowUpRight aria-hidden="true" className="h-3 w-3" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
         </div>
 
-        <div className="mt-24">
-          <div className="grid gap-6 lg:grid-cols-12 lg:gap-8">
-            <h3 className="h3 lg:col-span-4">{t.skills.title}</h3>
-            <p className="text-muted lg:col-span-7 lg:col-start-6">{t.skills.intro}</p>
-          </div>
-          <div className="mt-10 grid gap-x-8 gap-y-12 border-t border-line pt-10 sm:grid-cols-2 xl:grid-cols-4">
-            {t.skills.groups.map((group) => (
-              <div key={group.title} className="reveal">
-                <h4 className="label text-fg">{group.title}</h4>
-                <ul className="mt-5 divide-y divide-line border-t border-line">
-                  {group.items.map((item) => (
-                    <li key={item.name} className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 py-3">
-                      <span className="font-medium">{item.name}</span>
-                      <span className="flex flex-wrap gap-x-2 text-xs text-subtle">
-                        <span className="sr-only">{t.skills.evidenceLabel}:</span>
-                        {item.evidence.map((key) => {
-                          const link = evidenceLink(key, lang, t);
-                          return (
-                            <a
-                              key={key}
-                              href={link.href}
-                              {...(link.external ? external : {})}
-                              className="font-mono underline decoration-line-strong underline-offset-4 hover:text-fg"
-                            >
-                              {link.label}
-                            </a>
-                          );
-                        })}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
+        {/* Compact row for additional module work */}
+        <div className="mt-6">
+          {otherWork.map((work) => (
+            <a
+              key={work.key}
+              href={work.repo}
+              {...external}
+              className="bento-card bento-card-interactive group flex flex-col justify-between gap-4 p-5 sm:flex-row sm:items-center"
+            >
+              <div>
+                <span className="label text-accent">{t.projects.otherTitle}</span>
+                <h3 className="mt-1 text-base font-semibold text-fg">{t.projects.other[work.key].title}</h3>
+                <p className="mt-0.5 text-sm text-muted">{t.projects.other[work.key].text}</p>
               </div>
-            ))}
-          </div>
-          <p className="mt-10 text-sm text-muted">
-            <span className="label mr-3">{t.skills.moreTitle}</span>
-            {t.skills.more}
-          </p>
+              <div className="flex shrink-0 items-center gap-3">
+                <span className="chip">{work.stack.join(" · ")}</span>
+                <ArrowUpRight aria-hidden="true" className="h-4 w-4 text-subtle transition group-hover:text-accent" />
+              </div>
+            </a>
+          ))}
         </div>
       </div>
     </section>
@@ -321,41 +584,55 @@ function About({ t, lang }) {
 
 function Contact({ t, lang }) {
   return (
-    <section id="contact" aria-labelledby="contact-title" className="border-t border-line py-24 sm:py-32">
-      <div className="container-x grid gap-16 lg:grid-cols-12 lg:gap-8">
-        <div className="lg:col-span-5">
-          <p className="label">
-            <span className="text-accent">04</span>
-            <span aria-hidden="true"> — </span>
-            {t.contact.label}
-          </p>
-          <h2 id="contact-title" className="display reveal mt-6">
-            {t.contact.title}
-          </h2>
-          <p className="lead mt-6 max-w-[42ch]">{t.contact.intro}</p>
-          <div className="mt-10 border-t border-line pt-8">
-            <p className="label">{t.contact.emailLabel}</p>
-            <a
-              href={`mailto:${CONTACT.email}`}
-              className="link-underline mt-2 inline-block text-[clamp(1.5rem,1.1rem+1.6vw,2.25rem)] font-medium tracking-tight"
-            >
-              {CONTACT.email}
-            </a>
-            <div className="mt-5 flex flex-wrap gap-3">
-              <CopyEmail email={CONTACT.email} copyLabel={t.contact.copy} copiedLabel={t.contact.copied} />
-              <a href={CONTACT.linkedin} {...external} className="btn btn-ghost min-h-11 text-sm">
-                {t.contact.linkedin}
-                <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
-              </a>
-              <a href={CONTACT.github} {...external} className="btn btn-ghost min-h-11 text-sm">
-                {t.contact.github}
-                <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
-              </a>
+    <section id="contact" aria-labelledby="contact-title" className="border-t border-line py-20 sm:py-28">
+      <div className="container-x">
+        <SectionHeader id="contact-title" index="05" label={t.contact.label} title={t.contact.title} intro={t.contact.intro} />
+
+        <div className="mt-14 grid gap-10 lg:grid-cols-12 lg:gap-10">
+          {/* Direct Contact Card */}
+          <div className="bento-card flex flex-col justify-between p-6 sm:p-8 lg:col-span-5">
+            <div>
+              <span className="label text-accent">{t.contact.emailLabel}</span>
+              <p className="mt-3 text-[clamp(1.5rem,1.1rem+1.4vw,2.25rem)] font-semibold tracking-tight break-all text-fg">
+                <a href={`mailto:${CONTACT.email}`} className="link-underline hover:text-accent">
+                  {CONTACT.email}
+                </a>
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2.5">
+                <a href={`mailto:${CONTACT.email}`} className="btn btn-primary">
+                  <Mail aria-hidden="true" className="h-4 w-4" />
+                  {t.contact.emailLabel}
+                </a>
+                <CopyEmail email={CONTACT.email} copyLabel={t.contact.copy} copiedLabel={t.contact.copied} />
+              </div>
+            </div>
+
+            <div className="mt-10 space-y-4 border-t border-line pt-6 text-sm">
+              <div className="flex items-center justify-between">
+                <span className="text-muted">LinkedIn</span>
+                <a href={CONTACT.linkedin} {...external} className="link-underline inline-flex items-center gap-1 font-medium text-fg hover:text-accent">
+                  Matti Koenis
+                  <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
+                </a>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-muted">GitHub</span>
+                <a href={CONTACT.github} {...external} className="link-underline inline-flex items-center gap-1 font-medium text-fg hover:text-accent">
+                  github.com/matti24
+                  <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
+                </a>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-muted">{t.contact.locationLabel}</span>
+                <span className="font-medium text-fg">{t.contact.locationValue}</span>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="lg:col-span-6 lg:col-start-7 lg:pt-24">
-          <ContactForm t={t.contact} lang={lang} privacyHref={pathFor(lang, "privacy")} />
+
+          {/* Form Card */}
+          <div className="bento-card p-6 sm:p-8 lg:col-span-7">
+            <ContactForm t={t.contact} lang={lang} privacyHref={pathFor(lang, "privacy")} />
+          </div>
         </div>
       </div>
     </section>
@@ -366,10 +643,10 @@ export function HomePage({ t, lang }) {
   return (
     <>
       <Hero t={t} />
-      <Facts t={t} />
-      <Projects t={t} lang={lang} />
+      <About t={t} />
+      <Skills t={t} />
       <Experience t={t} />
-      <About t={t} lang={lang} />
+      <SupplementaryProjects t={t} lang={lang} />
       <Contact t={t} lang={lang} />
     </>
   );

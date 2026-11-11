@@ -22,9 +22,9 @@ export function CopyEmail({ email, copyLabel, copiedLabel }) {
     <button
       type="button"
       onClick={copy}
-      className="inline-flex min-h-11 items-center gap-2 rounded-full border border-line-strong px-4 text-sm text-muted transition-colors hover:border-platinum hover:text-fg"
+      className="inline-flex min-h-10 items-center gap-2 rounded-full border border-line-strong bg-white px-4 text-sm font-medium text-fg shadow-2xs transition hover:border-accent hover:text-accent"
     >
-      {copied ? <Check aria-hidden="true" className="h-4 w-4 text-accent" /> : <Copy aria-hidden="true" className="h-4 w-4" />}
+      {copied ? <Check aria-hidden="true" className="h-4 w-4 text-emerald" /> : <Copy aria-hidden="true" className="h-4 w-4 text-muted" />}
       <span aria-live="polite">{copied ? copiedLabel : copyLabel}</span>
     </button>
   );
