@@ -10,15 +10,23 @@ const SEGMENTS = {
 const prefix = (lang) => (lang === DEFAULT_LANG ? "" : `/${lang}`);
 
 export function pathFor(lang, page = "home", slug) {
+  if (page === "concept") return slug === "1" ? "/" : `/entwurf-${slug}/`;
   if (page === "project") return `${prefix(lang)}/${SEGMENTS.project[lang]}/${slug}/`;
   if (page === "privacy") return `${prefix(lang)}/${SEGMENTS.privacy[lang]}/`;
   return `${prefix(lang)}/`;
 }
 
 export function allRoutes(projectSlugs) {
-  const routes = [];
+  const routes = [
+    { lang: DEFAULT_LANG, page: "concept", slug: "1", path: "/" },
+    { lang: DEFAULT_LANG, page: "concept", slug: "1", path: "/entwurf-1/" },
+    { lang: DEFAULT_LANG, page: "concept", slug: "2", path: "/entwurf-2/" },
+    { lang: DEFAULT_LANG, page: "concept", slug: "3", path: "/entwurf-3/" },
+  ];
   for (const lang of LANGS) {
-    routes.push({ lang, page: "home", path: pathFor(lang, "home") });
+    if (lang !== DEFAULT_LANG) {
+      routes.push({ lang, page: "home", path: pathFor(lang, "home") });
+    }
     for (const slug of projectSlugs) {
       routes.push({ lang, page: "project", slug, path: pathFor(lang, "project", slug) });
     }
@@ -42,5 +50,8 @@ export function resolveRoute(pathname, projectSlugs) {
 }
 
 export function alternatesFor(route) {
+  if (route.page === "concept") {
+    return [{ lang: DEFAULT_LANG, path: route.path }];
+  }
   return LANGS.map((lang) => ({ lang, path: pathFor(lang, route.page, route.slug) }));
 }

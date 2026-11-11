@@ -4,8 +4,13 @@ import { HomePage } from "./pages/HomePage.jsx";
 import { ProjectPage } from "./pages/ProjectPage.jsx";
 import { PrivacyPage } from "./pages/PrivacyPage.jsx";
 import { NotFoundPage } from "./pages/NotFoundPage.jsx";
+import { ConceptsShowcase } from "./pages/ConceptsShowcase.jsx";
 
 export default function App({ route, t }) {
+  if (route.page === "concept") {
+    return <ConceptsShowcase initialDirection={route.slug || "1"} />;
+  }
+
   let page;
   if (route.page === "project") page = <ProjectPage t={t} lang={route.lang} slug={route.slug} />;
   else if (route.page === "privacy") page = <PrivacyPage t={t} lang={route.lang} />;
