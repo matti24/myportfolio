@@ -1,15 +1,22 @@
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
-import { sendContactMessage } from "../lib/emailjs.js";
+import { LIMITS, cooldownRemaining, sendContactMessage } from "../lib/emailjs.js";
 import { CONTACT } from "../content/projects.js";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+// Menschen brauchen länger als drei Sekunden, um das Formular auszufüllen; schnellere Absendungen sind fast immer Bots
+const MIN_FILL_MS = 3000;
 
 export function ContactForm({ t, lang, privacyHref }) {
   const formId = useId();
   const formRef = useRef(null);
   const [status, setStatus] = useState("idle");
   const [errors, setErrors] = useState({});
+  const shownAt = useRef(0);
+
+  useEffect(() => {
+    shownAt.current = Date.now();
+  }, []);
 
   const validate = (data) => {
     const next = {};
@@ -35,8 +42,13 @@ export function ContactForm({ t, lang, privacyHref }) {
       formRef.current?.elements.namedItem(firstInvalid)?.focus();
       return;
     }
-    if (form.get("website")) {
+    // Honeypot oder zu schnelle Absendung: still als erfolgreich anzeigen, aber nichts senden
+    if (form.get("website") || Date.now() - shownAt.current < MIN_FILL_MS) {
       setStatus("success");
+      return;
+    }
+    if (cooldownRemaining() > 0) {
+      setStatus("cooldown");
       return;
     }
     setStatus("sending");
@@ -77,6 +89,14 @@ export function ContactForm({ t, lang, privacyHref }) {
           </a>
         </p>
       ) : null}
+      {status === "cooldown" ? (
+        <p className="border-t border-ink pt-4">
+          {t.cooldown}{" "}
+          <a href={`mailto:${CONTACT.email}`} className="font-medium text-blue underline underline-offset-4">
+            {CONTACT.email}
+          </a>
+        </p>
+      ) : null}
     </div>
   );
 
@@ -92,14 +112,14 @@ export function ContactForm({ t, lang, privacyHref }) {
               <label htmlFor={`${formId}-name`} className="t-s block text-grey">
                 {t.name}
               </label>
-              <input {...field("name")} type="text" autoComplete="name" className="field" maxLength={120} />
+              <input {...field("name")} type="text" autoComplete="name" className="field" maxLength={LIMITS.name} />
               {error("name")}
             </div>
             <div>
               <label htmlFor={`${formId}-email`} className="t-s block text-grey">
                 {t.email}
               </label>
-              <input {...field("email")} type="email" autoComplete="email" inputMode="email" className="field" maxLength={160} />
+              <input {...field("email")} type="email" autoComplete="email" inputMode="email" className="field" maxLength={LIMITS.email} />
               {error("email")}
             </div>
           </div>
@@ -107,7 +127,7 @@ export function ContactForm({ t, lang, privacyHref }) {
             <label htmlFor={`${formId}-message`} className="t-s block text-grey">
               {t.message}
             </label>
-            <textarea {...field("message")} rows={4} placeholder={t.messagePlaceholder} className="field resize-y" maxLength={4000} />
+            <textarea {...field("message")} rows={4} placeholder={t.messagePlaceholder} className="field resize-y" maxLength={LIMITS.message} />
             {error("message")}
           </div>
           <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">

@@ -6,6 +6,21 @@ import { projectSlugs } from "./content/projects.js";
 import { loadDictionary } from "./content/i18n/index.js";
 import "./index.css";
 
+// Schutz vor Clickjacking: GitHub Pages kann kein frame-ancestors/X-Frame-Options senden.
+// Fremde Seiten dürfen diese Seite nicht einbetten; dann wird der Inhalt ausgeblendet.
+function isFramedCrossOrigin() {
+  if (window.top === window.self) return false;
+  try {
+    return window.top.location.origin !== window.location.origin;
+  } catch {
+    return true;
+  }
+}
+if (isFramedCrossOrigin()) {
+  document.documentElement.style.display = "none";
+  throw new Error("Embedding in a foreign site is not allowed.");
+}
+
 const route = resolveRoute(window.location.pathname, projectSlugs);
 const t = await loadDictionary(route.lang);
 const container = document.getElementById("root");

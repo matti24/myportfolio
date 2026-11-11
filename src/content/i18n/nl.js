@@ -305,6 +305,7 @@ const nl = {
     sending: "Wordt verzonden …",
     success: "Bedankt! Je bericht is verzonden – ik neem zo snel mogelijk contact met je op.",
     error: "Het verzenden is helaas niet gelukt. Stuur mij direct een e-mail op:",
+    cooldown: "Je hebt net een bericht verstuurd. Wacht even een minuut of mail me direct op:",
     required: "Vul dit veld in.",
     invalidEmail: "Vul een geldig e-mailadres in.",
     privacyNote: "Je gegevens worden uitsluitend gebruikt om je bericht te beantwoorden.",

@@ -305,6 +305,7 @@ const sv = {
     sending: "Skickar …",
     success: "Tack! Ditt meddelande har skickats – jag återkommer så snart som möjligt.",
     error: "Det gick tyvärr inte att skicka. Skriv gärna direkt till:",
+    cooldown: "Du skickade nyss ett meddelande. Vänta en minut eller mejla mig direkt på:",
     required: "Fyll i det här fältet.",
     invalidEmail: "Ange en giltig e-postadress.",
     privacyNote: "Dina uppgifter används enbart för att svara på ditt meddelande.",

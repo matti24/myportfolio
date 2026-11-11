@@ -312,6 +312,7 @@ const de = {
     sending: "Wird gesendet …",
     success: "Vielen Dank! Deine Nachricht wurde gesendet – ich melde mich so bald wie möglich bei dir.",
     error: "Das Senden hat leider nicht geklappt. Bitte schreib mir direkt an:",
+    cooldown: "Du hast gerade eine Nachricht gesendet. Bitte warte eine Minute oder schreib mir direkt an:",
     required: "Bitte dieses Feld ausfüllen.",
     invalidEmail: "Bitte eine gültige E-Mail-Adresse eingeben.",
     privacyNote: "Deine Angaben werden ausschliesslich zur Beantwortung deiner Anfrage verwendet.",

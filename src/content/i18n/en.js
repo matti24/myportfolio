@@ -306,6 +306,7 @@ const en = {
     sending: "Sending …",
     success: "Thank you! Your message has been sent – I will get back to you as soon as possible.",
     error: "Something went wrong while sending. Please email me directly at:",
+    cooldown: "You just sent a message. Please wait a minute or email me directly at:",
     required: "Please fill out this field.",
     invalidEmail: "Please enter a valid email address.",
     privacyNote: "Your details are used solely to reply to your message.",

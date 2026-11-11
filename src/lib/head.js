@@ -9,9 +9,13 @@ const CSP = [
   "img-src 'self' data:",
   "font-src 'self'",
   "connect-src 'self' https://api.emailjs.com",
+  "frame-src 'none'",
+  "worker-src 'none'",
+  "manifest-src 'self'",
   "form-action 'self'",
   "base-uri 'self'",
   "object-src 'none'",
+  "upgrade-insecure-requests",
 ].join("; ");
 
 const esc = (value) =>
@@ -108,22 +112,22 @@ export function buildHead(route) {
   if (route.page === "notFound") {
     tags.push(`<meta name="robots" content="noindex" />`);
   } else {
-    tags.push(`<link rel="canonical" href="${url}" />`);
+    tags.push(`<link rel="canonical" href="${esc(url)}" />`);
     for (const alt of alternatesFor(route)) {
-      tags.push(`<link rel="alternate" hreflang="${alt.lang}" href="${SITE_URL}${alt.path}" />`);
+      tags.push(`<link rel="alternate" hreflang="${esc(alt.lang)}" href="${esc(SITE_URL + alt.path)}" />`);
     }
     const xDefault = alternatesFor(route).find((a) => a.lang === DEFAULT_LANG);
-    tags.push(`<link rel="alternate" hreflang="x-default" href="${SITE_URL}${xDefault.path}" />`);
+    tags.push(`<link rel="alternate" hreflang="x-default" href="${esc(SITE_URL + xDefault.path)}" />`);
   }
 
   tags.push(
-    `<meta property="og:type" content="${type}" />`,
+    `<meta property="og:type" content="${esc(type)}" />`,
     `<meta property="og:site_name" content="Matti Koenis" />`,
-    `<meta property="og:locale" content="${t.locale}" />`,
+    `<meta property="og:locale" content="${esc(t.locale)}" />`,
     `<meta property="og:title" content="${esc(title)}" />`,
     `<meta property="og:description" content="${esc(description)}" />`,
-    `<meta property="og:url" content="${url}" />`,
-    `<meta property="og:image" content="${image}" />`,
+    `<meta property="og:url" content="${esc(url)}" />`,
+    `<meta property="og:image" content="${esc(image)}" />`,
     `<meta property="og:image:width" content="1200" />`,
     `<meta property="og:image:height" content="630" />`,
     `<meta property="og:image:alt" content="${esc(imageAlt)}" />`,
