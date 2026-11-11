@@ -1,15 +1,22 @@
-import { useEffect, useRef } from "react";
-import { ArrowUpRight, Menu, X } from "lucide-react";
-import { LANGS, alternatesFor, pathFor } from "../lib/routes.js";
+import { useEffect, useRef, useState } from "react";
+import { alternatesFor, pathFor } from "../lib/routes.js";
 import { LANG_NAMES } from "../content/i18n/index.js";
+import { JOB_TITLES } from "../content/profile.js";
+
+const ORDER = ["de", "nl", "sv", "en"];
+const SECTIONS = ["about", "path", "skills", "projects", "contact"];
 
 const sectionHref = (route, id) => (route.page === "home" ? `#${id}` : `${pathFor(route.lang)}#${id}`);
 
-function LanguageLinks({ route, t, className = "", onNavigate }) {
-  const alternates = route.page === "notFound" ? LANGS.map((lang) => ({ lang, path: pathFor(lang) })) : alternatesFor(route);
+function languagePaths(route) {
+  const list = route.page === "notFound" ? ORDER.map((lang) => ({ lang, path: pathFor(lang) })) : alternatesFor(route);
+  return ORDER.map((lang) => list.find((l) => l.lang === lang));
+}
+
+function LanguageLinks({ route, t }) {
   return (
-    <ul className={`inline-flex items-center rounded-full border border-line bg-ink-2 p-0.5 ${className}`} aria-label={t.nav.language}>
-      {alternates.map(({ lang, path }) => {
+    <ul className="flex items-center gap-3 t-s" aria-label={t.nav.language}>
+      {languagePaths(route).map(({ lang, path }) => {
         const active = lang === route.lang;
         return (
           <li key={lang}>
@@ -18,10 +25,8 @@ function LanguageLinks({ route, t, className = "", onNavigate }) {
               hrefLang={lang}
               lang={lang}
               aria-current={active ? "true" : undefined}
-              title={LANG_NAMES[lang]}
-              onClick={onNavigate}
-              className={`inline-flex min-h-7 min-w-8 items-center justify-center rounded-full px-2.5 font-mono text-xs uppercase tracking-wider transition-all ${
-                active ? "bg-fg font-semibold text-white shadow-xs" : "text-muted hover:text-fg"
+              className={`inline-flex min-h-8 items-center uppercase transition-colors ${
+                active ? "text-ink underline decoration-blue decoration-2 underline-offset-[6px]" : "text-grey hover:text-ink"
               }`}
             >
               <span className="sr-only">{LANG_NAMES[lang]}</span>
@@ -36,59 +41,68 @@ function LanguageLinks({ route, t, className = "", onNavigate }) {
 
 export function Header({ t, route }) {
   const dialogRef = useRef(null);
-  const items = [
-    { id: "about", label: t.nav.about },
-    { id: "skills", label: t.nav.skills },
-    { id: "experience", label: t.nav.experience },
-    { id: "projects", label: t.nav.projects },
-    { id: "contact", label: t.nav.contact },
-  ];
+  const [active, setActive] = useState(null);
+  const items = SECTIONS.map((id) => ({ id, label: t.home.nav[id] }));
   const close = () => dialogRef.current?.close();
+  const isHome = route.page === "home";
+
+  // Abschnitt in der Bildschirmmitte als aktiv markieren
+  useEffect(() => {
+    if (!isHome) return undefined;
+    const els = SECTIONS.map((id) => document.getElementById(id)).filter(Boolean);
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) setActive(e.target.id);
+        }
+      },
+      { rootMargin: "-48% 0px -48% 0px" }
+    );
+    els.forEach((el) => io.observe(el));
+    const onTop = () => window.scrollY < 300 && setActive(null);
+    window.addEventListener("scroll", onTop, { passive: true });
+    return () => {
+      io.disconnect();
+      window.removeEventListener("scroll", onTop);
+    };
+  }, [isHome]);
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 48rem)");
-    const onChange = (e) => {
-      if (e.matches) dialogRef.current?.close();
-    };
+    const onChange = (e) => e.matches && dialogRef.current?.close();
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-white/88 backdrop-blur-xl">
-      <div className="container-x flex h-16 items-center justify-between gap-4">
-        <a href={pathFor(route.lang)} className="group flex items-center gap-3 text-[0.95rem] font-semibold tracking-tight text-fg">
-          <span
-            aria-hidden="true"
-            className="flex h-7 w-7 items-center justify-center rounded-lg bg-fg font-mono text-xs font-bold text-white transition-transform duration-300 group-hover:bg-accent group-hover:-rotate-6"
-          >
-            MK
-          </span>
-          <span>Matti Koenis</span>
+    <header className="site-header sticky top-0 z-40 bg-paper/95 backdrop-blur-md">
+      <div className="wrap flex h-16 items-center justify-between gap-6">
+        <a href={pathFor(route.lang)} className={`text-[1.0625rem] font-semibold tracking-[-0.015em] ${isHome ? "home-mark" : ""}`}>
+          Matti Koenis
         </a>
 
-        <nav aria-label={t.nav.primary} className="hidden items-center gap-7 md:flex">
-          <ul className="flex items-center gap-6 text-sm font-medium text-muted">
-            {items.map((item) => (
-              <li key={item.id}>
-                <a href={sectionHref(route, item.id)} className="link-underline py-1 transition-colors hover:text-fg">
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <div className="h-4 w-px bg-line" aria-hidden="true" />
+        <div className="hidden items-center gap-10 md:flex">
+          <nav aria-label={t.nav.primary}>
+            <ul className="flex items-center gap-7">
+              {items.map((item) => (
+                <li key={item.id}>
+                  <a href={sectionHref(route, item.id)} className="nav-link" aria-current={active === item.id ? "true" : undefined}>
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
           <LanguageLinks route={route} t={t} />
-        </nav>
+        </div>
 
         <button
           type="button"
-          className="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-fg transition hover:bg-ink-2 md:hidden"
+          className="-mr-2 inline-flex min-h-11 items-center px-2 font-medium md:hidden"
           aria-haspopup="dialog"
           onClick={() => dialogRef.current?.showModal()}
         >
-          <Menu aria-hidden="true" className="h-5 w-5" />
-          <span className="sr-only">{t.nav.openMenu}</span>
+          {t.nav.menu}
         </button>
       </div>
 
@@ -96,55 +110,48 @@ export function Header({ t, route }) {
         ref={dialogRef}
         className="menu-sheet"
         aria-label={t.nav.menu}
-        onKeyDown={(e) => {
-          if (e.key === "Escape") {
-            e.preventDefault();
-            close();
-          }
-        }}
-        onClick={(e) => {
-          if (e.target === e.currentTarget) close();
-        }}
+        onClick={(e) => e.target === e.currentTarget && close()}
       >
-        <div className="container-x flex h-16 items-center justify-between border-b border-line">
-          <span className="flex items-center gap-2.5 font-semibold tracking-tight text-fg">
-            <span aria-hidden="true" className="flex h-6 w-6 items-center justify-center rounded-md bg-accent font-mono text-[0.7rem] font-bold text-white">
-              MK
-            </span>
-            {t.nav.menu}
-          </span>
-          <button
-            type="button"
-            onClick={close}
-            className="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-full border border-line bg-ink-2 text-fg"
-          >
-            <X aria-hidden="true" className="h-5 w-5" />
-            <span className="sr-only">{t.nav.closeMenu}</span>
+        <div className="wrap flex h-16 items-center justify-between">
+          <span className="text-[1.0625rem] font-semibold tracking-[-0.015em]">Matti Koenis</span>
+          <button type="button" onClick={close} className="-mr-2 inline-flex min-h-11 items-center px-2 font-medium">
+            {t.nav.closeMenu}
           </button>
         </div>
-        <nav aria-label={t.nav.primary} className="container-x py-8">
-          <ol className="divide-y divide-line border-y border-line">
+        <nav aria-label={t.nav.primary} className="wrap pt-8">
+          <ul>
             {items.map((item, i) => (
-              <li key={item.id}>
-                <a
-                  href={sectionHref(route, item.id)}
-                  onClick={close}
-                  className="group flex items-center justify-between py-4 text-2xl font-semibold tracking-tight text-fg"
-                >
-                  <span className="flex items-baseline gap-4">
-                    <span className="label text-accent">0{i + 1}</span>
-                    {item.label}
-                  </span>
-                  <ArrowUpRight aria-hidden="true" className="h-5 w-5 text-subtle transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent" />
+              <li key={item.id} className="menu-item border-b border-rule" style={{ "--i": i }}>
+                <a href={sectionHref(route, item.id)} onClick={close} className="block py-3 t-xl">
+                  {item.label}
                 </a>
               </li>
             ))}
-          </ol>
-          <div className="mt-8 flex items-center justify-between rounded-2xl border border-line bg-ink-2 p-4">
-            <span className="label">{t.nav.language}</span>
-            <LanguageLinks route={route} t={t} onNavigate={close} />
-          </div>
+          </ul>
         </nav>
+        <div className="wrap mt-10">
+          <p className="t-s text-grey">{t.nav.language}</p>
+          <ul className="mt-2">
+            {languagePaths(route).map(({ lang, path }, i) => {
+              const job = JOB_TITLES.find((j) => j.lang === lang);
+              const active = lang === route.lang;
+              return (
+                <li key={lang} className="menu-item" style={{ "--i": i + items.length }}>
+                  <a
+                    href={path}
+                    hrefLang={lang}
+                    lang={lang}
+                    aria-current={active ? "true" : undefined}
+                    className={`flex min-h-11 items-baseline gap-4 ${active ? "text-ink" : "text-grey"}`}
+                  >
+                    <span className="w-6 t-s uppercase">{lang}</span>
+                    <span className="t-m">{job.title}</span>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </dialog>
     </header>
   );

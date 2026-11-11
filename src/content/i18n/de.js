@@ -26,184 +26,96 @@ const de = {
     home: "Startseite",
     primary: "Hauptnavigation",
   },
-  hero: {
-    badge: "Applikationsentwickler in Ausbildung · Swisscom",
-    greeting: "Hallo, ich bin",
-    name: "Matti Koenis",
-    claim: "Präzision im Code. Klarheit im Ergebnis.",
-    lead:
-      "Ich bin Applikationsentwickler in Ausbildung bei Swisscom in Zürich. Meine Stärken liegen in konzentrierter, selbständiger und teamstarker Arbeit – von modernen Web-Applikationen über die Microsoft Power Platform bis zur Koordination im Entwicklungsteam.",
-    ctaAbout: "Mehr über mich",
-    ctaSkills: "Kompetenzen entdecken",
-    ctaContact: "Kontakt aufnehmen",
-    status: "Bereit für den nächsten Schritt nach der Lehre",
-    location: "Region Zürich, Schweiz",
-    roleTag: "Ab Aug 2026: Team Halo – Host (Web Dev)",
-    cards: [
-      { label: "Fokus", value: "Moderne Applikationen & Web", detail: "React, TypeScript & Power Platform" },
-      { label: "Arbeitsstil", value: "Selbständig & teamstark", detail: "Verlässlich, strukturiert & kommunikativ" },
-      { label: "Interessen", value: "Wirtschaft, Tech & Sport", detail: "Finance, neue Apps & Ausgleich im Sport" },
-    ],
-  },
-  about: {
-    label: "Über mich",
-    title: "Professionell, fokussiert und offen für Neues.",
-    intro:
-      "Ich bin derzeit in der Ausbildung zum Applikationsentwickler bei Swisscom. Mich motiviert es, praktische Probleme mit sauberer Technik, durchdachter Struktur und einem klaren Auftritt zu lösen.",
-    paragraphs: [
-      "Im Arbeitsalltag bei Swisscom entwickle ich Lösungen mit der Microsoft Power Platform, SharePoint und modernen Web-Technologien. Ab August 2026 übernehme ich als Host im Team Halo zudem eine Teamlead-Rolle im Web Development mit Verantwortung für Koordination und Zusammenarbeit.",
-      "Neben Technik interessiere ich mich stark für Wirtschaft, Finanzmärkte und digitale Produkte. Als Ausgleich zum Bildschirm brauche ich Bewegung und sportlichen Ehrgeiz – auf dem Tennisplatz, im Gym, auf der Skipiste oder beim Joggen.",
-    ],
-    portraitAlt: "Porträt von Matti Koenis",
-    portraitCaption: "Matti Koenis · Swisscom Zürich",
-    highlightsTitle: "Was mich ausmacht",
-    highlights: [
-      {
-        icon: "briefcase",
-        title: "Applikationsentwickler in Ausbildung",
-        text: "Bei Swisscom entwickle ich mich in wechselnden Praxisrotationen laufend weiter und arbeite an sauberen, modernen und praxisnahen Lösungen.",
-      },
-      {
-        icon: "languages",
-        title: "Vier Sprachen im Alltag",
-        text: "Mehrsprachig aufgewachsen mit Deutsch, Niederländisch und Schwedisch sowie fundiertem Englisch für Technik und Zusammenarbeit.",
-      },
-      {
-        icon: "code",
-        title: "Mindset & Anspruch",
-        text: "Konzentriert, selbständig und teamorientiert – mit echtem Interesse an Wirtschaft, Computern und neuen Applikationen.",
-      },
-    ],
-    languagesTitle: "Sprachen",
-    languagesSubtitle: "Kommunikation im Alltag & im Beruf",
-    languageItems: [
-      { code: "DE", name: "Deutsch", level: "Muttersprache", pct: 100 },
-      { code: "NL", name: "Niederländisch", level: "Zweitsprache / Fliessend", pct: 90 },
-      { code: "EN", name: "Englisch", level: "Fliessend in IT & Alltag (9 J.)", pct: 80 },
-      { code: "SV", name: "Schwedisch", level: "Gute Konversationskenntnisse", pct: 70 },
-    ],
-    hobbiesTitle: "Interessen & Ausgleich",
-    hobbiesSubtitle: "Was mir neben dem Code Energie gibt",
-    hobbies: [
-      { icon: "trophy", name: "Tennis", detail: "Fokus, Strategie & Präzision im Match" },
-      { icon: "dumbbell", name: "Fitness", detail: "Disziplin & Krafttraining als Routine" },
-      { icon: "snowflake", name: "Skifahren", detail: "Wintersport in den Schweizer Bergen" },
-      { icon: "footprints", name: "Joggen", detail: "Ausdauer & freier Kopf an der frischen Luft" },
-    ],
-  },
-  skills: {
-    label: "Kompetenzen",
-    title: "Technisches Fundament & starke Zusammenarbeit.",
-    intro:
-      "Ein breites Fundament aus meiner Ausbildung bei Swisscom, Berufsfachschul-Modulen und eigenen Applikationen – kombiniert mit einer klaren, verlässlichen Arbeitsweise.",
-    techTitle: "Informatik-Skills",
-    techSubtitle: "Technologien, Werkzeuge & Einsatzbereiche",
-    filterAll: "Alle",
-    categories: {
-      frontend: "Frontend",
-      backend: "Backend",
-      database: "Datenbanken",
-      cloud: "Cloud & DevOps",
-      tools: "Tools & Analytics",
+  home: {
+    nav: { about: "Über mich", path: "Werdegang", skills: "Kompetenzen", projects: "Projekte", contact: "Kontakt" },
+    hero: {
+      intro:
+        "Ich bin in der Ausbildung zum Applikationsentwickler bei Swisscom in Zürich. Ich arbeite konzentriert und selbständig – am liebsten in einem starken Team.",
+      status: "Offen für den nächsten Schritt nach der Lehre",
+      current: "Seit August 2026 Host im Team Halo",
+      ctaPath: "Werdegang ansehen",
+      titlesLabel: "Mein Beruf in meinen vier Sprachen",
+      portraitAlt: "Porträt von Matti Koenis im blauen Pullover",
+      portraitCaption: "Matti Koenis, Zürich",
     },
-    techItems: [
-      { category: "frontend", name: "React", context: "Moderne Web-Apps, Komponenten & State", where: "Praxis & Web-Projekte", featured: true },
-      { category: "frontend", name: "JavaScript", context: "ES2024, asynchrone Logik & DOM/APIs", where: "Codemix & Web Development", featured: true },
-      { category: "frontend", name: "TypeScript", context: "Typsichere Applikationen & Datenmodelle", where: "Web-Applikationen", featured: true },
-      { category: "frontend", name: "CSS & Tailwind", context: "Responsive Layouts, Designsysteme & Animation", where: "Alle Web-Frontends", featured: true },
-      { category: "frontend", name: "PowerApps Canvas", context: "Geschäftsapplikationen & UI-Flows", where: "Swisscom Alltag", featured: true },
-      { category: "backend", name: "Node.js", context: "APIs, Skripte & Backend-Services", where: "Full-Stack Entwicklung", featured: true },
-      { category: "backend", name: "Power Automate", context: "Automatisierte Workflows & Integrationen", where: "Swisscom DevOps", featured: true },
-      { category: "backend", name: "Java", context: "Objektorientierte Programmierung & REST (Quarkus)", where: "Modul 223 & Ausbildung", featured: false },
-      { category: "database", name: "SharePoint", context: "Datenlisten, Berechtigungen & Lösungen", where: "Swisscom DevOps", featured: true },
-      { category: "database", name: "SQL", context: "Relationale Datenmodelle, Abfragen & Joins", where: "Ausbildung & Projekte", featured: true },
-      { category: "database", name: "MongoDB", context: "Dokumentenbasierte NoSQL-Datenhaltung", where: "Datenbank-Module", featured: false },
-      { category: "database", name: "MariaDB", context: "Relationale Datenbank-Administration", where: "Datenbank-Module", featured: false },
-      { category: "cloud", name: "Microsoft Power Platform", context: "End-to-End Business-Apps & Governance", where: "Swisscom Kernfokus", featured: true },
-      { category: "cloud", name: "Docker", context: "Containerisierung & Devcontainer-Setups", where: "DevOps & Applikationen", featured: false },
-      { category: "tools", name: "VS Code", context: "Tägliche Entwicklungsumgebung & Debugging", where: "Täglicher Einsatz", featured: false },
-      { category: "tools", name: "Git & GitHub", context: "Versionskontrolle, Branches & Workflows", where: "Täglicher Einsatz", featured: true },
-      { category: "tools", name: "IntelliJ IDEA", context: "IDE für Java- & Backend-Entwicklung", where: "Ausbildung", featured: false },
-      { category: "tools", name: "Power BI", context: "Datenaufbereitung, Berichte & Dashboards", where: "Swisscom DevOps", featured: false },
-    ],
-    socialTitle: "Soziale Kompetenzen & Arbeitsweise",
-    socialSubtitle: "Wie ich im Team und in Projekten arbeite",
-    socialItems: [
-      {
-        icon: "users",
-        name: "Soziale Stärke",
-        description: "Empathie, offener Umgang und ein sicheres Gespür für Menschen und Situationen im Arbeitsalltag.",
-      },
-      {
-        icon: "handshake",
-        name: "Teamarbeit",
-        description: "Verlässlich im Team mitziehen, Wissen teilen und gemeinsam tragfähige Ergebnisse erreichen.",
-      },
-      {
-        icon: "message",
-        name: "Klare Kommunikation",
-        description: "Technische Themen verständlich auf den Punkt bringen – im Team wie auch gegenüber Stakeholdern.",
-      },
-      {
-        icon: "target",
-        name: "Selbständiges Arbeiten",
-        description: "Aufgaben strukturiert anpacken, Verantwortung übernehmen und konzentriert bis zum Ziel dranbleiben.",
-      },
-      {
-        icon: "lightbulb",
-        name: "Lösungsorientierung",
-        description: "Pragmatisch denken, neue Ansätze ausprobieren und saubere, wartbare Lösungen finden.",
-      },
-    ],
-    positioning: {
-      tag: "Perspektive",
-      title: "Bereit für den nächsten Schritt nach der Lehre.",
-      description:
-        "Diese Seite zeigt, wie ich arbeite und mich positioniere: professionell, klar, modern und mit echtem Interesse an guter Zusammenarbeit. Ich suche Perspektiven, in denen ich mich weiterentwickeln und aktiv mitgestalten kann.",
+    about: {
+      title: "Über mich",
+      motto: "Präzision im Code. Perfektion im Ergebnis.",
+      lead: "Bei Swisscom lerne ich in wechselnden Teams, wie gute Software entsteht – vom IT-Support über die Microsoft Power Platform bis zur Web-Entwicklung.",
+      photoAlt: "Schwarz-Weiss-Porträt von Matti Koenis",
+      facts: [
+        { term: "Sprachen", text: "Deutsch, Niederländisch und Schwedisch – dazu Englisch aus neun Jahren Schule." },
+        { term: "Interessen", text: "Wirtschaft, Finanzen und Strategie, Computer und neue Applikationen." },
+        { term: "Ausgleich", text: "Tennis, Fitness, Skifahren und Joggen." },
+        { term: "Arbeitsstil", text: "Konzentriert, selbständig und teamstark." },
+      ],
       bringTitle: "Was ich mitbringe",
       bringText:
-        "Eine saubere Arbeitsweise, Konzentration, Selbständigkeit und Teamgeist. Dazu breites technisches Interesse und der Wille, mich laufend weiterzuentwickeln.",
+        "Eine saubere Arbeitsweise, Konzentration, Selbständigkeit und Teamgeist. Dazu technisches Interesse und der Wille, mich laufend weiterzuentwickeln.",
       standTitle: "Wofür ich stehe",
-      standText:
-        "Für klare Kommunikation, Verlässlichkeit und moderne Applikationen mit einem sauberen, durchdachten Auftritt.",
+      standText: "Für klare Kommunikation, Verlässlichkeit und moderne Applikationen mit einem sauberen Auftritt.",
     },
-  },
-  experience: {
-    label: "Erfahrung",
-    title: "Mein Weg als Applikationsentwickler bei Swisscom.",
-    intro:
-      "Während meiner Ausbildung bei Swisscom durchlaufe ich verschiedene Praxisstationen – vom direkten IT-Support über Business-Automation auf der Power Platform bis zur Koordination eines Web-Development-Teams.",
-    current: "Nächste / Aktuelle Rolle",
-    items: [
-      {
-        period: "Ab Aug 2026",
-        title: "Team Halo – Host",
-        place: "Swisscom · Zürich / Bern",
-        text: "Teamlead-Rolle im Web-Development-Team mit Verantwortung für Koordination, Zusammenarbeit, Planung und moderne Weblösungen.",
-        tags: ["Web Development", "Frontend", "Teamführung", "Koordination"],
+    path: {
+      title: "Werdegang",
+      heading: "Mit jeder Station wächst mein Wortschatz.",
+      lead: "Seit August 2024 lerne ich bei Swisscom in wechselnden Teams. Jede Station bringt neue Begriffe, Werkzeuge und Aufgaben dazu.",
+      cloudLabel: "Mein beruflicher Wortschatz",
+      count: (n, total) => `${n} von ${total} Begriffen`,
+      newWords: "Neu dazugekommen",
+      currentLabel: "aktuell",
+      stations: {
+        futurework: {
+          period: "Aug 2024 – Feb 2025",
+          title: "Future Work Specialist",
+          place: "Swisscom, Zürich und Bern",
+          text: "Projekt zur Gestaltung zukünftiger Arbeitsmodelle und IT-Support für Floorwalking.",
+        },
+        codemix: {
+          period: "Feb 2025 – Jul 2025",
+          title: "Codemix Programmierprojekt",
+          place: "Swisscom, Zürich",
+          text: "Strukturierte Einführung in die Softwareentwicklung mit Fokus auf Grundlagen und praktische Anwendung.",
+        },
+        powerplatform: {
+          period: "Aug 2025 – Aug 2026",
+          title: "Power Platform DevOps",
+          place: "Swisscom, Zürich",
+          text: "Entwicklung und Verwaltung von PowerApps-, Power-BI- und SharePoint-Lösungen mit DevOps-Methoden.",
+        },
+        halo: {
+          period: "Seit Aug 2026",
+          title: "Team Halo – Host",
+          place: "Swisscom, Zürich und Bern",
+          text: "Teamlead-Rolle im Web-Development-Team mit Verantwortung für Koordination, Zusammenarbeit und moderne Weblösungen.",
+        },
+        school: {
+          period: "Seit 2024",
+          title: "Berufsfachschule und eigene Projekte",
+          place: "Parallel zur Praxis",
+          text: "In der Schule und in eigenen Projekten auf GitHub lerne ich weitere Programmiersprachen, Datenbanken und Werkzeuge kennen.",
+        },
       },
-      {
-        period: "Aug 2025 – Aug 2026",
-        title: "Power Platform DevOps",
-        place: "Swisscom · Zürich",
-        text: "Entwicklung, Betrieb und Weiterentwicklung von Lösungen mit PowerApps, Power BI, Power Automate und SharePoint nach DevOps-Methoden.",
-        tags: ["PowerApps", "Power BI", "Power Automate", "SharePoint", "DevOps"],
+      next: {
+        label: "Als Nächstes",
+        title: "Bereit für den nächsten Schritt nach der Lehre.",
+        text: "Diese Seite zeigt, wie ich mich positioniere: professionell, klar, modern und mit echtem Interesse an guter Zusammenarbeit. Ich suche Perspektiven, in denen ich mich weiterentwickeln und aktiv mitgestalten kann.",
+        cta: "Kontakt aufnehmen",
       },
-      {
-        period: "Feb 2025 – Juli 2025",
-        title: "Codemix Programmierprojekt",
-        place: "Swisscom · Zürich",
-        text: "Strukturierte Einführung in die Softwareentwicklung mit Fokus auf saubere Grundlagen, Web-Technologien und praktische Umsetzung.",
-        tags: ["HTML", "CSS", "JavaScript", "Basiskonzepte"],
-      },
-      {
-        period: "Aug 2024 – Feb 2025",
-        title: "Future Work Specialist",
-        place: "Swisscom · Zürich / Bern",
-        text: "Projekt zur Gestaltung zukünftiger Arbeitsmodelle sowie direkter IT-Support im Floorwalking und im Austausch mit Mitarbeitenden.",
-        tags: ["IT-Support", "Kommunikation", "Teamarbeit"],
-      },
-    ],
+    },
+    skills: {
+      title: "Kompetenzen",
+      heading: "Alles auf einen Blick.",
+      lead: "Die Werkzeuge, mit denen ich arbeite – bewusst ohne Prozentbalken. Wo ich sie gelernt habe, steht im Werdegang.",
+      groups: { frontend: "Frontend", backend: "Backend", database: "Datenbanken", cloud: "Cloud & DevOps", tools: "Tools" },
+      socialTitle: "Soziale Kompetenzen",
+      social: [
+        { name: "Soziale Stärke", description: "Empathie und zwischenmenschliche Fähigkeiten" },
+        { name: "Teamarbeit", description: "Zusammenarbeit und gemeinsame Ziele erreichen" },
+        { name: "Kommunikation", description: "Klare und effektive Kommunikation" },
+        { name: "Selbständiges Arbeiten", description: "Eigenständigkeit und Verantwortungsbewusstsein" },
+        { name: "Lösungsorientierung", description: "Kreative Problemlösung und Innovation" },
+      ],
+    },
   },
   projects: {
     label: "Praxisbeispiele",
@@ -218,18 +130,18 @@ const de = {
     otherTitle: "Weiteres Ausbildungsprojekt",
     other: {
       punchclock: {
-        title: "Punch Clock (Modul 223)",
-        text: "Multi-User-Zeiterfassungs-Applikation mit Java/Quarkus, PostgreSQL und Docker-Devcontainer inklusive UML-Analyse.",
+        title: "Punch Clock",
+        text: "Übungsprojekt im Modul 223: Zeiterfassung mit Quarkus, PostgreSQL und Docker-Devcontainer, inklusive IST-Analyse mit UML-Diagrammen.",
       },
     },
   },
   projectTexts: {
     tdown: {
-      tagline: "Interaktiver 3D-Echtzeit-Globus für Flugverkehr, Schiffe, Satelliten und die ISS.",
+      tagline: "Ein interaktiver 3D-Globus, der Flugzeuge, Schiffe, Satelliten und die ISS in Echtzeit zeigt.",
       summary:
-        "Verbindet vier offene Echtzeit-Datenquellen in einer flüssigen 3D-Ansicht mit React, TypeScript, three.js und eigenem Deno-Proxy.",
+        "Mehrere offene Live-Datenquellen auf einem drehbaren Globus – direkt im Browser, ohne kostenpflichtige APIs.",
       coverAlt:
-        "Screenshot von tdown: 3D-Erdkugel mit Live-Flugverkehr, Ebenen-Steuerung und Echtzeit-Zählern.",
+        "Screenshot von tdown: 3D-Erdkugel mit Tausenden Flugzeug-Symbolen über Amerika, Ebenen-Auswahl für Flüge, Schiffe, ISS und Satelliten sowie Live-Zählern.",
       role: "Eigenes Projekt: Konzept, Design, Entwicklung und Deployment",
       sections: [
         {
@@ -244,19 +156,19 @@ const de = {
           items: [
             {
               title: "Flugdaten ohne CORS",
-              text: "ADS-B-Schnittstellen senden keine CORS-Header und bieten keinen freien globalen Endpunkt. Ein eigener Proxy auf Deno Deploy fragt adsb.fi deshalb in 250-NM-Kacheln ab, führt alles zu einem globalen Snapshot zusammen und liefert ein kompaktes Format aus.",
+              text: "ADS-B-Schnittstellen senden keine CORS-Header und bieten keinen freien globalen Endpunkt. Ein eigener Proxy auf Deno Deploy fragt adsb.fi deshalb in 250-NM-Kacheln ab – etwa eine Anfrage pro Sekunde, gemäss öffentlichem Limit –, führt alles zu einem globalen Snapshot zusammen und liefert ein kompaktes Format aus.",
             },
             {
               title: "Tausende Schiffe ohne Ruckeln",
-              text: "AIS-Positionen kommen per WebSocket. Sie werden in einer Map gesammelt und nur alle drei Sekunden gebündelt an React übergeben.",
+              text: "AIS-Positionen kommen per WebSocket. Sie werden in einer Map gesammelt und nur alle drei Sekunden gebündelt an React übergeben. Maximal 20'000 Schiffe; Einträge ohne neue Meldung werden entfernt.",
             },
             {
-              title: "Satellitenberechnung im Browser",
-              text: "Bahndaten (TLE) von Celestrak werden im Browser mit dem SGP4-Modell aus satellite.js propagiert – inklusive Überflug-Vorhersage für den eigenen Standort.",
+              title: "Satelliten ohne eigenen Server",
+              text: "Bahndaten (TLE) von Celestrak werden im Browser mit dem SGP4-Modell aus satellite.js propagiert – für Starlink, OneWeb und GPS. Auf derselben Basis berechnet tdown die nächsten sichtbaren ISS-Überflüge über dem eigenen Standort.",
             },
             {
-              title: "Verifizierte Schiffs-Fotos",
-              text: "Fotos zu Schiffen erscheinen nur, wenn sie über die IMO-Nummer in Wikidata oder Wikimedia Commons eindeutig zugeordnet werden können.",
+              title: "Lieber kein Bild als ein falsches",
+              text: "Fotos zu Schiffen erscheinen nur, wenn sie eindeutig zugeordnet werden können – über die IMO-Nummer in Wikidata oder einen passenden Treffer auf Wikimedia Commons. Sonst bleibt das Feld bewusst leer.",
             },
           ],
         },
@@ -268,28 +180,28 @@ const de = {
             "Kartenansicht mit Leaflet und Satellitenbildern",
             "Eigener Standort und Vorhersage der ISS-Überflüge",
             "Detailpanels mit Bildern und Infos aus Wikipedia",
-            "Installierbar als Progressive Web App",
+            "Installierbar als Progressive Web App (Manifest und Service Worker)",
           ],
         },
       ],
       result:
-        "tdown ist öffentlich unter tdowner.com erreichbar und stellt mehrere tausend Flugzeuge und Satelliten gleichzeitig flüssig im Browser dar.",
+        "tdown ist öffentlich unter tdowner.com erreichbar. Bei einer Momentaufnahme am 10. November 2026 zeigte der Globus rund 6'500 Flugzeuge und 8'000 Satelliten gleichzeitig.",
     },
     neuroflap: {
-      tagline: "KI-Simulation, in der 150 Vögel per Neuroevolution selbständig Flappy Bird lernen.",
+      tagline: "Eine KI, die sich vor deinen Augen selbst Flappy Bird beibringt – neuronale Netze und genetischer Algorithmus von Grund auf.",
       summary:
-        "Neuronales Netz (5→8→1) und genetischer Algorithmus komplett ohne ML-Bibliothek in Python programmiert – inklusive Live-Netzvisualisierung.",
+        "150 Vögel lernen per Neuroevolution fliegen. Ohne Trainingsdaten, ohne Backpropagation, ohne ML-Bibliothek.",
       coverAlt:
-        "Screenshot von NeuroFlap im KI-Training mit Live-Visualisierung des neuronalen Netzes und Fitness-Kurve.",
+        "Screenshot von NeuroFlap im KI-Training: Vögel fliegen durch Röhren, rechts Statistiken zur Generation, eine Live-Visualisierung des neuronalen Netzes und ein Fitness-Graph.",
       galleryAlt: [
-        "Screenshot von NeuroFlap im Modus „Selbst spielen“ im direkten Vergleich gegen die KI.",
+        "Screenshot von NeuroFlap im Modus „Selbst spielen“ mit eigenem Score und dem Bestwert der KI zum Vergleich.",
       ],
       role: "Eigenes Projekt: Konzept, Simulation, KI und Visualisierung",
       sections: [
         {
           heading: "Überblick",
           paragraphs: [
-            "Jeder der 150 Vögel wird von einem eigenen kleinen neuronalen Netz gesteuert. Mit jeder Generation werden die Netze durch Selektion, Crossover und Mutation besser – bis die besten Vögel fehlerfrei durch die Röhren navigieren.",
+            "Jeder der 150 Vögel wird von einem eigenen kleinen neuronalen Netz gesteuert. Zu Beginn stürzen alle sofort ab. Mit jeder Generation werden die Netze besser – bis die besten Vögel praktisch endlos fliegen. Niemand hat ihnen gezeigt, wie.",
           ],
         },
         {
@@ -297,46 +209,47 @@ const de = {
           items: [
             {
               title: "Neuronales Netz von Grund auf",
-              text: "Ein Feedforward-Netz (5 → 8 → 1) mit tanh und Sigmoid, in reinem Python ohne externe KI-Frameworks.",
+              text: "Ein Feedforward-Netz (5 → 8 → 1) mit tanh und Sigmoid, in reinem Python. Eingaben: Höhe, vertikale Geschwindigkeit, Distanz zur nächsten Röhre und Abstand zur oberen und unteren Lückenkante.",
             },
             {
               title: "Genetischer Algorithmus",
-              text: "Elitismus, Turnier-Selektion, Uniform-Crossover und gausssche Mutation optimieren die Gewichte von Generation zu Generation.",
+              text: "Die besten Netze bleiben erhalten (Elitismus). Eltern werden per Turnier-Selektion gewählt, per Uniform-Crossover kombiniert und mit gaussscher Mutation verändert. Fitness = Überlebenszeit plus Bonus pro passierter Röhre.",
             },
             {
               title: "Lernen sichtbar machen",
-              text: "Das Netz des aktuellen Anführers und die Lernkurve werden in Echtzeit neben dem Spielfeld gezeichnet.",
+              text: "Das Netz des aktuellen Anführers wird live gezeichnet – positive und negative Gewichte farbig, aktive Neuronen leuchten. Ein Fitness-Graph zeigt die Lernkurve über die Generationen.",
             },
             {
-              title: "Saubere Architektur & Tests",
-              text: "Simulation und KI sind vollständig vom Rendering getrennt und mit pytest abgedeckt.",
+              title: "Testbar gebaut",
+              text: "Simulation und KI sind vollständig von der Darstellung getrennt und laufen headless. Eine pytest-Suite prüft das Netz, die genetischen Operatoren und die Simulation.",
             },
           ],
         },
         {
           heading: "Funktionen",
           list: [
-            "Schwarm-Ansicht aller 150 Vögel mit Hervorhebung des besten Agenten",
-            "Mensch-Modus: selbst gegen den Bestwert der KI antreten",
-            "Progressive Schwierigkeit und Zeitraffer bis 30×",
-            "Läuft dank pygbag (WebAssembly) direkt im Browser",
+            "Schwarm-Ansicht aller 150 Vögel, der Anführer ist hervorgehoben",
+            "Mensch-Modus: selbst gegen den Bestwert der KI spielen",
+            "Progressive Schwierigkeit – engere Lücken, höheres Tempo",
+            "Zeitraffer bis 30× zum Beobachten des Lernprozesses",
+            "Läuft dank pygbag (Python als WebAssembly) auch im Browser",
           ],
         },
       ],
       result:
-        "Bereits nach wenigen Generationen meistern die Agenten den Kurs zuverlässig; die Simulation läuft sowohl auf dem Desktop als auch im Browser.",
+        "Im dokumentierten Beispiellauf kommt der Durchbruch in Generation 8: bester Score 48 statt 2 in Generation 1. Der Code ist unter MIT-Lizenz veröffentlicht.",
     },
     "ai-compare": {
-      tagline: "Vergleichsplattform für über 280 KI-Modelle mit transparenter Quellenangabe pro Fakt.",
+      tagline: "Eine unabhängige Datenbank und Vergleichsplattform für KI-Modelle – jede Angabe mit Quelle.",
       summary:
-        "Strukturierter Katalog und Vergleich für Preise, Kontextfenster und Benchmarks mit Next.js, TypeScript, Supabase und Zod.",
-      coverAlt: "Übersichtsgrafik von AI Compare: 280+ Modelle, 35 Anbieter und Quellenbeleg pro Datenpunkt.",
+        "Preise, Kontextfenster, Fähigkeiten und Benchmarks von über 280 Modellen aus 35 Anbietern, jede Zahl belegt.",
+      coverAlt: "Typografische Projektgrafik von AI Compare mit den Eckdaten 280+ Modelle, 35 Anbieter und Quelle pro Fakt.",
       role: "Eigenes Projekt: Konzept, Datenmodell, Design und Entwicklung",
       sections: [
         {
           heading: "Überblick",
           paragraphs: [
-            "AI Compare macht KI-Modelle verschiedener Anbieter nüchtern vergleichbar: Preise, Kontextfenster, Modalitäten, Fähigkeiten und Benchmarks – jeder Wert ist mit Quelle und Prüfdatum hinterlegt.",
+            "AI Compare macht KI-Modelle vergleichbar: Preise, Kontextfenster, Modalitäten, Fähigkeiten, Benchmarks und API-Zugang. Laut Projektdokumentation umfasst der Katalog über 280 Modelle aus 35 Anbietern (Datenstand 1. Oktober 2026).",
           ],
         },
         {
@@ -344,30 +257,37 @@ const de = {
           items: [
             {
               title: "Jede Angabe mit Quelle",
-              text: "Jeder Fakt ist als Wert mit Quelle und Prüfdatum gespeichert und wird über Zod-Schemata validiert.",
+              text: "Jeder Fakt ist als Wert mit Quelle, Prüfdatum und Aktualisierungsdatum gespeichert. Bekannte Werte ohne Quelle bestehen die Validierung nicht.",
             },
             {
-              title: "Klare Kennzeichnung fehlender Daten",
-              text: "Nicht veröffentlichte Angaben werden transparent als „nicht offengelegt“ ausgewiesen statt geschätzt.",
+              title: "Unbekannt bleibt unbekannt",
+              text: "Fehlende Werte werden als „nicht offengelegt“ angezeigt – nie als null, „nein“ oder „gratis“. Es gibt keinen erfundenen Gesamt-Score.",
             },
             {
-              title: "Objektive Vergleiche",
-              text: "Der Direktvergleich von bis zu vier Modellen hebt ausschliesslich messbare Fakten und Preisunterschiede hervor.",
+              title: "Nur objektive Hervorhebungen",
+              text: "Vergleiche markieren ausschliesslich messbare Extremwerte, zum Beispiel den tiefsten veröffentlichten Preis oder das grösste Kontextfenster.",
             },
           ],
         },
         {
           heading: "Funktionen",
           list: [
-            "Filterbarer Explorer mit Raster- und Tabellenansicht",
-            "Direktvergleich von 2 bis 4 Modellen inklusive Kostenrechner",
-            "AI Finder Assistent und Befehlspalette (Ctrl+K)",
-            "Getestet mit Vitest und Playwright",
+            "Explorer mit URL-synchronisierten Filtern, Raster- und Tabellenansicht",
+            "Vergleich von 2 bis 4 Modellen inklusive „Nur Unterschiede“ und Kostenrechner",
+            "AI Finder: Assistent in vier Schritten mit erklärten Treffern",
+            "Befehlspalette (Ctrl+K), Release-Feed und Benchmark-Explorer",
+            "Admin-Studio mit Schema-Validierung und Schutz vor veralteten Entwürfen",
+          ],
+        },
+        {
+          heading: "Technik",
+          paragraphs: [
+            "Next.js App Router mit serverseitigem Rendering, TypeScript, Tailwind CSS und Radix UI. Die Daten liegen in Supabase/PostgreSQL in normalisierten Tabellen und werden mit Zod validiert. Dazu kommen strukturierte Daten (JSON-LD), Sitemaps, dynamische Open-Graph-Bilder, Analytics nur nach Einwilligung und Tests mit Vitest und Playwright.",
           ],
         },
       ],
       result:
-        "Vollständige Full-Stack-Architektur mit Next.js App Router, TypeScript und PostgreSQL/Supabase.",
+        "Der vollständige Code ist auf GitHub einsehbar. Die Live-Version ist momentan nicht verfügbar.",
     },
   },
   caseStudy: {

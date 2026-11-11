@@ -26,184 +26,95 @@ const sv = {
     home: "Startsida",
     primary: "Huvudnavigering",
   },
-  hero: {
-    badge: "Applikationsutvecklare under utbildning · Swisscom",
-    greeting: "Hej, jag är",
-    name: "Matti Koenis",
-    claim: "Från idé till pålitlig, modern mjukvara.",
-    lead:
-      "Jag utbildar mig till applikationsutvecklare på Swisscom i Zürich. Mina styrkor ligger i fokuserat, självständigt och teamorienterat arbete – från moderna webbapplikationer och Microsoft Power Platform till koordinering i utvecklingsteamet.",
-    ctaAbout: "Mer om mig",
-    ctaSkills: "Utforska kompetenser",
-    ctaContact: "Kontakta mig",
-    status: "Redo för nästa steg efter lärlingsperioden",
-    location: "Zürichregionen, Schweiz",
-    roleTag: "Från aug 2026: Team Halo – Host (Web Dev)",
-    cards: [
-      { label: "Fokus", value: "Moderna applikationer & webb", detail: "React, TypeScript & Power Platform" },
-      { label: "Arbetsstil", value: "Självständig & teamstark", detail: "Pålitlig, strukturerad & kommunikativ" },
-      { label: "Intressen", value: "Ekonomi, tech & idrott", detail: "Finance, nya appar & aktiv balans" },
-    ],
-  },
-  about: {
-    label: "Om mig",
-    title: "Professionell, fokuserad och öppen för nytt.",
-    intro:
-      "Jag utbildar mig för närvarande till applikationsutvecklare på Swisscom. Det som driver mig är att lösa praktiska problem med ren teknik, genomtänkt struktur och ett tydligt uttryck.",
-    paragraphs: [
-      "I vardagen på Swisscom utvecklar jag lösningar med Microsoft Power Platform, SharePoint och moderna webbteknologier. Från augusti 2026 tar jag dessutom en teamlead-roll som Host i Team Halo med ansvar för koordinering och samarbete inom webbutveckling.",
-      "Utöver teknik har jag ett stort intresse för ekonomi, finansmarknader och digitala produkter. Som balans till skärmen behöver jag rörelse och idrott – på tennisbanan, på gymmet, i skidbacken eller ute i löpspåret.",
-    ],
-    portraitAlt: "Porträtt av Matti Koenis",
-    portraitCaption: "Matti Koenis · Swisscom Zürich",
-    highlightsTitle: "Det som kännetecknar mig",
-    highlights: [
-      {
-        icon: "briefcase",
-        title: "Applikationsutvecklare under utbildning",
-        text: "På Swisscom utvecklas jag kontinuerligt genom olika praktikrotationer och arbetar med rena, moderna och praktiska lösningar.",
-      },
-      {
-        icon: "languages",
-        title: "Fyra språk i vardagen",
-        text: "Uppvuxen flerspråkigt med tyska, nederländska och svenska samt stark engelska från 9 års skola och dagligt IT-arbete.",
-      },
-      {
-        icon: "code",
-        title: "Mindset & kvalitet",
-        text: "Fokuserad, självständig och teamstark – med genuint intresse för ekonomi, datorer och moderna applikationer.",
-      },
-    ],
-    languagesTitle: "Språk",
-    languagesSubtitle: "Kommunikation i vardagen & på jobbet",
-    languageItems: [
-      { code: "DE", name: "Tyska", level: "Modersmål", pct: 100 },
-      { code: "NL", name: "Nederländska", level: "Andraspråk / Flytande", pct: 90 },
-      { code: "EN", name: "Engelska", level: "Flytande i IT & vardag (9 år)", pct: 80 },
-      { code: "SV", name: "Svenska", level: "God samtalsförmåga", pct: 70 },
-    ],
-    hobbiesTitle: "Intressen & hobbyer",
-    hobbiesSubtitle: "Det som ger mig energi utanför koden",
-    hobbies: [
-      { icon: "trophy", name: "Tennis", detail: "Fokus, strategi & precision på banan" },
-      { icon: "dumbbell", name: "Gym & Fitness", detail: "Disciplin & styrketräning som rutin" },
-      { icon: "snowflake", name: "Skidåkning", detail: "Vintersport i de schweiziska alperna" },
-      { icon: "footprints", name: "Löpning", detail: "Uthållighet & klart huvud utomhus" },
-    ],
-  },
-  skills: {
-    label: "Kompetenser",
-    title: "Teknisk grund & starkt samarbete.",
-    intro:
-      "En bred teknisk grund från min utbildning på Swisscom, yrkesskolemoduler och egna applikationer – kombinerat med ett tydligt och pålitligt arbetssätt.",
-    techTitle: "Tekniska skills",
-    techSubtitle: "Teknologier, verktyg & praktisk användning",
-    filterAll: "Alla",
-    categories: {
-      frontend: "Frontend",
-      backend: "Backend",
-      database: "Databaser",
-      cloud: "Cloud & DevOps",
-      tools: "Tools & Analytics",
+  home: {
+    nav: { about: "Om mig", path: "Väg", skills: "Kompetenser", projects: "Projekt", contact: "Kontakt" },
+    hero: {
+      intro:
+        "Jag utbildar mig till applikationsutvecklare på Swisscom i Zürich. Jag arbetar fokuserat och självständigt – och allra helst i ett starkt team.",
+      status: "Öppen för nästa steg efter lärlingsperioden",
+      current: "Host i Team Halo sedan augusti 2026",
+      ctaPath: "Se min väg",
+      titlesLabel: "Mitt yrke på mina fyra språk",
+      portraitAlt: "Porträtt av Matti Koenis i blå tröja",
+      portraitCaption: "Matti Koenis, Zürich",
     },
-    techItems: [
-      { category: "frontend", name: "React", context: "Moderna webbappar, komponenter & state", where: "Praktik & webbprojekt", featured: true },
-      { category: "frontend", name: "JavaScript", context: "ES2024, asynkron logik & DOM/API:er", where: "Codemix & webbutveckling", featured: true },
-      { category: "frontend", name: "TypeScript", context: "Typsäkra applikationer & datamodeller", where: "Webbapplikationer", featured: true },
-      { category: "frontend", name: "CSS & Tailwind", context: "Responsiva layouter, designsystem & rörelse", where: "Alla webbfrontends", featured: true },
-      { category: "frontend", name: "PowerApps Canvas", context: "Affärsapplikationer & UI-flöden", where: "Swisscom vardag", featured: true },
-      { category: "backend", name: "Node.js", context: "API:er, skript & backendtjänster", where: "Fullstack-utveckling", featured: true },
-      { category: "backend", name: "Power Automate", context: "Automatiserade arbetsflöden & integrationer", where: "Swisscom DevOps", featured: true },
-      { category: "backend", name: "Java", context: "Objektorienterad programmering & REST (Quarkus)", where: "Modul 223 & utbildning", featured: false },
-      { category: "database", name: "SharePoint", context: "Datalistor, behörigheter & verksamhetslösningar", where: "Swisscom DevOps", featured: true },
-      { category: "database", name: "SQL", context: "Relationella datamodeller, frågor & joins", where: "Utbildning & projekt", featured: true },
-      { category: "database", name: "MongoDB", context: "Dokumentorienterad NoSQL-lagring", where: "Databasmoduler", featured: false },
-      { category: "database", name: "MariaDB", context: "Relationell databasadministration", where: "Databasmoduler", featured: false },
-      { category: "cloud", name: "Microsoft Power Platform", context: "End-to-end-affärsappar & governance", where: "Swisscom kärnfokus", featured: true },
-      { category: "cloud", name: "Docker", context: "Containerisering & devcontainer-miljöer", where: "DevOps & applikationer", featured: false },
-      { category: "tools", name: "VS Code", context: "Daglig utvecklingsmiljö & felsökning", where: "Daglig användning", featured: false },
-      { category: "tools", name: "Git & GitHub", context: "Versionshantering, branches & arbetsflöden", where: "Daglig användning", featured: true },
-      { category: "tools", name: "IntelliJ IDEA", context: "IDE för Java- & backendutveckling", where: "Utbildning", featured: false },
-      { category: "tools", name: "Power BI", context: "Datamodellering, rapporter & dashboards", where: "Swisscom DevOps", featured: false },
-    ],
-    socialTitle: "Sociala kompetenser & arbetsstil",
-    socialSubtitle: "Hur jag samarbetar i team och projekt",
-    socialItems: [
-      {
-        icon: "users",
-        name: "Social styrka",
-        description: "Empati, öppenhet och starka mellanmänskliga färdigheter i det dagliga samarbetet.",
-      },
-      {
-        icon: "handshake",
-        name: "Teamarbete",
-        description: "Bidra pålitligt i teamet, dela kunskap och nå gemensamma mål tillsammans.",
-      },
-      {
-        icon: "message",
-        name: "Tydlig kommunikation",
-        description: "Förklara tekniska ämnen klart och konkret – både i teamet och gentemot intressenter.",
-      },
-      {
-        icon: "target",
-        name: "Självständigt arbete",
-        description: "Ta sig an uppgifter strukturerat, ta ansvar och hålla fokus hela vägen i mål.",
-      },
-      {
-        icon: "lightbulb",
-        name: "Lösningsfokus",
-        description: "Tänka pragmatiskt, utforska nya idéer och bygga rena, hållbara lösningar.",
-      },
-    ],
-    positioning: {
-      tag: "Framåtblick",
-      title: "Redo för nästa steg efter lärlingsperioden.",
-      description:
-        "Den här sidan visar hur jag arbetar och positionerar mig: professionellt, tydligt, modernt och med genuint intresse för bra samarbete. Jag söker möjligheter där jag kan fortsätta utvecklas och bidra aktivt.",
+    about: {
+      title: "Om mig",
+      motto: "Från idé till digital verklighet.",
+      lead: "På Swisscom roterar jag mellan olika team och lär mig hur bra mjukvara blir till – från IT-support och Microsoft Power Platform till webbutveckling.",
+      photoAlt: "Svartvitt porträtt av Matti Koenis",
+      facts: [
+        { term: "Språk", text: "Tyska, nederländska och svenska – plus engelska från nio år i skolan." },
+        { term: "Intressen", text: "Ekonomi, finans och strategi, datorer och nya applikationer." },
+        { term: "Balans", text: "Tennis, fitness, skidåkning och löpning." },
+        { term: "Arbetsstil", text: "Fokuserad, självständig och teamstark." },
+      ],
       bringTitle: "Det jag bidrar med",
-      bringText:
-        "Ett rent arbetssätt, fokus, självständighet och laganda – tillsammans med teknisk nyfikenhet och viljan att ständigt utvecklas.",
+      bringText: "Ett rent arbetssätt, fokus, självständighet och laganda. Dessutom teknisk nyfikenhet och viljan att utvecklas kontinuerligt.",
       standTitle: "Det jag står för",
-      standText:
-        "Tydlig kommunikation, pålitlighet och moderna applikationer med ett rent, genomtänkt uttryck.",
+      standText: "Tydlig kommunikation, pålitlighet och moderna applikationer med ett rent uttryck.",
     },
-  },
-  experience: {
-    label: "Erfarenhet",
-    title: "Min resa som applikationsutvecklare på Swisscom.",
-    intro:
-      "Under min utbildning på Swisscom roterar jag genom olika praktikstationer – från direkt IT-support och Power Platform-automatisering till att koordinera ett webbutvecklingsteam.",
-    current: "Kommande / Aktuell roll",
-    items: [
-      {
-        period: "Från aug 2026",
-        title: "Team Halo – Host",
-        place: "Swisscom · Zürich / Bern",
-        text: "Teamlead-roll i webbutvecklingsteamet med ansvar för koordinering, samarbete, planering och moderna webblösningar.",
-        tags: ["Web Development", "Frontend", "Teamledning", "Koordinering"],
+    path: {
+      title: "Väg",
+      heading: "Med varje station växer mitt ordförråd.",
+      lead: "Sedan augusti 2024 lär jag mig i olika team på Swisscom. Varje station tillför nya begrepp, verktyg och uppgifter.",
+      cloudLabel: "Mitt yrkesordförråd",
+      count: (n, total) => `${n} av ${total} begrepp`,
+      newWords: "Nytt",
+      currentLabel: "nu",
+      stations: {
+        futurework: {
+          period: "aug 2024 – feb 2025",
+          title: "Future Work Specialist",
+          place: "Swisscom, Zürich och Bern",
+          text: "Projekt om framtidens arbetsmodeller och IT-support för floorwalking.",
+        },
+        codemix: {
+          period: "feb 2025 – jul 2025",
+          title: "Codemix programmeringsprojekt",
+          place: "Swisscom, Zürich",
+          text: "Strukturerad introduktion till mjukvaruutveckling med fokus på grunder och praktisk tillämpning.",
+        },
+        powerplatform: {
+          period: "aug 2025 – aug 2026",
+          title: "Power Platform DevOps",
+          place: "Swisscom, Zürich",
+          text: "Utveckling och förvaltning av PowerApps-, Power BI- och SharePoint-lösningar med DevOps-metodik.",
+        },
+        halo: {
+          period: "Sedan aug 2026",
+          title: "Team Halo – Host",
+          place: "Swisscom, Zürich och Bern",
+          text: "Teamlead-roll i webbutvecklingsteamet med ansvar för koordinering, samarbete och moderna webblösningar.",
+        },
+        school: {
+          period: "Sedan 2024",
+          title: "Yrkesskola och egna projekt",
+          place: "Vid sidan av praktiken",
+          text: "I skolan och i egna projekt på GitHub lär jag mig fler programmeringsspråk, databaser och verktyg.",
+        },
       },
-      {
-        period: "Aug 2025 – aug 2026",
-        title: "Power Platform DevOps",
-        place: "Swisscom · Zürich",
-        text: "Utveckling, drift och vidareutveckling av PowerApps-, Power BI-, Power Automate- och SharePoint-lösningar med DevOps-metodik.",
-        tags: ["PowerApps", "Power BI", "Power Automate", "SharePoint", "DevOps"],
+      next: {
+        label: "Nästa steg",
+        title: "Redo för nästa steg efter lärlingsperioden.",
+        text: "Den här sidan visar hur jag positionerar mig: professionellt, tydligt, modernt och med genuint intresse för bra samarbete. Jag söker möjligheter där jag kan fortsätta utvecklas och bidra aktivt.",
+        cta: "Kontakta mig",
       },
-      {
-        period: "Feb 2025 – jul 2025",
-        title: "Codemix programmeringsprojekt",
-        place: "Swisscom · Zürich",
-        text: "Strukturerad introduktion till mjukvaruutveckling med fokus på solida grunder, webbteknologier och praktisk tillämpning.",
-        tags: ["HTML", "CSS", "JavaScript", "Grundkoncept"],
-      },
-      {
-        period: "Aug 2024 – feb 2025",
-        title: "Future Work Specialist",
-        place: "Swisscom · Zürich / Bern",
-        text: "Projekt kring framtidens arbetsmodeller samt direkt IT-support genom floorwalking och stöd till medarbetare.",
-        tags: ["IT-support", "Kommunikation", "Teamarbete"],
-      },
-    ],
+    },
+    skills: {
+      title: "Kompetenser",
+      heading: "Allt i korthet.",
+      lead: "Verktygen jag arbetar med – medvetet utan procentstaplar. Var jag lärde mig dem står under min väg.",
+      groups: { frontend: "Frontend", backend: "Backend", database: "Databaser", cloud: "Cloud & DevOps", tools: "Tools" },
+      socialTitle: "Sociala kompetenser",
+      social: [
+        { name: "Social styrka", description: "Empati och starka mellanmänskliga färdigheter" },
+        { name: "Teamarbete", description: "Samarbete och att nå gemensamma mål" },
+        { name: "Kommunikation", description: "Tydlig och effektiv kommunikation" },
+        { name: "Självständigt arbete", description: "Ansvarstagande och självledarskap" },
+        { name: "Lösningsfokus", description: "Kreativ problemlösning och innovation" },
+      ],
+    },
   },
   projects: {
     label: "Praktiska exempel",
@@ -218,24 +129,23 @@ const sv = {
     otherTitle: "Ytterligare utbildningsprojekt",
     other: {
       punchclock: {
-        title: "Punch Clock (Modul 223)",
-        text: "Multi-user-applikation för tidrapportering med Java/Quarkus, PostgreSQL och Docker-devcontainer inklusive UML-analys.",
+        title: "Punch Clock",
+        text: "Övningsprojekt i modul 223: tidrapportering med Quarkus, PostgreSQL och en Docker-devcontainer, inklusive en nulägesanalys med UML-diagram.",
       },
     },
   },
   projectTexts: {
     tdown: {
-      tagline: "Interaktiv 3D-jordglob i realtid för flygtrafik, fartyg, satelliter och ISS.",
-      summary:
-        "Kombinerar fyra öppna livedataströmmar i en mjuk 3D-vy byggd med React, TypeScript, three.js och en egen Deno-proxy.",
+      tagline: "En interaktiv 3D-jordglob som visar flygplan, fartyg, satelliter och ISS i realtid.",
+      summary: "Flera öppna livedatakällor på en roterande jordglob – direkt i webbläsaren, utan betalda API:er.",
       coverAlt:
-        "Skärmbild av tdown: en 3D-jord med live flygtrafik, lagerval och realtidsräknare.",
+        "Skärmbild av tdown: en 3D-jord med tusentals flygplanssymboler över Amerika, lagerval för flyg, fartyg, ISS och satelliter samt liveräknare.",
       role: "Eget projekt: koncept, design, utveckling och driftsättning",
       sections: [
         {
           heading: "Översikt",
           paragraphs: [
-            "tdown samlar flygtrafik, sjöfart, satellitbanor och ISS position på en interaktiv jordglob. Varje lager kan slås av och på; ett klick öppnar detaljpaneler med bilder och kort fakta.",
+            "tdown samlar flygtrafik, sjöfart, satellitbanor och ISS position på en interaktiv jordglob. Varje lager kan slås av och på; ett klick öppnar en detaljpanel med bilder och kort information. Dessutom finns en platt kartvy med satellitbilder.",
             "All data kommer från fritt tillgängliga källor: adsb.fi, AISStream, wheretheiss.at och Celestrak.",
           ],
         },
@@ -244,19 +154,19 @@ const sv = {
           items: [
             {
               title: "Flygdata utan CORS",
-              text: "ADS-B-API:er skickar inga CORS-headers. En egen proxy på Deno Deploy hämtar adsb.fi i rutor om 250 NM, slår ihop allt och levererar ett kompakt format.",
+              text: "ADS-B-API:er skickar inga CORS-headers och erbjuder ingen gratis global endpoint. En egen proxy på Deno Deploy hämtar därför adsb.fi i rutor om 250 NM – ungefär en förfrågan per sekund, inom den publika gränsen –, slår ihop allt till en global ögonblicksbild och levererar ett kompakt format.",
             },
             {
               title: "Tusentals fartyg utan hack",
-              text: "AIS-positioner kommer via en WebSocket, samlas i en Map och skickas till React var tredje sekund.",
+              text: "AIS-positioner kommer via en WebSocket. De samlas i en Map och lämnas till React i omgångar bara var tredje sekund. Högst 20 000 fartyg; fartyg som slutar rapportera tas bort.",
             },
             {
-              title: "Satelliter beräknade i webbläsaren",
-              text: "Banelement (TLE) från Celestrak beräknas i webbläsaren med SGP4-modellen från satellite.js – inklusive ISS-passager.",
+              title: "Satelliter utan egen server",
+              text: "Banelement (TLE) från Celestrak räknas fram i webbläsaren med SGP4-modellen i satellite.js – för Starlink, OneWeb och GPS. På samma grund förutsäger tdown nästa synliga ISS-passage över din plats.",
             },
             {
-              title: "Verifierade fartygsfoton",
-              text: "Foton på fartyg visas bara vid en entydig matchning via IMO-numret i Wikidata eller Wikimedia Commons.",
+              title: "Hellre ingen bild än en felaktig",
+              text: "Foton på fartyg visas bara när de kan kopplas entydigt – via IMO-numret i Wikidata eller en matchande träff på Wikimedia Commons. Annars förblir fältet medvetet tomt.",
             },
           ],
         },
@@ -268,26 +178,25 @@ const sv = {
             "Kartvy med Leaflet och satellitbilder",
             "Egen position och förutsägelse av ISS-passager",
             "Detaljpaneler med bilder och fakta från Wikipedia",
-            "Installerbar som progressiv webbapp",
+            "Installerbar som progressiv webbapp (manifest och service worker)",
           ],
         },
       ],
       result:
-        "tdown är öppet tillgänglig på tdowner.com och visar tusentals flygplan och satelliter samtidigt i webbläsaren.",
+        "tdown är öppet tillgänglig på tdowner.com. Vid en ögonblicksbild den 10 november 2026 visade jordgloben ungefär 6 500 flygplan och 8 000 satelliter samtidigt.",
     },
     neuroflap: {
-      tagline: "AI-simulering där 150 fåglar på egen hand lär sig spela Flappy Bird genom neuroevolution.",
-      summary:
-        "Neuralt nätverk (5→8→1) och genetisk algoritm skrivna från grunden i ren Python – med livevisualisering av nätverket.",
+      tagline: "En AI som lär sig Flappy Bird framför dina ögon – neurala nätverk och genetisk algoritm byggda från grunden.",
+      summary: "150 fåglar lär sig flyga genom neuroevolution. Utan träningsdata, utan backpropagation, utan ML-bibliotek.",
       coverAlt:
-        "Skärmbild av NeuroFlap under AI-träning med livevisualisering av det neurala nätverket och fitnesskurva.",
-      galleryAlt: ["Skärmbild av NeuroFlap i läget ”spela själv” jämfört med AI:ns bästa poäng."],
+        "Skärmbild av NeuroFlap under AI-träning: fåglar flyger genom rör; till höger statistik per generation, en livevisualisering av det neurala nätverket och en fitnessgraf.",
+      galleryAlt: ["Skärmbild av NeuroFlap i läget ”spela själv” med din egen poäng bredvid AI:ns bästa resultat."],
       role: "Eget projekt: koncept, simulering, AI och visualisering",
       sections: [
         {
           heading: "Översikt",
           paragraphs: [
-            "Var och en av de 150 fåglarna styrs av ett eget litet neuralt nätverk. För varje generation förbättras nätverken genom selektion, korsning och mutation tills de bästa fåglarna flyger felfritt genom rören.",
+            "Var och en av de 150 fåglarna styrs av ett eget litet neuralt nätverk. I början kraschar alla direkt. Med varje generation blir nätverken bättre – tills de bästa fåglarna flyger i princip oändligt. Ingen har visat dem hur.",
           ],
         },
         {
@@ -295,46 +204,46 @@ const sv = {
           items: [
             {
               title: "Neuralt nätverk från grunden",
-              text: "Ett feedforward-nätverk (5 → 8 → 1) med tanh och sigmoid i ren Python utan externa ML-bibliotek.",
+              text: "Ett feedforward-nätverk (5 → 8 → 1) med tanh och sigmoid, i ren Python. Indata: höjd, vertikal hastighet, avstånd till nästa rör och avstånd till öppningens över- och underkant.",
             },
             {
               title: "Genetisk algoritm",
-              text: "Elitism, turneringsurval, uniform korsning och gaussisk mutation optimerar vikterna mellan generationerna.",
+              text: "De bästa nätverken behålls (elitism). Föräldrar väljs genom turneringsurval, kombineras med uniform korsning och förändras med gaussisk mutation. Fitness = överlevnadstid plus bonus för varje passerat rör.",
             },
             {
               title: "Gör inlärningen synlig",
-              text: "Ledarens neurala nätverk och inlärningskurvan ritas i realtid bredvid spelfältet.",
+              text: "Den aktuella ledarens nätverk ritas live – positiva och negativa vikter i färg, aktiva neuroner lyser. En fitnessgraf visar inlärningskurvan över generationerna.",
             },
             {
-              title: "Ren arkitektur & tester",
-              text: "Simulering och AI är frikopplade från renderingen och täcks av en pytest-svit.",
+              title: "Byggt för att testas",
+              text: "Simulering och AI är helt separerade från renderingen och körs headless. En pytest-svit testar nätverket, de genetiska operatorerna och simuleringen.",
             },
           ],
         },
         {
           heading: "Funktioner",
           list: [
-            "Svärmvy med alla 150 fåglar där ledaren framhävs",
+            "Svärmvy med alla 150 fåglar, ledaren framhävd",
             "Människoläge: spela själv mot AI:ns bästa resultat",
-            "Stegrad svårighet och snabbspolning upp till 30×",
-            "Körs direkt i webbläsaren tack vare pygbag (WebAssembly)",
+            "Stegrad svårighet – smalare öppningar, högre tempo",
+            "Tidsförlopp upp till 30× för att följa inlärningen",
+            "Körs även i webbläsaren tack vare pygbag (Python som WebAssembly)",
           ],
         },
       ],
       result:
-        "Redan efter några få generationer klarar agenterna banan pålitligt; simuleringen körs både på desktop och i webbläsaren.",
+        "I den dokumenterade exempelkörningen kommer genombrottet i generation 8: bästa poäng 48 jämfört med 2 i generation 1. Koden är publicerad under MIT-licens.",
     },
     "ai-compare": {
-      tagline: "Jämförelseplattform för 280+ AI-modeller med verifierad källa för varje uppgift.",
-      summary:
-        "Strukturerad katalog och direktjämförelse för priser, kontextfönster och benchmarks byggd med Next.js, TypeScript, Supabase och Zod.",
-      coverAlt: "Översiktsgrafik för AI Compare: 280+ modeller, 35 leverantörer och källhänvisning per datapunkt.",
+      tagline: "En oberoende databas och jämförelseplattform för AI-modeller – varje uppgift med källa.",
+      summary: "Priser, kontextfönster, förmågor och benchmarks för fler än 280 modeller från 35 leverantörer, varje siffra med källa.",
+      coverAlt: "Typografisk projektbild för AI Compare med nyckeltalen 280+ modeller, 35 leverantörer och en källa per uppgift.",
       role: "Eget projekt: koncept, datamodell, design och utveckling",
       sections: [
         {
           heading: "Översikt",
           paragraphs: [
-            "AI Compare gör AI-modeller från olika leverantörer objektivt jämförbara: priser, kontextfönster, modaliteter, kapabiliteter och benchmarks – varje värde har en källa och ett kontroll-datum.",
+            "AI Compare gör AI-modeller jämförbara: priser, kontextfönster, modaliteter, förmågor, benchmarks och API-åtkomst. Enligt projektdokumentationen omfattar katalogen fler än 280 modeller från 35 leverantörer (data per 1 oktober 2026).",
           ],
         },
         {
@@ -342,30 +251,36 @@ const sv = {
           items: [
             {
               title: "Varje uppgift har en källa",
-              text: "Varje fakta sparas med källa och kontroll-datum och valideras med Zod-scheman.",
+              text: "Varje uppgift lagras som ett värde med källa, kontrolldatum och uppdateringsdatum. Kända värden utan källa klarar inte valideringen.",
             },
             {
-              title: "Tydliga saknade värden",
-              text: "Ej publicerade uppgifter visas öppet som ”ej redovisat” istället för att gissas.",
+              title: "Okänt förblir okänt",
+              text: "Saknade värden visas som ”ej offentliggjort” – aldrig som noll, ”nej” eller ”gratis”. Det finns inget påhittat totalbetyg.",
             },
             {
-              title: "Objektiva jämförelser",
-              text: "Jämförelsen av upp till fyra modeller lyfter bara fram mätbara fakta och prisskillnader.",
+              title: "Bara objektiva markeringar",
+              text: "Jämförelser markerar enbart mätbara ytterligheter, till exempel det lägsta publicerade priset eller det största kontextfönstret.",
             },
           ],
         },
         {
           heading: "Funktioner",
           list: [
-            "Filtrerbar katalog med rutnäts- och tabellvy",
-            "Direktjämförelse av 2 till 4 modeller inklusive kostnadskalkylator",
-            "AI Finder-assistent och kommandopalett (Ctrl+K)",
-            "Testad med Vitest och Playwright",
+            "Utforskare med URL-synkade filter, rutnäts- och tabellvy",
+            "Jämför 2 till 4 modeller, inklusive ”bara skillnader” och kostnadskalkylator",
+            "AI Finder: en guide i fyra steg med förklarade träffar",
+            "Kommandopalett (Ctrl+K), releaseflöde och benchmark-utforskare",
+            "Adminstudio med schemavalidering och skydd mot inaktuella utkast",
+          ],
+        },
+        {
+          heading: "Teknik",
+          paragraphs: [
+            "Next.js App Router med serverrendering, TypeScript, Tailwind CSS och Radix UI. Datan ligger i normaliserade Supabase/PostgreSQL-tabeller och valideras med Zod. Därtill strukturerad data (JSON-LD), sitemaps, dynamiska Open Graph-bilder, analys endast efter samtycke samt tester med Vitest och Playwright.",
           ],
         },
       ],
-      result:
-        "Komplett fullstack-arkitektur med Next.js App Router, TypeScript och PostgreSQL/Supabase.",
+      result: "Hela koden finns på GitHub. Liveversionen är inte tillgänglig just nu.",
     },
   },
   caseStudy: {

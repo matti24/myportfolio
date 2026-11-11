@@ -25,7 +25,7 @@ function person(t) {
     "@id": `${SITE_URL}/#person`,
     name: "Matti Koenis",
     url: `${SITE_URL}/`,
-    image: `${SITE_URL}/images/portrait-800.webp`,
+    image: `${SITE_URL}/images/studio-color-800.webp`,
     jobTitle: t.meta.jobTitle,
     worksFor: { "@type": "Organization", name: "Swisscom" },
     address: { "@type": "PostalAddress", addressLocality: "Zürich", addressCountry: "CH" },
@@ -78,13 +78,6 @@ export function buildHead(route) {
   } else if (route.page === "privacy") {
     title = t.meta.privacyTitle;
     description = t.meta.privacyDescription;
-  } else if (route.page === "concept") {
-    const names = {
-      "1": "Richtung A: Precision Desk (Empfehlung)",
-      "2": "Richtung B: Swiss Kinetic Editorial",
-      "3": "Richtung C: Zürich Spec / Dossier",
-    };
-    title = `${names[route.slug] || names["1"]} | Matti Koenis`;
   } else if (route.page === "notFound") {
     title = t.meta.notFoundTitle;
   } else {
