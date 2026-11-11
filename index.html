@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <!-- Inline, damit Seitenübergänge auch greifen, bevor das externe Stylesheet geladen ist -->
     <style>@view-transition{navigation:auto}</style>
+    <script src="/vt.js"></script>
+    <!-- Erstes Bild erst, wenn die Projektvorschau im DOM ist, damit Übergänge ihr Ziel finden -->
+    <link rel="expect" href="#project-preview" blocking="render" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="theme-color" content="#ffffff" />

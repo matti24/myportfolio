@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { Section, Intro } from "./Section.jsx";
 import { ProjectCover } from "./ProjectCover.jsx";
@@ -7,6 +7,15 @@ import { pathFor } from "../lib/routes.js";
 
 export function ProjectIndex({ t, lang }) {
   const [preview, setPreview] = useState(projects[0].slug);
+
+  // Beim Zurückkommen von einer Projektseite zeigt die Vorschau dieses Projekt (gesetzt von /vt.js)
+  useEffect(() => {
+    const sync = (slug) => slug && projects.some((p) => p.slug === slug) && setPreview(slug);
+    sync(document.documentElement.dataset.vtFrom);
+    const onFrom = (e) => sync(e.detail);
+    window.addEventListener("vt:from", onFrom);
+    return () => window.removeEventListener("vt:from", onFrom);
+  }, []);
   const rows = projects.map((p) => ({
     key: p.slug,
     name: p.name,
@@ -24,7 +33,7 @@ export function ProjectIndex({ t, lang }) {
       <div className="mt-14 grid gap-10 lg:grid-cols-9 lg:gap-x-6">
         <ul className="border-t border-ink lg:col-span-5">
           {rows.map((r) => (
-            <li key={r.key} className="border-b border-rule">
+            <li key={r.key} data-row={r.key} className="border-b border-rule">
               <a
                 href={r.href}
                 onMouseEnter={() => setPreview(r.key)}
@@ -40,16 +49,16 @@ export function ProjectIndex({ t, lang }) {
                 <span className="t-s col-span-2 mt-3">{r.stack}</span>
               </a>
               <div className="pb-8 lg:hidden">
-                <ProjectCover project={r.project} text={t.projectTexts[r.key]} lang={lang} sizes="(min-width: 640px) 80vw, 100vw" transition={false} />
+                <ProjectCover project={r.project} text={t.projectTexts[r.key]} lang={lang} sizes="(min-width: 640px) 80vw, 100vw" />
               </div>
             </li>
           ))}
         </ul>
 
         <div className="hidden lg:col-span-4 lg:block" aria-hidden="true">
-          <div className="sticky top-28 aspect-[16/10]">
+          <div id="project-preview" className="sticky top-28 aspect-[16/10]">
             {projects.map((p) => (
-              <div key={p.slug} className="preview" data-on={preview === p.slug ? "true" : "false"}>
+              <div key={p.slug} className="preview" data-preview={p.slug} data-on={preview === p.slug ? "true" : "false"}>
                 <ProjectCover project={p} text={t.projectTexts[p.slug]} lang={lang} sizes="30vw" className="h-full w-full" transition={preview === p.slug} />
               </div>
             ))}
