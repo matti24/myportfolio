@@ -82,7 +82,7 @@ const sv = {
         halo: {
           period: "Sedan aug 2026",
           title: "Team Halo – Host",
-          place: "Swisscom, Zürich och Bern",
+          place: "Swisscom, Zürich, Olten och Bern",
           text: "Teamlead-roll i webbutvecklingsteamet med ansvar för koordinering, samarbete och moderna webblösningar.",
         },
         school: {
