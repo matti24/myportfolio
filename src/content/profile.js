@@ -14,7 +14,7 @@ export const CURRENT_STATION = "halo";
 // Bildtext und Alt-Text stehen in den Sprachdateien unter home.path.stations.<id>.photo
 export const STATION_PHOTOS = {
   halo: { base: "station-halo", widths: [480, 800, 1024], width: 1024, height: 768 },
-  mentor: { base: "station-mentor", widths: [480, 800, 1303], width: 1303, height: 768 },
+  mentor: { base: "station-mentor", widths: [480, 800, 1024], width: 1024, height: 603 },
 };
 
 const L = (de, en, nl, sv) => ({ de, en, nl, sv });
