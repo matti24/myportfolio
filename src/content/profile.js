@@ -7,13 +7,14 @@ export const JOB_TITLES = [
   { lang: "sv", code: "SV", title: "Applikationsutvecklare" },
 ];
 
-export const STATION_ORDER = ["futurework", "codemix", "powerplatform", "halo", "school"];
+export const STATION_ORDER = ["futurework", "codemix", "powerplatform", "halo", "mentor", "school"];
 export const CURRENT_STATION = "halo";
 
 // Optionales Foto pro Station (Dateien in public/images/station-<id>-<breite>.avif/.webp).
 // Bildtext und Alt-Text stehen in den Sprachdateien unter home.path.stations.<id>.photo
 export const STATION_PHOTOS = {
   halo: { base: "station-halo", widths: [480, 800, 1024], width: 1024, height: 768 },
+  mentor: { base: "station-mentor", widths: [480, 800, 1303], width: 1303, height: 768 },
 };
 
 const L = (de, en, nl, sv) => ({ de, en, nl, sv });
@@ -37,6 +38,10 @@ export const VOCABULARY = [
   { station: "halo", label: "Frontend" },
   { station: "halo", label: L("Teamführung", "Team leadership", "Teamleiding", "Teamledning") },
   { station: "halo", label: L("Koordination", "Coordination", "Coördinatie", "Koordinering") },
+  { station: "mentor", label: L("Rekrutierung", "Recruiting", "Werving", "Rekrytering") },
+  { station: "mentor", label: "Mentoring" },
+  { station: "mentor", label: "Onboarding" },
+  { station: "mentor", label: L("Aktives Zuhören", "Active listening", "Actief luisteren", "Aktivt lyssnande") },
   { station: "school", label: "React" },
   { station: "school", label: "TypeScript" },
   { station: "school", label: "Node.js" },

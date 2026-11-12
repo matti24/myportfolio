@@ -90,6 +90,16 @@ const de = {
             alt: "Gruppenselfie von fünf jungen Männern vor dem Eingang des Europa-Park, mehrere zeigen den Daumen nach oben.",
           },
         },
+        mentor: {
+          period: "Neben der Ausbildung",
+          title: "Götti und NEX Days",
+          place: "Swisscom",
+          text: "An den NEX Days durfte ich bei der Rekrutierung von Lernenden für Swisscom mitwirken. Als Götti begleitete ich zudem mehr als sechs Lernende beim Einstieg ins Team. Für einige von ihnen war das zugleich der Start ins erste Lehrjahr. In dieser Rolle lernte ich, aufmerksam zuzuhören, Fragen verständlich zu beantworten und die Lernenden bei ihren Anliegen im Arbeitsalltag zu unterstützen.",
+          photo: {
+            caption: "Mit Lernenden aus dem Team",
+            alt: "Vier junge Männer an einem Restauranttisch mit Burgern, Pommes und Getränken, die lächelnd in die Kamera schauen.",
+          },
+        },
         school: {
           period: "Seit 2024",
           title: "Berufsfachschule und eigene Projekte",

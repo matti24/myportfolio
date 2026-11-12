@@ -89,6 +89,16 @@ const sv = {
             alt: "Gruppselfie med fem unga män framför entrén till Europa-Park, flera gör tummen upp.",
           },
         },
+        mentor: {
+          period: "Vid sidan av utbildningen",
+          title: "Mentor (Götti) och NEX Days",
+          place: "Swisscom",
+          text: "Under NEX Days fick jag hjälpa till att rekrytera lärlingar till Swisscom. Som mentor (”Götti”) följde jag dessutom fler än sex lärlingar när de började i teamet. För några av dem var det samtidigt starten på det första lärlingsåret. I den rollen lärde jag mig att lyssna uppmärksamt, svara begripligt på frågor och stötta lärlingarna med deras frågor i det dagliga arbetet.",
+          photo: {
+            caption: "Med lärlingar från teamet",
+            alt: "Fyra unga män vid ett restaurangbord med hamburgare, pommes och drycker som ler mot kameran.",
+          },
+        },
         school: {
           period: "Sedan 2024",
           title: "Yrkesskola och egna projekt",

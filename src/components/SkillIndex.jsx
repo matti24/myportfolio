@@ -59,7 +59,7 @@ export function SkillIndex({ t }) {
 
         {/* Herkunft der gewählten Fähigkeit auf der Zeitachse der fünf Stationen */}
         <div id="skill-origin" className="mt-8" aria-live="polite">
-          <ol className="grid grid-cols-5 gap-1.5" aria-hidden="true">
+          <ol className="grid gap-1.5" style={{ gridTemplateColumns: `repeat(${STATION_ORDER.length}, minmax(0, 1fr))` }} aria-hidden="true">
             {STATION_ORDER.map((id) => (
               <li
                 key={id}

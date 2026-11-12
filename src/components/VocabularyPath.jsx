@@ -81,7 +81,7 @@ export function VocabularyPath({ t, lang }) {
                 </p>
                 {STATION_PHOTOS[id] && s.photo ? (
                   <figure className="mt-8">
-                    <div className="station-photo aspect-[4/3] overflow-hidden bg-[#e9e9e7]">
+                    <div className="station-photo overflow-hidden bg-[#e9e9e7]" style={{ aspectRatio: `${STATION_PHOTOS[id].width} / ${STATION_PHOTOS[id].height}` }}>
                       <Picture
                         image={STATION_PHOTOS[id]}
                         alt={s.photo.alt}

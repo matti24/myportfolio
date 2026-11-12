@@ -90,6 +90,16 @@ const en = {
             alt: "Group selfie of five young men in front of the Europa-Park entrance, several giving a thumbs-up.",
           },
         },
+        mentor: {
+          period: "Alongside my apprenticeship",
+          title: "Mentor (Götti) and NEX Days",
+          place: "Swisscom",
+          text: "At the NEX Days I helped recruit apprentices for Swisscom. As a mentor (“Götti”), I also supported more than six apprentices as they joined the team – for some of them, it was also the start of their first year of apprenticeship. In this role I learned to listen attentively, answer questions clearly and support the apprentices with their concerns in everyday work.",
+          photo: {
+            caption: "With apprentices from the team",
+            alt: "Four young men at a restaurant table with burgers, fries and drinks, smiling at the camera.",
+          },
+        },
         school: {
           period: "Since 2024",
           title: "Vocational school and own projects",
