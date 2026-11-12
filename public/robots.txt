@@ -1,3 +1,13 @@
+# Bilder dieser Website sollen nicht in Bildersuchen erscheinen.
+User-agent: Googlebot-Image
+Disallow: /
+
+User-agent: msnbot-media
+Disallow: /
+
+User-agent: YandexImages
+Disallow: /
+
 User-agent: *
 Allow: /
 

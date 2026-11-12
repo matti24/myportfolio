@@ -29,7 +29,6 @@ function person(t) {
     "@id": `${SITE_URL}/#person`,
     name: "Matti Koenis",
     url: `${SITE_URL}/`,
-    image: `${SITE_URL}/images/studio-bw-800.webp`,
     jobTitle: t.meta.jobTitle,
     worksFor: { "@type": "Organization", name: "Swisscom" },
     address: { "@type": "PostalAddress", addressLocality: "Zürich", addressCountry: "CH" },
@@ -109,9 +108,13 @@ export function buildHead(route) {
     `<meta name="description" content="${esc(description)}" />`,
   ];
 
+  // Bilder sollen nicht in Bildersuchen oder als Vorschau in Suchergebnissen erscheinen
+  const IMAGE_RULES = "noimageindex, max-image-preview:none";
+
   if (route.page === "notFound") {
-    tags.push(`<meta name="robots" content="noindex" />`);
+    tags.push(`<meta name="robots" content="noindex, ${IMAGE_RULES}" />`);
   } else {
+    tags.push(`<meta name="robots" content="${IMAGE_RULES}" />`);
     tags.push(`<link rel="canonical" href="${esc(url)}" />`);
     for (const alt of alternatesFor(route)) {
       tags.push(`<link rel="alternate" hreflang="${esc(alt.lang)}" href="${esc(SITE_URL + alt.path)}" />`);
