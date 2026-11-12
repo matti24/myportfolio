@@ -10,6 +10,12 @@ export const JOB_TITLES = [
 export const STATION_ORDER = ["futurework", "codemix", "powerplatform", "halo", "school"];
 export const CURRENT_STATION = "halo";
 
+// Optionales Foto pro Station (Dateien in public/images/station-<id>-<breite>.avif/.webp).
+// Bildtext und Alt-Text stehen in den Sprachdateien unter home.path.stations.<id>.photo
+export const STATION_PHOTOS = {
+  halo: { base: "station-halo", widths: [480, 800, 1024], width: 1024, height: 768 },
+};
+
 const L = (de, en, nl, sv) => ({ de, en, nl, sv });
 
 // Jeder Begriff gehört zu der Station, in der er auf der ursprünglichen Website genannt wurde.

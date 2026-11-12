@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { Section, Intro } from "./Section.jsx";
-import { CURRENT_STATION, STATION_ORDER, VOCABULARY, wordLabel } from "../content/profile.js";
+import { Picture } from "./Picture.jsx";
+import { CURRENT_STATION, STATION_ORDER, STATION_PHOTOS, VOCABULARY, wordLabel } from "../content/profile.js";
 
 const stationIndex = (id) => STATION_ORDER.indexOf(id);
 const DONE = STATION_ORDER.length;
@@ -78,6 +79,19 @@ export function VocabularyPath({ t, lang }) {
                   <span className="text-grey">{p.newWords}: </span>
                   <span className="text-blue">{words.join(", ")}</span>
                 </p>
+                {STATION_PHOTOS[id] && s.photo ? (
+                  <figure className="mt-8">
+                    <div className="station-photo aspect-[4/3] overflow-hidden bg-[#e9e9e7]">
+                      <Picture
+                        image={STATION_PHOTOS[id]}
+                        alt={s.photo.alt}
+                        sizes="(min-width: 1472px) 584px, (min-width: 1024px) 40vw, (min-width: 640px) 90vw, 100vw"
+                        className="zoom-on-view h-full w-full object-cover"
+                      />
+                    </div>
+                    <figcaption className="t-s mt-3 text-grey">{s.photo.caption}</figcaption>
+                  </figure>
+                ) : null}
               </li>
             );
           })}

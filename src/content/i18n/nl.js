@@ -84,6 +84,10 @@ const nl = {
           title: "Team Halo – Host",
           place: "Swisscom, Zürich, Olten en Bern",
           text: "Teamleadrol in het webdevelopmentteam met verantwoordelijkheid voor coördinatie, samenwerking en moderne weboplossingen.",
+          photo: {
+            caption: "Met Team Halo in Europa-Park",
+            alt: "Groepsselfie van vijf jonge mannen voor de ingang van Europa-Park, een aantal steekt de duim op.",
+          },
         },
         school: {
           period: "Sinds 2024",

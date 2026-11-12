@@ -85,6 +85,10 @@ const de = {
           title: "Team Halo – Host",
           place: "Swisscom, Zürich, Olten und Bern",
           text: "Teamlead-Rolle im Web-Development-Team mit Verantwortung für Koordination, Zusammenarbeit und moderne Weblösungen.",
+          photo: {
+            caption: "Mit Team Halo im Europa-Park",
+            alt: "Gruppenselfie von fünf jungen Männern vor dem Eingang des Europa-Park, mehrere zeigen den Daumen nach oben.",
+          },
         },
         school: {
           period: "Seit 2024",
