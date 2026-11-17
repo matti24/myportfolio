@@ -19,7 +19,7 @@ export function CopyEmail({ email, copyLabel, copiedLabel }) {
   };
 
   return (
-    <button type="button" onClick={copy} className="t-s inline-flex min-h-11 items-center gap-2 text-grey transition-colors hover:text-ink">
+    <button type="button" onClick={copy} data-magnetic className="t-s inline-flex min-h-11 items-center gap-2 text-grey transition-colors hover:text-ink">
       {copied ? <Check aria-hidden="true" className="h-4 w-4 text-blue" /> : <Copy aria-hidden="true" className="h-4 w-4" />}
       <span aria-live="polite">{copied ? copiedLabel : copyLabel}</span>
     </button>

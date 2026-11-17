@@ -34,6 +34,7 @@ const de = {
       status: "Offen für den nächsten Schritt nach der Lehre",
       current: "Seit August 2026 Host im Team Halo",
       ctaPath: "Werdegang ansehen",
+      localTime: "Ortszeit Zürich",
       titlesLabel: "Mein Beruf in meinen vier Sprachen",
     },
     about: {

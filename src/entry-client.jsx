@@ -4,6 +4,7 @@ import App from "./App.jsx";
 import { resolveRoute } from "./lib/routes.js";
 import { projectSlugs } from "./content/projects.js";
 import { loadDictionary } from "./content/i18n/index.js";
+import { initMagnetic } from "./lib/magnetic.js";
 import "./index.css";
 
 // Schutz vor Clickjacking: GitHub Pages kann kein frame-ancestors/X-Frame-Options senden.
@@ -39,3 +40,4 @@ if (container.firstElementChild && container.dataset.page === route.page) {
   container.textContent = "";
   createRoot(container).render(app);
 }
+initMagnetic();

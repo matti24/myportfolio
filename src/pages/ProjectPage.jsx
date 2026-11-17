@@ -53,14 +53,14 @@ export function ProjectPage({ t, lang, slug }) {
               <dt className="t-s text-grey">{t.caseStudy.links}</dt>
               <dd className="mt-1 flex flex-col items-start gap-1">
                 {project.live ? (
-                  <a href={project.live} {...external} className="group inline-flex items-center gap-1 hover:text-blue">
+                  <a href={project.live} {...external} data-magnetic className="group inline-flex items-center gap-1 hover:text-blue">
                     {t.projects.live}
                     <ArrowUpRight aria-hidden="true" className="arrow arrow-up h-4 w-4" />
                   </a>
                 ) : (
                   <span className="text-grey">{t.projects.liveUnavailable}</span>
                 )}
-                <a href={project.repo} {...external} className="group inline-flex items-center gap-1 hover:text-blue">
+                <a href={project.repo} {...external} data-magnetic className="group inline-flex items-center gap-1 hover:text-blue">
                   {t.projects.code}
                   <ArrowUpRight aria-hidden="true" className="arrow arrow-up h-4 w-4" />
                 </a>

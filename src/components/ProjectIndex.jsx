@@ -1,12 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { Section, Intro } from "./Section.jsx";
 import { ProjectCover } from "./ProjectCover.jsx";
+import { RollText } from "./RollText.jsx";
+import { CursorLabel } from "./CursorLabel.jsx";
 import { projects } from "../content/projects.js";
 import { pathFor } from "../lib/routes.js";
 
 export function ProjectIndex({ t, lang }) {
   const [preview, setPreview] = useState(projects[0].slug);
+  const [hovering, setHovering] = useState(false);
+  const stage = useRef(null);
+
+  // Neues Vorschaubild schiebt sich von unten in die Maske, das alte bleibt darunter stehen
+  const show = (slug) => {
+    if (slug === preview) return;
+    setPreview(slug);
+    const el = stage.current?.querySelector(`[data-preview="${slug}"]`);
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    el.animate([{ clipPath: "inset(100% 0 0 0)" }, { clipPath: "inset(0 0 0 0)" }], { duration: 750, easing: "cubic-bezier(0.22, 1, 0.36, 1)" });
+    el.querySelector("img")?.animate([{ transform: "scale(1.15) translateY(4%)" }, { transform: "none" }], {
+      duration: 1100,
+      easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+    });
+  };
 
   // Beim Zurückkommen von einer Projektseite zeigt die Vorschau dieses Projekt (gesetzt von /vt.js)
   useEffect(() => {
@@ -27,21 +44,23 @@ export function ProjectIndex({ t, lang }) {
   }));
 
   return (
-    <Section id="projects" title={t.home.nav.projects}>
+    <Section id="projects" title={t.home.nav.projects} index={4}>
       <Intro heading={t.projects.title} lead={t.projects.intro} />
 
       <div className="mt-14 grid gap-10 lg:grid-cols-9 lg:gap-x-6">
-        <ul className="border-t border-ink lg:col-span-5">
+        <ul className="border-t border-ink lg:col-span-5" onMouseEnter={() => setHovering(true)} onMouseLeave={() => setHovering(false)}>
           {rows.map((r) => (
             <li key={r.key} data-row={r.key} className="border-b border-rule">
               <a
                 href={r.href}
-                onMouseEnter={() => setPreview(r.key)}
-                onFocus={() => setPreview(r.key)}
-                className="group grid grid-cols-[1fr_auto] items-baseline gap-x-6 py-6"
+                onMouseEnter={() => show(r.key)}
+                onFocus={() => show(r.key)}
+                className="roll-link group grid grid-cols-[1fr_auto] items-baseline gap-x-6 py-6"
               >
                 <span className="t-l inline-flex items-center gap-2 font-medium transition-colors group-hover:text-blue">
-                  <span style={{ viewTransitionName: `title-${r.key}` }}>{r.name}</span>
+                  <span style={{ viewTransitionName: `title-${r.key}` }}>
+                    <RollText text={r.name} />
+                  </span>
                   <ArrowRight aria-hidden="true" className="arrow h-5 w-5 opacity-0 transition-opacity group-hover:opacity-100" />
                 </span>
                 <span className="t-s tabular-nums text-grey">{r.years}</span>
@@ -56,7 +75,7 @@ export function ProjectIndex({ t, lang }) {
         </ul>
 
         <div className="hidden lg:col-span-4 lg:block" aria-hidden="true">
-          <div id="project-preview" className="sticky top-28 aspect-[16/10]">
+          <div id="project-preview" ref={stage} className="sticky top-28 aspect-[16/10] overflow-hidden">
             {projects.map((p) => (
               <div key={p.slug} className="preview" data-preview={p.slug} data-on={preview === p.slug ? "true" : "false"}>
                 <ProjectCover project={p} text={t.projectTexts[p.slug]} lang={lang} sizes="30vw" className="h-full w-full" transition={preview === p.slug} />
@@ -65,6 +84,7 @@ export function ProjectIndex({ t, lang }) {
           </div>
         </div>
       </div>
+      <CursorLabel label={t.projects.viewCase} active={hovering} />
     </Section>
   );
 }

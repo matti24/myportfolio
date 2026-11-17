@@ -34,6 +34,7 @@ const en = {
       status: "Open to the next step after my apprenticeship",
       current: "Host in Team Halo since August 2026",
       ctaPath: "See my path",
+      localTime: "Local time in Zurich",
       titlesLabel: "My profession in my four languages",
     },
     about: {

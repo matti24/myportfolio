@@ -17,7 +17,7 @@ export function SkillIndex({ t }) {
   const info = station ? stations[station] : null;
 
   return (
-    <Section id="skills" title={s.title}>
+    <Section id="skills" title={s.title} index={3}>
       <Intro heading={s.heading} lead={s.lead} />
 
       {/* Hover-Bereich umfasst Liste und Herkunft, damit der Link "Zur Station" erreichbar bleibt */}
@@ -78,6 +78,7 @@ export function SkillIndex({ t }) {
                 </p>
                 <a
                   href={`#station-${station}`}
+                  data-magnetic
                   className="group ulink inline-flex items-center gap-1.5"
                 >
                   {s.toStation}

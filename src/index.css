@@ -329,19 +329,17 @@
   transition: filter 0.6s var(--ease-out);
 }
 
-/* Projekt-Vorschau: weicher Wechsel zwischen den Bildern */
+/* Projekt-Vorschau: das neue Bild schiebt sich über das alte (Animation in ProjectIndex), das alte verschwindet danach */
 .preview {
   position: absolute;
   inset: 0;
   opacity: 0;
-  transform: scale(0.985);
-  transition:
-    opacity 0.45s var(--ease-out),
-    transform 0.6s var(--ease-out);
+  transition: opacity 0s linear 0.8s;
 }
 .preview[data-on="true"] {
+  z-index: 1;
   opacity: 1;
-  transform: none;
+  transition: none;
 }
 
 /* Name aus Buchstaben: jeder Buchstabe steigt aus der Maske der Zeile auf */
@@ -439,12 +437,16 @@
 .roll-c {
   display: inline-flex;
   flex-direction: column;
-  height: 1.1em;
-  line-height: 1.1;
+  height: 1.2em;
+  line-height: 1.2;
   overflow: hidden;
 }
 .roll-c > span {
   display: block;
+}
+/* Abstand zwischen den Kopien, damit Unterlängen (p, g) nach dem Rollen nicht oben hervorblitzen */
+.roll-c > span + span {
+  margin-top: 0.3em;
 }
 
 /* Finale: der Inhalt schiebt sich wie ein Vorhang weg und gibt den Namen im Footer frei */
@@ -472,7 +474,7 @@
   }
   .roll-link:hover .roll-c > span,
   .roll-link:focus-visible .roll-c > span {
-    transform: translateY(-100%);
+    transform: translateY(calc(-100% - 0.3em));
   }
   .origin-bar[data-on] {
     animation: grow-x 0.6s var(--ease-out);
@@ -544,6 +546,21 @@
       animation-timeline: view();
       animation-range: entry 0% cover 55%;
     }
+    /* Bilder steigen in ihrem festen Rahmen auf: die Kante wirkt als Maske */
+    .mask-reveal {
+      animation: unmask linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 85%;
+    }
+    /* Wortbänder laufen beim Scrollen gegeneinander */
+    .band-row .band-track {
+      animation: band-left linear both;
+      animation-timeline: --band;
+      animation-range: cover;
+    }
+    .band-row[data-dir="right"] .band-track {
+      animation-name: band-right;
+    }
   }
   @supports (animation-timeline: scroll()) {
     .site-header {
@@ -558,6 +575,17 @@
     }
     .home-mark:focus-visible {
       animation: none;
+    }
+    /* Lesefortschritt als feine blaue Linie unter der Kopfzeile */
+    .site-header::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 -1px 0;
+      height: 2px;
+      background: var(--color-blue);
+      transform-origin: left;
+      animation: grow-x linear both;
+      animation-timeline: scroll(root);
     }
   }
 }
@@ -653,7 +681,117 @@ html:active-view-transition-type(back)::view-transition-new(root) {
   .station-title,
   .station-text,
   .station-photo img,
-  .preview {
+  .preview,
+  .cursor-label > span {
     transition: none;
+  }
+  .blink {
+    animation: none;
+  }
+}
+
+/* ——— Abschnittsnummer vor dem Titel ——— */
+.sec-num {
+  color: var(--color-blue);
+  font-weight: 500;
+}
+
+/* ——— Wortbänder ——— */
+.band {
+  overflow: hidden;
+  view-timeline-name: --band;
+  font-size: clamp(2.75rem, 1.2rem + 6.5vw, 8rem);
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+  font-weight: 500;
+}
+.band-row[data-tone="faint"] {
+  color: var(--color-faint);
+}
+.band-track {
+  display: flex;
+  width: max-content;
+  white-space: nowrap;
+}
+.band-w {
+  padding-right: 0.3em;
+}
+.band-sep {
+  padding-left: 0.3em;
+  color: #d6d6d6;
+  font-weight: 400;
+}
+@keyframes band-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-28%);
+  }
+}
+@keyframes band-right {
+  from {
+    transform: translateX(-28%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes unmask {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* ——— Cursor-Label über der Projektliste ——— */
+.cursor-label {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  pointer-events: none;
+}
+.cursor-label > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  background: var(--color-ink);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transform: translate(16px, 16px) scale(0);
+  transform-origin: 0 0;
+  transition: transform 0.4s var(--ease-out);
+}
+.cursor-label[data-on] > span {
+  transform: translate(16px, 16px) scale(1);
+}
+@media (hover: none), (pointer: coarse) {
+  .cursor-label {
+    display: none;
+  }
+}
+
+/* ——— Magnetische Schaltflächen (Bewegung in lib/magnetic.js) ——— */
+[data-magnetic] {
+  transition:
+    transform 0.5s var(--ease-out),
+    background-color 0.25s ease,
+    color 0.2s ease;
+}
+
+/* ——— Ortszeit: blinkender Doppelpunkt ——— */
+.blink {
+  animation: blink 2s steps(1) infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0.25;
   }
 }

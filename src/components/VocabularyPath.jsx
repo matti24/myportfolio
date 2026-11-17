@@ -43,7 +43,7 @@ export function VocabularyPath({ t, lang }) {
   const activeStation = active >= 0 && active < DONE ? p.stations[STATION_ORDER[active]] : null;
 
   return (
-    <Section id="path" title={p.title}>
+    <Section id="path" title={p.title} index={2}>
       <div ref={mark(-1)} data-step="-1">
         <Intro heading={p.heading} lead={p.lead} />
       </div>
@@ -81,7 +81,8 @@ export function VocabularyPath({ t, lang }) {
                 </p>
                 {STATION_PHOTOS[id] && s.photo ? (
                   <figure className="mt-8">
-                    <div className="station-photo overflow-hidden bg-[#e9e9e7]" style={{ aspectRatio: `${STATION_PHOTOS[id].width} / ${STATION_PHOTOS[id].height}` }}>
+                    <div
+                      className="station-photo mask-reveal overflow-hidden bg-[#e9e9e7]" style={{ aspectRatio: `${STATION_PHOTOS[id].width} / ${STATION_PHOTOS[id].height}` }}>
                       <Picture
                         image={STATION_PHOTOS[id]}
                         alt={s.photo.alt}

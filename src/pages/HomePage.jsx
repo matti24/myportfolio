@@ -8,8 +8,10 @@ import { KineticName } from "../components/KineticName.jsx";
 import { RollText } from "../components/RollText.jsx";
 import { ContactForm } from "../components/ContactForm.jsx";
 import { CopyEmail } from "../components/CopyEmail.jsx";
+import { LocalTime } from "../components/LocalTime.jsx";
+import { WordBand } from "../components/WordBand.jsx";
 import { CONTACT } from "../content/projects.js";
-import { JOB_TITLES } from "../content/profile.js";
+import { CURRENT_STATION, JOB_TITLES, VOCABULARY, wordLabel } from "../content/profile.js";
 import { pathFor } from "../lib/routes.js";
 
 const PORTRAIT_BW = { base: "studio-bw", widths: [480, 800, 1200], width: 1200, height: 1600 };
@@ -47,7 +49,7 @@ function Hero({ t, lang }) {
         <div className="fade-up lg:col-span-8 xl:col-span-5" style={{ "--d": "300ms" }}>
           <p className="t-l max-w-[30ch]">{h.intro}</p>
           <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 font-medium">
-            <a href="#path" className="group ulink inline-flex items-center gap-2">
+            <a href="#path" data-magnetic className="group ulink inline-flex items-center gap-2">
               {h.ctaPath}
               <ArrowDown aria-hidden="true" className="arrow arrow-down h-4 w-4" />
             </a>
@@ -63,6 +65,7 @@ function Hero({ t, lang }) {
             {h.status}
           </li>
           <li className="text-grey">{h.current}</li>
+          <LocalTime label={h.localTime} lang={lang} />
         </ul>
       </div>
     </section>
@@ -71,11 +74,11 @@ function Hero({ t, lang }) {
 function About({ t }) {
   const a = t.home.about;
   return (
-    <Section id="about" title={a.title}>
+    <Section id="about" title={a.title} index={1}>
       <Intro heading={a.motto} lead={a.lead} />
       <div className="mt-16 grid gap-12 md:grid-cols-9 md:gap-x-6">
         <figure className="md:col-span-4">
-          <div className="aspect-[3/4] overflow-hidden bg-[#1c1c1c]">
+          <div className="mask-reveal aspect-[3/4] overflow-hidden bg-[#1c1c1c]">
             <Picture
               image={PORTRAIT_BW}
               alt={a.photoAlt}
@@ -117,7 +120,7 @@ function Contact({ t, lang }) {
     { label: c.locationLabel, value: c.locationValue },
   ];
   return (
-    <Section id="contact" title={c.label}>
+    <Section id="contact" title={c.label} index={5}>
       <Intro heading={c.title} lead={c.intro} />
       <div className="mt-14 flex flex-wrap items-center gap-x-8 gap-y-4">
         <a href={`mailto:${CONTACT.email}`} className="roll-link ulink t-xl transition-colors hover:text-blue">
@@ -149,14 +152,23 @@ function Contact({ t, lang }) {
   );
 }
 
+const GREETINGS = { de: "Grüezi", sv: "Hej", nl: "Hallo", en: "Hello" };
+
 export function HomePage({ t, lang }) {
+  // Wortband: der Wortschatz aus dem Werdegang, in zwei gegenläufigen Zeilen; aktuelle Station in Blau
+  const words = VOCABULARY.map((w) => wordLabel(w, lang));
+  const half = Math.ceil(words.length / 2);
+  const current = VOCABULARY.filter((w) => w.station === CURRENT_STATION).map((w) => wordLabel(w, lang));
+
   return (
     <>
       <Hero t={t} lang={lang} />
       <About t={t} />
+      <WordBand rows={[words.slice(0, half), words.slice(half)]} highlight={current} />
       <VocabularyPath t={t} lang={lang} />
       <SkillIndex t={t} />
       <ProjectIndex t={t} lang={lang} />
+      <WordBand rows={[[...Object.values(GREETINGS), ...Object.values(GREETINGS)]]} highlight={[GREETINGS[lang]]} />
       <Contact t={t} lang={lang} />
     </>
   );

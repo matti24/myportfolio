@@ -142,7 +142,7 @@ export function ContactForm({ t, lang, privacyHref }) {
                 {t.privacyLink}
               </a>
             </p>
-            <button type="submit" className="group btn shrink-0" disabled={status === "sending"} aria-disabled={status === "sending"}>
+            <button type="submit" data-magnetic className="group btn shrink-0" disabled={status === "sending"} aria-disabled={status === "sending"}>
               {status === "sending" ? t.sending : t.submit}
               <ArrowRight aria-hidden="true" className="arrow h-4 w-4" />
             </button>

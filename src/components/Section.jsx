@@ -1,12 +1,17 @@
 // Gemeinsames Raster jedes Abschnitts: Titel in der linken Spalte (mitlaufend), Inhalt rechts.
 // Die obere Linie zeichnet sich beim Hineinscrollen von links nach rechts.
-export function Section({ id, title, children }) {
+export function Section({ id, title, index, children }) {
   return (
     <section id={id} aria-labelledby={`${id}-title`} className="wrap">
       <div className="sec relative grid gap-y-10 pt-8 pb-24 sm:pb-32 lg:grid-cols-12 lg:gap-x-6">
         <span aria-hidden="true" className="sec-rule" />
         <div className="lg:col-span-3">
-          <h2 id={`${id}-title`} className="rail sec-title lg:sticky lg:top-24">
+          <h2 id={`${id}-title`} className="rail sec-title flex items-baseline gap-3 lg:sticky lg:top-24">
+            {index ? (
+              <span aria-hidden="true" className="sec-num tabular-nums">
+                {String(index).padStart(2, "0")}
+              </span>
+            ) : null}
             {title}
           </h2>
         </div>

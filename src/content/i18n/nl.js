@@ -34,6 +34,7 @@ const nl = {
       status: "Open voor de volgende stap na mijn opleiding",
       current: "Sinds augustus 2026 host in Team Halo",
       ctaPath: "Bekijk mijn traject",
+      localTime: "Lokale tijd in Zürich",
       titlesLabel: "Mijn beroep in mijn vier talen",
     },
     about: {

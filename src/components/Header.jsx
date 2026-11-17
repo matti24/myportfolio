@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { alternatesFor, pathFor } from "../lib/routes.js";
 import { LANG_NAMES } from "../content/i18n/index.js";
 import { JOB_TITLES } from "../content/profile.js";
+import { RollText } from "./RollText.jsx";
 
 const ORDER = ["en", "de", "nl", "sv"];
 const SECTIONS = ["about", "path", "skills", "projects", "contact"];
@@ -86,8 +87,8 @@ export function Header({ t, route }) {
             <ul className="flex items-center gap-7">
               {items.map((item) => (
                 <li key={item.id}>
-                  <a href={sectionHref(route, item.id)} className="nav-link" aria-current={active === item.id ? "true" : undefined}>
-                    {item.label}
+                  <a href={sectionHref(route, item.id)} className="nav-link roll-link" aria-current={active === item.id ? "true" : undefined}>
+                    <RollText text={item.label} />
                   </a>
                 </li>
               ))}
