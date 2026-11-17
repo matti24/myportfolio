@@ -8,7 +8,6 @@ import { KineticName } from "../components/KineticName.jsx";
 import { RollText } from "../components/RollText.jsx";
 import { ContactForm } from "../components/ContactForm.jsx";
 import { CopyEmail } from "../components/CopyEmail.jsx";
-import { LocalTime } from "../components/LocalTime.jsx";
 import { WordBand } from "../components/WordBand.jsx";
 import { CONTACT } from "../content/projects.js";
 import { CURRENT_STATION, JOB_TITLES, VOCABULARY, wordLabel } from "../content/profile.js";
@@ -65,7 +64,6 @@ function Hero({ t, lang }) {
             {h.status}
           </li>
           <li className="text-grey">{h.current}</li>
-          <LocalTime label={h.localTime} lang={lang} />
         </ul>
       </div>
     </section>

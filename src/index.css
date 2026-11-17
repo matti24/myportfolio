@@ -685,9 +685,6 @@ html:active-view-transition-type(back)::view-transition-new(root) {
   .cursor-label > span {
     transition: none;
   }
-  .blink {
-    animation: none;
-  }
 }
 
 /* ——— Abschnittsnummer vor dem Titel ——— */
@@ -786,12 +783,3 @@ html:active-view-transition-type(back)::view-transition-new(root) {
     color 0.2s ease;
 }
 
-/* ——— Ortszeit: blinkender Doppelpunkt ——— */
-.blink {
-  animation: blink 2s steps(1) infinite;
-}
-@keyframes blink {
-  50% {
-    opacity: 0.25;
-  }
-}

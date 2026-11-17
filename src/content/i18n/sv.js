@@ -34,7 +34,6 @@ const sv = {
       status: "Öppen för nästa steg efter lärlingsperioden",
       current: "Host i Team Halo sedan augusti 2026",
       ctaPath: "Se min väg",
-      localTime: "Lokal tid i Zürich",
       titlesLabel: "Mitt yrke på mina fyra språk",
     },
     about: {
